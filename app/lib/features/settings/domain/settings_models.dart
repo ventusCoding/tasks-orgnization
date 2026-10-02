@@ -455,7 +455,13 @@ class ChecklistsDefaults {
 
 /// `stats` defaults (T8.3.05; read by the stats engine [6.1] as `StatsSettings`).
 class StatsDefaults {
-  const StatsDefaults({this.defaultPeriod = 'thisWeek', this.compareWithPrevious = true, this.weekStartOverride});
+  const StatsDefaults({
+    this.defaultPeriod = 'thisWeek',
+    this.compareWithPrevious = true,
+    this.weekStartOverride,
+    this.gamification = false,
+    this.wakingHours = 16,
+  });
 
   static const defaults = StatsDefaults();
 
@@ -479,6 +485,12 @@ class StatsDefaults {
   /// ISO weekday for week-based stats (null = the profile's week start).
   final int? weekStartOverride;
 
+  /// Opt-in XP, levels and badges (GL-15).
+  final bool gamification;
+
+  /// Waking hours per day of the time budget (GL-17).
+  final int wakingHours;
+
   static final codec = SettingsCodec<StatsDefaults>(
     namespace: 'stats',
     version: 1,
@@ -488,31 +500,44 @@ class StatsDefaults {
         defaultPeriod: period.trim().isEmpty ? 'thisWeek' : period,
         compareWithPrevious: r.boolean('compareWithPrevious', true),
         weekStartOverride: r.optionalInt('weekStartOverride', min: 1, max: 7),
+        gamification: r.boolean('gamification', false),
+        wakingHours: r.integer('wakingHours', 16, min: 1, max: 24),
       );
     },
     encoder: (s) => {
       'defaultPeriod': s.defaultPeriod,
       'compareWithPrevious': s.compareWithPrevious,
       'weekStartOverride': s.weekStartOverride,
+      'gamification': s.gamification,
+      'wakingHours': s.wakingHours,
     },
   );
 
-  StatsDefaults copyWith({String? defaultPeriod, bool? compareWithPrevious, Object? weekStartOverride = _unset}) =>
-      StatsDefaults(
-        defaultPeriod: defaultPeriod ?? this.defaultPeriod,
-        compareWithPrevious: compareWithPrevious ?? this.compareWithPrevious,
-        weekStartOverride: weekStartOverride == _unset ? this.weekStartOverride : weekStartOverride as int?,
-      );
+  StatsDefaults copyWith({
+    String? defaultPeriod,
+    bool? compareWithPrevious,
+    Object? weekStartOverride = _unset,
+    bool? gamification,
+    int? wakingHours,
+  }) => StatsDefaults(
+    defaultPeriod: defaultPeriod ?? this.defaultPeriod,
+    compareWithPrevious: compareWithPrevious ?? this.compareWithPrevious,
+    weekStartOverride: weekStartOverride == _unset ? this.weekStartOverride : weekStartOverride as int?,
+    gamification: gamification ?? this.gamification,
+    wakingHours: wakingHours ?? this.wakingHours,
+  );
 
   @override
   bool operator ==(Object other) =>
       other is StatsDefaults &&
       other.defaultPeriod == defaultPeriod &&
       other.compareWithPrevious == compareWithPrevious &&
-      other.weekStartOverride == weekStartOverride;
+      other.weekStartOverride == weekStartOverride &&
+      other.gamification == gamification &&
+      other.wakingHours == wakingHours;
 
   @override
-  int get hashCode => Object.hash(defaultPeriod, compareWithPrevious, weekStartOverride);
+  int get hashCode => Object.hash(defaultPeriod, compareWithPrevious, weekStartOverride, gamification, wakingHours);
 }
 
 const Object _unset = Object();

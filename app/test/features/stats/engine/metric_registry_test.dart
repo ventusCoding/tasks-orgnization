@@ -82,7 +82,7 @@ void main() {
           expect(registry.byId(id)?.scope, scope, reason: '$scope layout: $id');
         }
       }
-      expect(reviewLayout.metricIds, {'GL-03'});
+      expect(reviewLayout.metricIds, {'GL-03', 'GL-04'});
     });
   });
 

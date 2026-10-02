@@ -123,7 +123,7 @@ void main() {
     await h.settle();
     await pumpStats(tester, h, const ScopeStatsScreen(scope: 'review'));
     await settleFrames(tester);
-    expect(executor.jobs.last.metricIds, ['GL-03']);
+    expect(executor.jobs.last.metricIds, ['GL-03', 'GL-04']);
     await finish(tester);
   });
 }

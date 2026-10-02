@@ -62,11 +62,14 @@ final class HabitContext extends StatsContext {
 
   late final List<HabitSeries> series = [for (final e in evaluations) e.series];
 
-  late final List<QuitCalculator> quitCalculators = [
+  /// Active quit trackers with their calculators.
+  late final List<(HabitRecord, QuitCalculator)> quitTrackers = [
     for (final h in input.habits)
       if (h.isQuit && h.archivedAt == null)
-        if (habits.quit(h) case final c?) c,
+        if (habits.quit(h) case final c?) (h, c),
   ];
+
+  late final List<QuitCalculator> quitCalculators = [for (final (_, c) in quitTrackers) c];
 
   DrillRef dayRef(String habitId, LocalDate d) =>
       DrillRef(DrillKind.day, habitId, extra: d.toIso(), title: byId[habitId]?.name);

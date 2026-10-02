@@ -8,6 +8,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/application/stats_providers.dart';
 import 'package:everslot/features/stats/domain/scope_entity.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
+import 'package:everslot/features/stats/presentation/insights_feed_view.dart';
 import 'package:everslot/features/stats/presentation/stats_navigation.dart';
 import 'package:everslot/features/stats/presentation/stats_scope_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -103,25 +104,68 @@ class _InsightsScreenState extends ConsumerState<InsightsScreen> with SingleTick
   }
 }
 
-/// Overview: today board and week at a glance (T6.7.01) plus the weekly review entry.
+/// Overview: today board, day score and week at a glance (T6.7.01/06) with the weekly review entry,
+/// the latest insights (T6.7.08) and links to the other reports.
 class _OverviewSegment extends StatelessWidget {
   const _OverviewSegment({super.key});
 
   @override
-  Widget build(BuildContext context) => StatsScopeView(
-    scope: MetricScope.global,
-    header: Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
-      child: Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: FilledButton.tonalIcon(
-          onPressed: () => openInsights(context, 'review'),
-          icon: const Icon(Icons.fact_check_outlined),
-          label: Text(context.l10n.statsOverviewOpenReview),
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final links = <(String, IconData, String)>[
+      ('month', Icons.calendar_month_outlined, l.statsScopeMonth),
+      ('records', Icons.emoji_events_outlined, l.statsScopeRecords),
+      ('goals', Icons.flag_outlined, l.statsScopeGoals),
+      ('correlations', Icons.insights_outlined, l.statsScopePatterns),
+      ('budget', Icons.hourglass_empty, l.statsScopeBudget),
+      ('year', Icons.grid_on_outlined, l.statsScopeYear),
+      ('feed', Icons.lightbulb_outline, l.statsScopeFeed),
+      ('dashboards', Icons.dashboard_customize_outlined, l.statsScopeDashboards),
+    ];
+    return StatsScopeView(
+      scope: MetricScope.global,
+      header: Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Wrap(
+              spacing: Space.sm,
+              runSpacing: Space.xs,
+              children: [
+                FilledButton.tonalIcon(
+                  onPressed: () => openInsights(context, 'review'),
+                  icon: const Icon(Icons.fact_check_outlined),
+                  label: Text(l.statsOverviewOpenReview),
+                ),
+                OutlinedButton.icon(
+                  onPressed: () => openInsights(context, 'review-flow'),
+                  icon: const Icon(Icons.checklist_rtl),
+                  label: Text(l.statsOverviewStartGuided),
+                ),
+              ],
+            ),
+            const SizedBox(height: Space.sm),
+            const InsightsFeedPreview(),
+            Semantics(header: true, child: Text(l.statsOverviewMore, style: context.text.titleSmall)),
+            const SizedBox(height: Space.xs),
+            Wrap(
+              spacing: Space.xs,
+              runSpacing: Space.xs,
+              children: [
+                for (final (route, icon, label) in links)
+                  ActionChip(
+                    avatar: Icon(icon, size: 18),
+                    label: Text(label),
+                    onPressed: () => openInsights(context, route),
+                  ),
+              ],
+            ),
+          ],
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 /// Quit: one tracker at a time, picked with chips.

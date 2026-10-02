@@ -217,6 +217,41 @@ enum LabelToken {
   withdrawalEasing,
   withdrawalBeyond,
   typicalVaries,
+  // Overview reports (6.7)
+  recordHabitStreak,
+  recordTasksDay,
+  recordActualWeek,
+  recordDeepWorkWeek,
+  recordHabitMaxDay,
+  recordHabitVolumeWeek,
+  recordAbstinence,
+  recordItemsWeek,
+  recordPerfectStreak,
+  recordCompletionWeek,
+  recordMoneyMonth,
+  achieved,
+  onTrack,
+  behind,
+  atRisk,
+  active,
+  mood,
+  yearInNumbers,
+  busiest,
+  weekdayLabel,
+  topCategories,
+  longestStreaks,
+  quitJourney,
+  milestones,
+  recordsBroken,
+  yearOverYear,
+  archetype,
+  earlyBird,
+  nightOwl,
+  marathoner,
+  consistent,
+  finisher,
+  level,
+  xp,
   today,
 }
 
@@ -817,7 +852,7 @@ List<(ChartLabel, double)> _groupPareto(List<(ChartLabel, double)> entries) {
 /// Calendar cell: a discrete status or a continuous intensity.
 @immutable
 final class CalendarCell {
-  const CalendarCell({this.tone, this.value, this.label});
+  const CalendarCell({this.tone, this.value, this.label, this.breakdown = const []});
 
   /// Discrete status (status mode).
   final ChartTone? tone;
@@ -827,6 +862,9 @@ final class CalendarCell {
 
   /// Tooltip / table label (status name).
   final ChartLabel? label;
+
+  /// Tooltip breakdown by section (cross-section heatmaps, GL-05 / GL-11).
+  final List<(ChartLabel, double)> breakdown;
 }
 
 enum CalendarMode { status, intensity }
@@ -1661,6 +1699,7 @@ final class ReviewData extends ChartData {
     this.topCategories = const [],
     this.nextWeek = const [],
     this.perDay = false,
+    this.calendar,
   });
 
   final LocalDate from;
@@ -1679,6 +1718,9 @@ final class ReviewData extends ChartData {
 
   /// Comparisons use per-day averages (monthly reviews of unequal months).
   final bool perDay;
+
+  /// Calendar heatmap across sections (monthly review).
+  final CalendarData? calendar;
 
   @override
   bool get isEmpty => headline.isEmpty && wins.isEmpty && attention.isEmpty;

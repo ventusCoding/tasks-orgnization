@@ -9,6 +9,7 @@ import 'dart:math' as math;
 
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/domain/chart_data.dart';
+import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_theme.dart';
 import 'package:everslot/features/stats/presentation/format/stat_format.dart';
@@ -207,6 +208,7 @@ class _MonthGrid extends StatelessWidget {
                         format.date(day),
                         if (cell?.label != null) format.label(cell!.label!),
                         if (cell?.value != null) format.value(cell!.value!, data.unit),
+                        ...breakdownParts(format, cell),
                       ].join(', ');
                       return Padding(
                         padding: const EdgeInsets.all(1.5),
@@ -218,6 +220,7 @@ class _MonthGrid extends StatelessWidget {
                                 ? null
                                 : () {
                                     chartSelectionFeedback(context);
+                                    showBreakdown(context, format, day, cell);
                                     onTap!(ChartTap(drillKey: day.toIso(), label: DateLabel(day), value: cell.value));
                                   },
                             child: AspectRatio(
@@ -330,6 +333,7 @@ class _YearGrid extends StatelessWidget {
                     final day = painter.dayAt(d.localPosition);
                     if (day == null || data.cells[day] == null) return;
                     chartSelectionFeedback(context);
+                    showBreakdown(context, format, day, data.cells[day]);
                     onTap!(ChartTap(drillKey: day.toIso(), label: DateLabel(day), value: data.cells[day]!.value));
                   },
             child: CustomPaint(size: Size(width, cell * 7 + 16), painter: painter),
@@ -437,4 +441,19 @@ class _YearPainter extends CustomPainter {
   @override
   bool shouldRepaint(_YearPainter old) =>
       old.data != data || old.cell != cell || old.rtl != rtl || old.theme != theme || old.weekStart != weekStart;
+}
+
+/// "Tasks 3, Habits 2…" parts of a cell's section breakdown (GL-05 / GL-11 tooltips).
+List<String> breakdownParts(StatFormat format, CalendarCell? cell) => [
+  for (final (label, value) in cell?.breakdown ?? const <(ChartLabel, double)>[])
+    '${format.label(label)} ${format.value(value, StatUnit.count)}',
+];
+
+/// Shows the breakdown of a tapped day (the tooltip of cross-section heatmaps).
+void showBreakdown(BuildContext context, StatFormat format, LocalDate day, CalendarCell? cell) {
+  final parts = breakdownParts(format, cell);
+  if (parts.isEmpty) return;
+  ScaffoldMessenger.maybeOf(context)
+    ?..hideCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text('${format.date(day)} — ${parts.join(' · ')}')));
 }

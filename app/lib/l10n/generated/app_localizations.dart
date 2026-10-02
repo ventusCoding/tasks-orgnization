@@ -2037,6 +2037,36 @@ abstract class AppLocalizations {
   /// **'About this metric'**
   String get chartsExplain;
 
+  /// No description provided for @chartsExportBom.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel-compatible (UTF-8 BOM)'**
+  String get chartsExportBom;
+
+  /// No description provided for @chartsExportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get chartsExportCsv;
+
+  /// No description provided for @chartsExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn’t export'**
+  String get chartsExportFailed;
+
+  /// No description provided for @chartsExportJson.
+  ///
+  /// In en, this message translates to:
+  /// **'Export JSON'**
+  String get chartsExportJson;
+
+  /// No description provided for @chartsExportLocale.
+  ///
+  /// In en, this message translates to:
+  /// **'Local number and date format'**
+  String get chartsExportLocale;
+
   /// No description provided for @chartsFrozen.
   ///
   /// In en, this message translates to:
@@ -2127,6 +2157,18 @@ abstract class AppLocalizations {
   /// **'Abstinent'**
   String get chartsLabelAbstinent;
 
+  /// No description provided for @chartsLabelAchieved.
+  ///
+  /// In en, this message translates to:
+  /// **'Achieved'**
+  String get chartsLabelAchieved;
+
+  /// No description provided for @chartsLabelActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get chartsLabelActive;
+
   /// No description provided for @chartsLabelActual.
   ///
   /// In en, this message translates to:
@@ -2145,6 +2187,12 @@ abstract class AppLocalizations {
   /// **'Agenda'**
   String get chartsLabelAgenda;
 
+  /// No description provided for @chartsLabelArchetype.
+  ///
+  /// In en, this message translates to:
+  /// **'Your style'**
+  String get chartsLabelArchetype;
+
   /// No description provided for @chartsLabelArchived.
   ///
   /// In en, this message translates to:
@@ -2162,6 +2210,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Arrivals ÷ departures'**
   String get chartsLabelArrivalsPerDeparture;
+
+  /// No description provided for @chartsLabelAtRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'At risk'**
+  String get chartsLabelAtRisk;
 
   /// No description provided for @chartsLabelAttempt.
   ///
@@ -2186,6 +2240,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Baseline'**
   String get chartsLabelBaseline;
+
+  /// No description provided for @chartsLabelBehind.
+  ///
+  /// In en, this message translates to:
+  /// **'Behind'**
+  String get chartsLabelBehind;
 
   /// No description provided for @chartsLabelBest.
   ///
@@ -2229,6 +2289,12 @@ abstract class AppLocalizations {
   /// **'Children per parent'**
   String get chartsLabelBranching;
 
+  /// No description provided for @chartsLabelBusiest.
+  ///
+  /// In en, this message translates to:
+  /// **'Busiest times'**
+  String get chartsLabelBusiest;
+
   /// No description provided for @chartsLabelCancelled.
   ///
   /// In en, this message translates to:
@@ -2264,6 +2330,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Consistency'**
   String get chartsLabelConsistency;
+
+  /// No description provided for @chartsLabelConsistent.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistent'**
+  String get chartsLabelConsistent;
 
   /// No description provided for @chartsLabelContextSwitches.
   ///
@@ -2343,6 +2415,12 @@ abstract class AppLocalizations {
   /// **'Early'**
   String get chartsLabelEarly;
 
+  /// No description provided for @chartsLabelEarlyBird.
+  ///
+  /// In en, this message translates to:
+  /// **'Early Bird'**
+  String get chartsLabelEarlyBird;
+
   /// No description provided for @chartsLabelEvent.
   ///
   /// In en, this message translates to:
@@ -2372,6 +2450,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Files'**
   String get chartsLabelFiles;
+
+  /// No description provided for @chartsLabelFinisher.
+  ///
+  /// In en, this message translates to:
+  /// **'Finisher'**
+  String get chartsLabelFinisher;
 
   /// No description provided for @chartsLabelFocus.
   ///
@@ -2511,6 +2595,12 @@ abstract class AppLocalizations {
   /// **'Leaves'**
   String get chartsLabelLeaves;
 
+  /// No description provided for @chartsLabelLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get chartsLabelLevel;
+
   /// No description provided for @chartsLabelLifeRegained.
   ///
   /// In en, this message translates to:
@@ -2553,6 +2643,12 @@ abstract class AppLocalizations {
   /// **'Longest gap'**
   String get chartsLabelLongestGap;
 
+  /// No description provided for @chartsLabelLongestStreaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest streaks'**
+  String get chartsLabelLongestStreaks;
+
   /// No description provided for @chartsLabelLoops.
   ///
   /// In en, this message translates to:
@@ -2570,6 +2666,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get chartsLabelMape;
+
+  /// No description provided for @chartsLabelMarathoner.
+  ///
+  /// In en, this message translates to:
+  /// **'Marathoner'**
+  String get chartsLabelMarathoner;
 
   /// No description provided for @chartsLabelMaxDepth.
   ///
@@ -2613,6 +2715,12 @@ abstract class AppLocalizations {
   /// **'Median'**
   String get chartsLabelMedian;
 
+  /// No description provided for @chartsLabelMilestones.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones'**
+  String get chartsLabelMilestones;
+
   /// No description provided for @chartsLabelMissed.
   ///
   /// In en, this message translates to:
@@ -2630,6 +2738,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Month'**
   String get chartsLabelMonth;
+
+  /// No description provided for @chartsLabelMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get chartsLabelMood;
 
   /// No description provided for @chartsLabelMoods.
   ///
@@ -2685,6 +2799,12 @@ abstract class AppLocalizations {
   /// **'Next up'**
   String get chartsLabelNextUp;
 
+  /// No description provided for @chartsLabelNightOwl.
+  ///
+  /// In en, this message translates to:
+  /// **'Night Owl'**
+  String get chartsLabelNightOwl;
+
   /// No description provided for @chartsLabelNo.
   ///
   /// In en, this message translates to:
@@ -2708,6 +2828,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On time'**
   String get chartsLabelOnTime;
+
+  /// No description provided for @chartsLabelOnTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On track'**
+  String get chartsLabelOnTrack;
 
   /// No description provided for @chartsLabelOneOff.
   ///
@@ -2925,6 +3051,12 @@ abstract class AppLocalizations {
   /// **'Quit'**
   String get chartsLabelQuit;
 
+  /// No description provided for @chartsLabelQuitJourney.
+  ///
+  /// In en, this message translates to:
+  /// **'Your quit journey'**
+  String get chartsLabelQuitJourney;
+
   /// No description provided for @chartsLabelRate.
   ///
   /// In en, this message translates to:
@@ -2936,6 +3068,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rating'**
   String get chartsLabelRating;
+
+  /// No description provided for @chartsLabelRecordAbstinence.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest abstinence'**
+  String get chartsLabelRecordAbstinence;
+
+  /// No description provided for @chartsLabelRecordActualWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Most hours worked in a week'**
+  String get chartsLabelRecordActualWeek;
+
+  /// No description provided for @chartsLabelRecordCompletionWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Best weekly completion vs plan'**
+  String get chartsLabelRecordCompletionWeek;
+
+  /// No description provided for @chartsLabelRecordDeepWorkWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Most deep-work hours in a week'**
+  String get chartsLabelRecordDeepWorkWeek;
+
+  /// No description provided for @chartsLabelRecordHabitMaxDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Best day'**
+  String get chartsLabelRecordHabitMaxDay;
+
+  /// No description provided for @chartsLabelRecordHabitStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest habit streak'**
+  String get chartsLabelRecordHabitStreak;
+
+  /// No description provided for @chartsLabelRecordHabitVolumeWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Best volume week'**
+  String get chartsLabelRecordHabitVolumeWeek;
+
+  /// No description provided for @chartsLabelRecordItemsWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Most items completed in a week'**
+  String get chartsLabelRecordItemsWeek;
+
+  /// No description provided for @chartsLabelRecordMoneyMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Most money saved in a month'**
+  String get chartsLabelRecordMoneyMonth;
+
+  /// No description provided for @chartsLabelRecordPerfectStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest perfect-day streak'**
+  String get chartsLabelRecordPerfectStreak;
+
+  /// No description provided for @chartsLabelRecordTasksDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Most tasks done in a day'**
+  String get chartsLabelRecordTasksDay;
+
+  /// No description provided for @chartsLabelRecordsBroken.
+  ///
+  /// In en, this message translates to:
+  /// **'Records broken'**
+  String get chartsLabelRecordsBroken;
 
   /// No description provided for @chartsLabelRecurring.
   ///
@@ -3141,6 +3345,12 @@ abstract class AppLocalizations {
   /// **'To do'**
   String get chartsLabelTodo;
 
+  /// No description provided for @chartsLabelTopCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Top categories'**
+  String get chartsLabelTopCategories;
+
   /// No description provided for @chartsLabelTotal.
   ///
   /// In en, this message translates to:
@@ -3231,6 +3441,12 @@ abstract class AppLocalizations {
   /// **'Week'**
   String get chartsLabelWeek;
 
+  /// No description provided for @chartsLabelWeekdayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekday'**
+  String get chartsLabelWeekdayLabel;
+
   /// No description provided for @chartsLabelWeekend.
   ///
   /// In en, this message translates to:
@@ -3297,11 +3513,29 @@ abstract class AppLocalizations {
   /// **'Days within limit'**
   String get chartsLabelWithinLimitDays;
 
+  /// No description provided for @chartsLabelXp.
+  ///
+  /// In en, this message translates to:
+  /// **'XP'**
+  String get chartsLabelXp;
+
   /// No description provided for @chartsLabelYear.
   ///
   /// In en, this message translates to:
   /// **'Year'**
   String get chartsLabelYear;
+
+  /// No description provided for @chartsLabelYearInNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Your year in numbers'**
+  String get chartsLabelYearInNumbers;
+
+  /// No description provided for @chartsLabelYearOverYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year over year'**
+  String get chartsLabelYearOverYear;
 
   /// No description provided for @chartsLabelYes.
   ///
@@ -17193,6 +17427,24 @@ abstract class AppLocalizations {
   /// **'Compare with the previous period'**
   String get settingsInsightsCompare;
 
+  /// No description provided for @settingsInsightsGamification.
+  ///
+  /// In en, this message translates to:
+  /// **'XP and levels'**
+  String get settingsInsightsGamification;
+
+  /// No description provided for @settingsInsightsGamificationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn XP for what you complete (off by default).'**
+  String get settingsInsightsGamificationHint;
+
+  /// No description provided for @settingsInsightsHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hour} other{{count} hours}}'**
+  String settingsInsightsHours(int count);
+
   /// No description provided for @settingsInsightsPeriod.
   ///
   /// In en, this message translates to:
@@ -17204,6 +17456,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default period, comparisons'**
   String get settingsInsightsSubtitle;
+
+  /// No description provided for @settingsInsightsWakingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Waking hours'**
+  String get settingsInsightsWakingHours;
 
   /// No description provided for @settingsInsightsWeekStart.
   ///
@@ -18129,6 +18387,138 @@ abstract class AppLocalizations {
   /// **'Compare with previous period'**
   String get statsCompareToggle;
 
+  /// No description provided for @statsDashboardAddCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Add card'**
+  String get statsDashboardAddCard;
+
+  /// No description provided for @statsDashboardCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get statsDashboardCreate;
+
+  /// No description provided for @statsDashboardDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'My dashboard'**
+  String get statsDashboardDefaultName;
+
+  /// No description provided for @statsDashboardDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete dashboard'**
+  String get statsDashboardDelete;
+
+  /// No description provided for @statsDashboardDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard deleted'**
+  String get statsDashboardDeleted;
+
+  /// No description provided for @statsDashboardEmptyCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Add cards from any section.'**
+  String get statsDashboardEmptyCards;
+
+  /// No description provided for @statsDashboardMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric'**
+  String get statsDashboardMetric;
+
+  /// No description provided for @statsDashboardMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get statsDashboardMoveDown;
+
+  /// No description provided for @statsDashboardMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get statsDashboardMoveUp;
+
+  /// No description provided for @statsDashboardName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get statsDashboardName;
+
+  /// No description provided for @statsDashboardNarrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Half width'**
+  String get statsDashboardNarrow;
+
+  /// No description provided for @statsDashboardNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New dashboard'**
+  String get statsDashboardNew;
+
+  /// No description provided for @statsDashboardPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get statsDashboardPeriod;
+
+  /// No description provided for @statsDashboardRemoveCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove card'**
+  String get statsDashboardRemoveCard;
+
+  /// No description provided for @statsDashboardRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get statsDashboardRename;
+
+  /// No description provided for @statsDashboardSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get statsDashboardSave;
+
+  /// No description provided for @statsDashboardScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Section'**
+  String get statsDashboardScope;
+
+  /// No description provided for @statsDashboardTracker.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracker'**
+  String get statsDashboardTracker;
+
+  /// No description provided for @statsDashboardWide.
+  ///
+  /// In en, this message translates to:
+  /// **'Full width'**
+  String get statsDashboardWide;
+
+  /// No description provided for @statsDashboardsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No dashboards yet'**
+  String get statsDashboardsEmpty;
+
+  /// No description provided for @statsDashboardsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Compose your own view from any metric card.'**
+  String get statsDashboardsEmptyBody;
+
+  /// No description provided for @statsDayScoreVsMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'{delta} vs your 28-day median'**
+  String statsDayScoreVsMedian(String delta);
+
   /// No description provided for @statsDetailAllTime.
   ///
   /// In en, this message translates to:
@@ -18411,6 +18801,78 @@ abstract class AppLocalizations {
   /// **'What it measures'**
   String get statsExplainWhat;
 
+  /// No description provided for @statsExportScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Export data'**
+  String get statsExportScope;
+
+  /// No description provided for @statsFeedBasedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on: {metric}'**
+  String statsFeedBasedOn(String metric);
+
+  /// No description provided for @statsFeedDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get statsFeedDismiss;
+
+  /// No description provided for @statsFeedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No insights yet'**
+  String get statsFeedEmpty;
+
+  /// No description provided for @statsFeedEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights appear as your data grows.'**
+  String get statsFeedEmptyBody;
+
+  /// No description provided for @statsFeedMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute this kind'**
+  String get statsFeedMute;
+
+  /// No description provided for @statsFeedMutedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted. You can unmute it from the insights feed.'**
+  String get statsFeedMutedSnack;
+
+  /// No description provided for @statsFeedMutedTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted insight types'**
+  String get statsFeedMutedTypes;
+
+  /// No description provided for @statsFeedOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get statsFeedOpen;
+
+  /// No description provided for @statsFeedSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all insights'**
+  String get statsFeedSeeAll;
+
+  /// No description provided for @statsFeedUnmute.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get statsFeedUnmute;
+
+  /// No description provided for @statsFeedWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Why am I seeing this?'**
+  String get statsFeedWhy;
+
   /// No description provided for @statsFilterApply.
   ///
   /// In en, this message translates to:
@@ -18477,6 +18939,12 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{1 filter} other{{count} filters}}'**
   String statsFiltersActive(num count);
 
+  /// No description provided for @statsForecastLikely.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely done by {p50} (50 %), {p85} (85 %) or {p95} (95 %) at your recent pace.'**
+  String statsForecastLikely(String p50, String p85, String p95);
+
   /// No description provided for @statsGlossaryCount.
   ///
   /// In en, this message translates to:
@@ -18531,6 +18999,126 @@ abstract class AppLocalizations {
   /// **'Start the timer on tasks to see your actual hours.'**
   String get statsGuidanceTrackTime;
 
+  /// No description provided for @statsGuidedArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get statsGuidedArchive;
+
+  /// No description provided for @statsGuidedBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get statsGuidedBack;
+
+  /// No description provided for @statsGuidedCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Review completed — see you next week!'**
+  String get statsGuidedCompleted;
+
+  /// No description provided for @statsGuidedDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop'**
+  String get statsGuidedDrop;
+
+  /// No description provided for @statsGuidedFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish review'**
+  String get statsGuidedFinish;
+
+  /// No description provided for @statsGuidedFollowUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow up tomorrow'**
+  String get statsGuidedFollowUp;
+
+  /// No description provided for @statsGuidedNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get statsGuidedNext;
+
+  /// No description provided for @statsGuidedOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get statsGuidedOpen;
+
+  /// No description provided for @statsGuidedPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause 1 week'**
+  String get statsGuidedPause;
+
+  /// No description provided for @statsGuidedSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get statsGuidedSkip;
+
+  /// No description provided for @statsGuidedStepHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Check habits at risk'**
+  String get statsGuidedStepHabits;
+
+  /// No description provided for @statsGuidedStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total}'**
+  String statsGuidedStepOf(int step, int total);
+
+  /// No description provided for @statsGuidedStepOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Handle overdue tasks'**
+  String get statsGuidedStepOverdue;
+
+  /// No description provided for @statsGuidedStepRebalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Rebalance next week'**
+  String get statsGuidedStepRebalance;
+
+  /// No description provided for @statsGuidedStepStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Review stale lists'**
+  String get statsGuidedStepStale;
+
+  /// No description provided for @statsGuidedStepWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Process waiting and blocked items'**
+  String get statsGuidedStepWaiting;
+
+  /// No description provided for @statsGuidedStepWins.
+  ///
+  /// In en, this message translates to:
+  /// **'Celebrate your wins'**
+  String get statsGuidedStepWins;
+
+  /// No description provided for @statsGuidedTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get statsGuidedTomorrow;
+
+  /// No description provided for @statsGuidedUnblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get statsGuidedUnblock;
+
+  /// No description provided for @statsGuidedUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated'**
+  String get statsGuidedUpdated;
+
   /// No description provided for @statsHealthClockNote.
   ///
   /// In en, this message translates to:
@@ -18554,6 +19142,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{from} – {to}'**
   String statsHealthRange(String from, String to);
+
+  /// No description provided for @statsInsightAtRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} needs attention this week.'**
+  String statsInsightAtRisk(String name);
+
+  /// No description provided for @statsInsightBestWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'Your habits go best on {weekday} ({rate}).'**
+  String statsInsightBestWeekday(String weekday, String rate);
+
+  /// No description provided for @statsInsightBlockerCluster.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items blocked on “{reason}” in two weeks.'**
+  String statsInsightBlockerCluster(int count, String reason);
+
+  /// No description provided for @statsInsightComeback.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back to {name}!'**
+  String statsInsightComeback(String name);
+
+  /// No description provided for @statsInsightCorrelationNeg.
+  ///
+  /// In en, this message translates to:
+  /// **'When {a} is higher, {b} tends to be lower.'**
+  String statsInsightCorrelationNeg(String a, String b);
+
+  /// No description provided for @statsInsightCorrelationPos.
+  ///
+  /// In en, this message translates to:
+  /// **'When {a} is higher, {b} tends to be higher too.'**
+  String statsInsightCorrelationPos(String a, String b);
+
+  /// No description provided for @statsInsightEstimationBias.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks take ~{pct} longer than planned — try adding a buffer.'**
+  String statsInsightEstimationBias(String pct);
+
+  /// No description provided for @statsInsightFallingCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings are down {pct} this week.'**
+  String statsInsightFallingCravings(String pct);
+
+  /// No description provided for @statsInsightFollowUps.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} waiting items need a follow-up.'**
+  String statsInsightFollowUps(int count);
+
+  /// No description provided for @statsInsightHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health milestone: {milestone}'**
+  String statsInsightHealth(String milestone);
+
+  /// No description provided for @statsInsightMoney.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} saved since you quit ({name}).'**
+  String statsInsightMoney(String amount, String name);
+
+  /// No description provided for @statsInsightNameBestWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'Best weekday'**
+  String get statsInsightNameBestWeekday;
+
+  /// No description provided for @statsInsightNameBlockerCluster.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocker clusters'**
+  String get statsInsightNameBlockerCluster;
+
+  /// No description provided for @statsInsightNameComeback.
+  ///
+  /// In en, this message translates to:
+  /// **'Comebacks'**
+  String get statsInsightNameComeback;
+
+  /// No description provided for @statsInsightNameCorrelation.
+  ///
+  /// In en, this message translates to:
+  /// **'Correlations'**
+  String get statsInsightNameCorrelation;
+
+  /// No description provided for @statsInsightNameEstimationBias.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimation bias'**
+  String get statsInsightNameEstimationBias;
+
+  /// No description provided for @statsInsightNameFallingCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'Falling cravings'**
+  String get statsInsightNameFallingCravings;
+
+  /// No description provided for @statsInsightNameFollowUpsDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-ups due'**
+  String get statsInsightNameFollowUpsDue;
+
+  /// No description provided for @statsInsightNameHabitAtRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits at risk'**
+  String get statsInsightNameHabitAtRisk;
+
+  /// No description provided for @statsInsightNameHealthMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Health milestones'**
+  String get statsInsightNameHealthMilestone;
+
+  /// No description provided for @statsInsightNameMoneyMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Money milestones'**
+  String get statsInsightNameMoneyMilestone;
+
+  /// No description provided for @statsInsightNameNewRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'New records'**
+  String get statsInsightNameNewRecord;
+
+  /// No description provided for @statsInsightNameOverbookedNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Overbooked weeks'**
+  String get statsInsightNameOverbookedNextWeek;
+
+  /// No description provided for @statsInsightNamePerfectWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect weeks'**
+  String get statsInsightNamePerfectWeek;
+
+  /// No description provided for @statsInsightNameRisingOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Rising overdue'**
+  String get statsInsightNameRisingOverdue;
+
+  /// No description provided for @statsInsightNameSignificantTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Trends'**
+  String get statsInsightNameSignificantTrend;
+
+  /// No description provided for @statsInsightNameStaleList.
+  ///
+  /// In en, this message translates to:
+  /// **'Stale lists'**
+  String get statsInsightNameStaleList;
+
+  /// No description provided for @statsInsightNameStreakMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak milestones'**
+  String get statsInsightNameStreakMilestone;
+
+  /// No description provided for @statsInsightNameStrengthThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength thresholds'**
+  String get statsInsightNameStrengthThreshold;
+
+  /// No description provided for @statsInsightNewRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'New record: {record} — {value} (previous {previous}).'**
+  String statsInsightNewRecord(String record, String value, String previous);
+
+  /// No description provided for @statsInsightNewRecordFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'New record: {record} — {value}.'**
+  String statsInsightNewRecordFirst(String record, String value);
+
+  /// No description provided for @statsInsightOverbooked.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week has overbooked days: {days}.'**
+  String statsInsightOverbooked(String days);
+
+  /// No description provided for @statsInsightPerfectWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect habit week!'**
+  String get statsInsightPerfectWeek;
+
+  /// No description provided for @statsInsightRisingOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue tasks are piling up ({count}, up from {previous}).'**
+  String statsInsightRisingOverdue(int count, int previous);
+
+  /// No description provided for @statsInsightRuleBestWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'A weekday is ≥ 15 pp above your average over 4+ weeks and the weekday effect is significant. At most every 30 days.'**
+  String get statsInsightRuleBestWeekday;
+
+  /// No description provided for @statsInsightRuleBlockerCluster.
+  ///
+  /// In en, this message translates to:
+  /// **'Three or more items blocked for the same reason within 14 days. At most every 14 days.'**
+  String get statsInsightRuleBlockerCluster;
+
+  /// No description provided for @statsInsightRuleComeback.
+  ///
+  /// In en, this message translates to:
+  /// **'A success after 3 or more misses in a row. Once per comeback.'**
+  String get statsInsightRuleComeback;
+
+  /// No description provided for @statsInsightRuleCorrelation.
+  ///
+  /// In en, this message translates to:
+  /// **'Two daily series move together, significant after false-discovery control. At most every 30 days per pair.'**
+  String get statsInsightRuleCorrelation;
+
+  /// No description provided for @statsInsightRuleEstimationBias.
+  ///
+  /// In en, this message translates to:
+  /// **'Over the last 30 days (≥ 10 tasks) actual time exceeds planned time by more than 20 %. At most every 30 days.'**
+  String get statsInsightRuleEstimationBias;
+
+  /// No description provided for @statsInsightRuleFallingCravings.
+  ///
+  /// In en, this message translates to:
+  /// **'Cravings in the last 7 days are at least 25 % below the 7 days before (≥ 5 before). At most every 7 days.'**
+  String get statsInsightRuleFallingCravings;
+
+  /// No description provided for @statsInsightRuleFollowUpsDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Three or more waiting items are past their follow-up date. At most every 3 days.'**
+  String get statsInsightRuleFollowUpsDue;
+
+  /// No description provided for @statsInsightRuleHabitAtRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'A quota is behind pace or the habit score dropped more than 10 points in 7 days. Daily.'**
+  String get statsInsightRuleHabitAtRisk;
+
+  /// No description provided for @statsInsightRuleHealthMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'A smoke-free health milestone was reached. Once per milestone and attempt.'**
+  String get statsInsightRuleHealthMilestone;
+
+  /// No description provided for @statsInsightRuleMoneyMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Money saved crossed 10, 50, 100, 250, 500, 1 000… Once per amount.'**
+  String get statsInsightRuleMoneyMilestone;
+
+  /// No description provided for @statsInsightRuleNewRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'A value beats every earlier one (set in the last 7 days). Once per value.'**
+  String get statsInsightRuleNewRecord;
+
+  /// No description provided for @statsInsightRuleOverbookedNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Two or more days next week are planned beyond capacity. Weekly.'**
+  String get statsInsightRuleOverbookedNextWeek;
+
+  /// No description provided for @statsInsightRulePerfectWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Every due habit was done on every scheduled day last week. Weekly.'**
+  String get statsInsightRulePerfectWeek;
+
+  /// No description provided for @statsInsightRuleRisingOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 5 overdue tasks and 30 % more than 4 weeks ago. At most every 7 days.'**
+  String get statsInsightRuleRisingOverdue;
+
+  /// No description provided for @statsInsightRuleSignificantTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly adherence over 8+ weeks has a significant slope (p < 0.05) of at least 2 pp per week. At most every 14 days.'**
+  String get statsInsightRuleSignificantTrend;
+
+  /// No description provided for @statsInsightRuleStaleList.
+  ///
+  /// In en, this message translates to:
+  /// **'A list with open items has had no activity for its stale threshold. At most every 14 days.'**
+  String get statsInsightRuleStaleList;
+
+  /// No description provided for @statsInsightRuleStreakMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'A streak reaches 7, 14, 21, 30, 50, 66, 100, 150, 200 or 365 days, then every 100. Once per milestone.'**
+  String get statsInsightRuleStreakMilestone;
+
+  /// No description provided for @statsInsightRuleStrengthThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit strength crossed 50 % or 80 % upwards. Once per crossing.'**
+  String get statsInsightRuleStrengthThreshold;
+
+  /// No description provided for @statsInsightStaleList.
+  ///
+  /// In en, this message translates to:
+  /// **'“{name}” has had no activity for {days} days.'**
+  String statsInsightStaleList(String name, int days);
+
+  /// No description provided for @statsInsightStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {count}-day streak!'**
+  String statsInsightStreak(String name, int count);
+
+  /// No description provided for @statsInsightStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} strength passed {pct}.'**
+  String statsInsightStrength(String name, String pct);
+
+  /// No description provided for @statsInsightTrendDown.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} adherence is falling: −{pp} pp per week.'**
+  String statsInsightTrendDown(String name, String pp);
+
+  /// No description provided for @statsInsightTrendUp.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} adherence is rising: +{pp} pp per week.'**
+  String statsInsightTrendUp(String name, String pp);
 
   /// No description provided for @statsLayoutDone.
   ///
@@ -19683,6 +20613,114 @@ abstract class AppLocalizations {
   /// **'Weekly review'**
   String get statsMetricGl03Title;
 
+  /// No description provided for @statsMetricGl04Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Consecutive weeks with a completed guided review.'**
+  String get statsMetricGl04Desc;
+
+  /// No description provided for @statsMetricGl04Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Run of reviewed weeks ending with the last completed week (open until reviewed).'**
+  String get statsMetricGl04Formula;
+
+  /// No description provided for @statsMetricGl04Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly review streak'**
+  String get statsMetricGl04Title;
+
+  /// No description provided for @statsMetricGl05Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your month across every section, compared with the previous month (and last year when available).'**
+  String get statsMetricGl05Desc;
+
+  /// No description provided for @statsMetricGl05Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Rates compare directly; sums compare as per-day averages (months have different lengths).'**
+  String get statsMetricGl05Formula;
+
+  /// No description provided for @statsMetricGl05Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly review'**
+  String get statsMetricGl05Title;
+
+  /// No description provided for @statsMetricGl06Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your best days, weeks, months and streaks across every section.'**
+  String get statsMetricGl06Desc;
+
+  /// No description provided for @statsMetricGl06Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'New = set in the last 7 days and above every value before.'**
+  String get statsMetricGl06Formula;
+
+  /// No description provided for @statsMetricGl06Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal records'**
+  String get statsMetricGl06Title;
+
+  /// No description provided for @statsMetricGl07Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'One 0–100 number for the day, from the sections you used.'**
+  String get statsMetricGl07Desc;
+
+  /// No description provided for @statsMetricGl07Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Weighted mean of planner done ÷ planned, habits done ÷ due, list completions ÷ usual (max 1) and abstinence; sections without data are left out.'**
+  String get statsMetricGl07Formula;
+
+  /// No description provided for @statsMetricGl07Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Day score'**
+  String get statsMetricGl07Title;
+
+  /// No description provided for @statsMetricGl08Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Whether some weekdays go better than others.'**
+  String get statsMetricGl08Desc;
+
+  /// No description provided for @statsMetricGl08Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean per weekday over the last 26 weeks (≥ 4 weeks); Kruskal–Wallis test, significant when p < 0.05.'**
+  String get statsMetricGl08Formula;
+
+  /// No description provided for @statsMetricGl08Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Day-of-week effects'**
+  String get statsMetricGl08Title;
+
+  /// No description provided for @statsMetricGl09Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Every goal with its progress, pace and projected end.'**
+  String get statsMetricGl09Desc;
+
+  /// No description provided for @statsMetricGl09Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress = actual ÷ target; pace = target × elapsed share; projected = actual + 28-day rate × remaining days.'**
+  String get statsMetricGl09Formula;
+
+  /// No description provided for @statsMetricGl09Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals & projections'**
+  String get statsMetricGl09Title;
+
   /// No description provided for @statsMetricGl10Desc.
   ///
   /// In en, this message translates to:
@@ -19700,6 +20738,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Data quality'**
   String get statsMetricGl10Title;
+
+  /// No description provided for @statsMetricGl11Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day of the year coloured by what you got done.'**
+  String get statsMetricGl11Desc;
+
+  /// No description provided for @statsMetricGl11Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Done tasks + done habit check-ins + completed list items per day.'**
+  String get statsMetricGl11Formula;
+
+  /// No description provided for @statsMetricGl11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Year activity'**
+  String get statsMetricGl11Title;
+
+  /// No description provided for @statsMetricGl13Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Things that tend to move together in your data.'**
+  String get statsMetricGl13Desc;
+
+  /// No description provided for @statsMetricGl13Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Phi, point-biserial or Spearman over the last 180 days, lags 0–3, ≥ 21 paired days, false-discovery rate 10 %.'**
+  String get statsMetricGl13Formula;
+
+  /// No description provided for @statsMetricGl13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Correlations'**
+  String get statsMetricGl13Title;
+
+  /// No description provided for @statsMetricGl14Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your year as a story: numbers, streaks, records and your style.'**
+  String get statsMetricGl14Desc;
+
+  /// No description provided for @statsMetricGl14Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly totals of the day facts; year-over-year when the previous year has data.'**
+  String get statsMetricGl14Formula;
+
+  /// No description provided for @statsMetricGl14Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Year in review'**
+  String get statsMetricGl14Title;
+
+  /// No description provided for @statsMetricGl15Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience points from what you complete (opt-in).'**
+  String get statsMetricGl15Desc;
+
+  /// No description provided for @statsMetricGl15Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Task 10 × priority (× 1.1 on time), habit 10 × (1 + streak/100), list item 5, clean day 20; 500 per day max; level n at 100·n^1.5.'**
+  String get statsMetricGl15Formula;
+
+  /// No description provided for @statsMetricGl15Title.
+  ///
+  /// In en, this message translates to:
+  /// **'XP & level'**
+  String get statsMetricGl15Title;
+
+  /// No description provided for @statsMetricGl17Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'How your waking hours split between tasks, habits and free time.'**
+  String get statsMetricGl17Desc;
+
+  /// No description provided for @statsMetricGl17Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'max(planned, tracked) task time + duration-habit time − overlap; free = waking hours − used.'**
+  String get statsMetricGl17Formula;
+
+  /// No description provided for @statsMetricGl17Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time budget'**
+  String get statsMetricGl17Title;
+
+  /// No description provided for @statsMetricGl18Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'When you are likely to reach your goals at your recent pace.'**
+  String get statsMetricGl18Desc;
+
+  /// No description provided for @statsMetricGl18Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'10 000 simulations resampling the last 6 weeks of daily progress; 50 / 85 / 95 % likely dates.'**
+  String get statsMetricGl18Formula;
+
+  /// No description provided for @statsMetricGl18Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal forecast'**
+  String get statsMetricGl18Title;
+
+  /// No description provided for @statsMetricGl19Desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Short, data-backed observations about your week.'**
+  String get statsMetricGl19Desc;
+
+  /// No description provided for @statsMetricGl19Formula.
+  ///
+  /// In en, this message translates to:
+  /// **'18 rules (records, streaks, trends, overload, blockers…), each with a cooldown; dismissed or muted ones stay hidden.'**
+  String get statsMetricGl19Formula;
+
+  /// No description provided for @statsMetricGl19Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get statsMetricGl19Title;
 
   /// No description provided for @statsMetricHbH01Desc.
   ///
@@ -22545,6 +23709,12 @@ abstract class AppLocalizations {
   /// **'This item is closed.'**
   String get statsNoteClosed;
 
+  /// No description provided for @statsNoteCorrelationNotCausation.
+  ///
+  /// In en, this message translates to:
+  /// **'Correlation is not causation: these pairs move together, nothing more.'**
+  String get statsNoteCorrelationNotCausation;
+
   /// No description provided for @statsNoteCravingPasses.
   ///
   /// In en, this message translates to:
@@ -22556,6 +23726,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn’t compute'**
   String get statsNoteError;
+
+  /// No description provided for @statsNoteGamificationOff.
+  ///
+  /// In en, this message translates to:
+  /// **'XP is off. Turn it on in Insights settings.'**
+  String get statsNoteGamificationOff;
 
   /// No description provided for @statsNoteLimitHabit.
   ///
@@ -22851,6 +24027,12 @@ abstract class AppLocalizations {
   /// **'Open {section}'**
   String statsOpenInsights(String section);
 
+  /// No description provided for @statsOverviewMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More reports'**
+  String get statsOverviewMore;
+
   /// No description provided for @statsOverviewNextUp.
   ///
   /// In en, this message translates to:
@@ -22862,6 +24044,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weekly review'**
   String get statsOverviewOpenReview;
+
+  /// No description provided for @statsOverviewStartGuided.
+  ///
+  /// In en, this message translates to:
+  /// **'Guided review'**
+  String get statsOverviewStartGuided;
 
   /// No description provided for @statsPeriodAll.
   ///
@@ -23091,6 +24279,12 @@ abstract class AppLocalizations {
   /// **'Health milestone reached: {title}'**
   String statsReviewHealth(String title);
 
+  /// No description provided for @statsReviewLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get statsReviewLastMonth;
+
   /// No description provided for @statsReviewLastWeek.
   ///
   /// In en, this message translates to:
@@ -23127,6 +24321,12 @@ abstract class AppLocalizations {
   /// **'Overdue: {title}'**
   String statsReviewOverdue(String title);
 
+  /// No description provided for @statsReviewPerDayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Months have different lengths: totals are compared as per-day averages.'**
+  String get statsReviewPerDayNote;
+
   /// No description provided for @statsReviewPerfectDays.
   ///
   /// In en, this message translates to:
@@ -23145,6 +24345,12 @@ abstract class AppLocalizations {
   /// **'New record: {title}'**
   String statsReviewRecord(String title);
 
+  /// No description provided for @statsReviewShareWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Share week summary'**
+  String get statsReviewShareWeek;
+
   /// No description provided for @statsReviewStale.
   ///
   /// In en, this message translates to:
@@ -23156,6 +24362,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title}: {count}-day streak'**
   String statsReviewStreak(String title, String count);
+
+  /// No description provided for @statsReviewThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month so far'**
+  String get statsReviewThisMonth;
 
   /// No description provided for @statsReviewThisWeek.
   ///
@@ -23169,6 +24381,12 @@ abstract class AppLocalizations {
   /// **'Where the time went'**
   String get statsReviewTime;
 
+  /// No description provided for @statsScopeBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Time budget'**
+  String get statsScopeBudget;
+
   /// No description provided for @statsScopeChecklist.
   ///
   /// In en, this message translates to:
@@ -23181,11 +24399,35 @@ abstract class AppLocalizations {
   /// **'Lists insights'**
   String get statsScopeChecklists;
 
+  /// No description provided for @statsScopeDashboards.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboards'**
+  String get statsScopeDashboards;
+
+  /// No description provided for @statsScopeFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get statsScopeFeed;
+
   /// No description provided for @statsScopeGlobal.
   ///
   /// In en, this message translates to:
   /// **'Overview'**
   String get statsScopeGlobal;
+
+  /// No description provided for @statsScopeGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals'**
+  String get statsScopeGoals;
+
+  /// No description provided for @statsScopeGuided.
+  ///
+  /// In en, this message translates to:
+  /// **'Guided weekly review'**
+  String get statsScopeGuided;
 
   /// No description provided for @statsScopeHabit.
   ///
@@ -23205,6 +24447,18 @@ abstract class AppLocalizations {
   /// **'Item insights'**
   String get statsScopeItem;
 
+  /// No description provided for @statsScopeMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly review'**
+  String get statsScopeMonth;
+
+  /// No description provided for @statsScopePatterns.
+  ///
+  /// In en, this message translates to:
+  /// **'Patterns'**
+  String get statsScopePatterns;
+
   /// No description provided for @statsScopePlanner.
   ///
   /// In en, this message translates to:
@@ -23216,6 +24470,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quit insights'**
   String get statsScopeQuit;
+
+  /// No description provided for @statsScopeRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal records'**
+  String get statsScopeRecords;
 
   /// No description provided for @statsScopeReview.
   ///
@@ -23235,6 +24495,12 @@ abstract class AppLocalizations {
   /// **'Task insights'**
   String get statsScopeTask;
 
+  /// No description provided for @statsScopeWrapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Year in review'**
+  String get statsScopeWrapped;
+
   /// No description provided for @statsScopeYear.
   ///
   /// In en, this message translates to:
@@ -23246,6 +24512,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Abstinence'**
   String get statsSectionAbstinence;
+
+  /// No description provided for @statsSectionActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get statsSectionActivity;
 
   /// No description provided for @statsSectionAdvanced.
   ///
@@ -23271,6 +24543,12 @@ abstract class AppLocalizations {
   /// **'Blocked & waiting'**
   String get statsSectionBlockers;
 
+  /// No description provided for @statsSectionBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Time budget'**
+  String get statsSectionBudget;
+
   /// No description provided for @statsSectionBurn.
   ///
   /// In en, this message translates to:
@@ -23294,6 +24572,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Collapse {section}'**
   String statsSectionCollapse(String section);
+
+  /// No description provided for @statsSectionCorrelations.
+  ///
+  /// In en, this message translates to:
+  /// **'Correlations'**
+  String get statsSectionCorrelations;
 
   /// No description provided for @statsSectionCravings.
   ///
@@ -23337,6 +24621,18 @@ abstract class AppLocalizations {
   /// **'Focus & balance'**
   String get statsSectionFocus;
 
+  /// No description provided for @statsSectionForecast.
+  ///
+  /// In en, this message translates to:
+  /// **'Forecast'**
+  String get statsSectionForecast;
+
+  /// No description provided for @statsSectionGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals'**
+  String get statsSectionGoals;
+
   /// No description provided for @statsSectionHabitTable.
   ///
   /// In en, this message translates to:
@@ -23372,6 +24668,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Money & units'**
   String get statsSectionMoney;
+
+  /// No description provided for @statsSectionMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get statsSectionMonth;
 
   /// No description provided for @statsSectionOccurrence.
   ///
@@ -23409,6 +24711,12 @@ abstract class AppLocalizations {
   /// **'Planning quality'**
   String get statsSectionPlanningQuality;
 
+  /// No description provided for @statsSectionProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get statsSectionProgress;
+
   /// No description provided for @statsSectionQuality.
   ///
   /// In en, this message translates to:
@@ -23420,6 +24728,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Quit trackers'**
   String get statsSectionQuitTrackers;
+
+  /// No description provided for @statsSectionRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Records'**
+  String get statsSectionRecords;
 
   /// No description provided for @statsSectionReduction.
   ///
@@ -23438,6 +24752,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Routine runs'**
   String get statsSectionRuns;
+
+  /// No description provided for @statsSectionScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Day score'**
+  String get statsSectionScore;
 
   /// No description provided for @statsSectionSeries.
   ///
@@ -23510,6 +24830,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Week at a glance'**
   String get statsSectionWeek;
+
+  /// No description provided for @statsSectionYearInReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Year in review'**
+  String get statsSectionYearInReview;
 
   /// No description provided for @statsSeeAll.
   ///
@@ -23612,6 +24938,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This insight doesn’t exist.'**
   String get statsUnknownScope;
+
+  /// No description provided for @statsWeekdayEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'{metric}: best on {best}, weakest on {worst}'**
+  String statsWeekdayEffect(String metric, String best, String worst);
+
+  /// No description provided for @statsWeekdayNoPattern.
+  ///
+  /// In en, this message translates to:
+  /// **'{metric}: no clear weekday pattern'**
+  String statsWeekdayNoPattern(String metric);
+
+  /// No description provided for @statsWrappedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data for this year yet.'**
+  String get statsWrappedEmpty;
+
+  /// No description provided for @statsWrappedNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next card'**
+  String get statsWrappedNext;
+
+  /// No description provided for @statsWrappedOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open year in review'**
+  String get statsWrappedOpen;
+
+  /// No description provided for @statsWrappedPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous card'**
+  String get statsWrappedPrevious;
+
+  /// No description provided for @statsWrappedReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Your year in review is ready'**
+  String get statsWrappedReady;
+
+  /// No description provided for @statsWrappedShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share summary'**
+  String get statsWrappedShare;
+
+  /// No description provided for @statsWrappedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {year}'**
+  String statsWrappedTitle(int year);
 
   /// No description provided for @statusAddNote.
   ///

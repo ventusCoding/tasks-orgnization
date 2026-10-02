@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:everslot/features/stats/application/catalog/checklist_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/checklist_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/global_catalog.dart';
+import 'package:everslot/features/stats/application/catalog/global_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/habit_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/habit_insights_catalog.dart';
 import 'package:everslot/features/stats/application/catalog/planner_catalog.dart';
@@ -49,6 +50,7 @@ final class MetricRegistry {
     ...quitMetrics,
     ...quitInsightMetrics,
     ...globalMetrics,
+    ...globalInsightMetrics,
   ]);
 
   final List<MetricDefinition> all;

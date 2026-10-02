@@ -183,6 +183,7 @@ final class StatsComputeService {
       habits: habits,
       pendingOutbox: scope == MetricScope.global || scope == MetricScope.habits ? await source.pendingOutbox() : 0,
       firstDataDate: first,
+      reviewedWeeks: scope == MetricScope.global ? await source.reviewedWeeks() : const [],
     );
   }
 

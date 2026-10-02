@@ -33,6 +33,8 @@ final class StatsSettings {
     this.mutedInsights = const {},
     this.layouts = const {},
     this.unavailableCategoryIds = const {},
+    this.gamification = false,
+    this.wakingMinutes = 960,
   });
 
   /// Parses the `stats` and `planner` namespaces (unknown keys are ignored).
@@ -122,6 +124,8 @@ final class StatsSettings {
             }
           : const {},
       unavailableCategoryIds: unavailableCategoryIds,
+      gamification: stats['gamification'] == true,
+      wakingMinutes: (stats['wakingHours'] is num ? ((stats['wakingHours'] as num) * 60).round() : 960).clamp(60, 1440),
     );
   }
 
@@ -172,6 +176,12 @@ final class StatsSettings {
   /// Categories marked "unavailable" (capacity).
   final Set<String> unavailableCategoryIds;
 
+  /// Opt-in XP, levels and badges (`stats.gamification`, GL-15; off by default).
+  final bool gamification;
+
+  /// Waking minutes per day of the time budget (`stats.wakingHours`, GL-17; default 16 h).
+  final int wakingMinutes;
+
   /// Work hours per weekday for the planner calculators.
   Map<Weekday, List<LocalTimeWindow>> get workHours => {
     for (final iso in workDays) Weekday.fromIso(iso): [LocalTimeWindow(workStartMinute, workEndMinute)],
@@ -215,6 +225,8 @@ final class StatsSettings {
       sorted(mutedInsights),
       map({for (final e in layouts.entries) e.key: map(e.value)}),
       sorted(unavailableCategoryIds),
+      gamification,
+      wakingMinutes,
     ].join('|');
   }
 
@@ -246,5 +258,7 @@ final class StatsSettings {
     mutedInsights: mutedInsights,
     layouts: layouts,
     unavailableCategoryIds: unavailableCategoryIds ?? this.unavailableCategoryIds,
+    gamification: gamification,
+    wakingMinutes: wakingMinutes,
   );
 }

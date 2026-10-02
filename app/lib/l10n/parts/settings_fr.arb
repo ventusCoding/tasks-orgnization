@@ -209,5 +209,9 @@
   "settingsExportFailed": "L’export a échoué. Veuillez réessayer.",
   "settingsExportShareSubject": "Export Everslot",
   "settingsDynamicColor": "Couleurs du fond d'écran",
-  "settingsDynamicColorSubtitle": "Utiliser les couleurs Material You de l'appareil. Les couleurs des catégories ne changent pas."
+  "settingsDynamicColorSubtitle": "Utiliser les couleurs Material You de l'appareil. Les couleurs des catégories ne changent pas.",
+  "settingsInsightsWakingHours": "Heures d’éveil",
+  "settingsInsightsHours": "{count, plural, =1{1 heure} other{{count} heures}}",
+  "settingsInsightsGamification": "XP et niveaux",
+  "settingsInsightsGamificationHint": "Gagnez des XP pour ce que vous accomplissez (désactivé par défaut)."
 }

@@ -25,6 +25,7 @@ void main() {
     }
     await db.customStatement('ALTER TABLE checklist_items DROP COLUMN estimate_minutes');
     await db.customStatement('ALTER TABLE checklist_items DROP COLUMN mirror_of_id');
+    await db.customStatement('ALTER TABLE insight_state DROP COLUMN payload');
     await db.customStatement(
       'INSERT INTO tasks (id, user_id, series_id, title, created_at, updated_at) '
       "VALUES ('t1', 'u1', 't1', 'Keep me', '2026-09-22T00:00:00.000Z', '2026-09-22T00:00:00.000Z')",

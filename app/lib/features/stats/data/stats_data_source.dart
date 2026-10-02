@@ -161,6 +161,24 @@ class StatsDataSource {
     return row.read(count) ?? 0;
   }
 
+  /// Week starts with a completed guided weekly review (GL-04): `activity_events` rows with
+  /// `entity_type = 'review'`, `event_type = 'completed'` and the ISO week start in `payload.week`.
+  Future<List<LocalDate>> reviewedWeeks() async {
+    final rows = await _rows(
+      "SELECT payload FROM activity_events WHERE entity_type = 'review' AND event_type = 'completed' "
+      'AND user_id = ? AND deleted_at IS NULL',
+      [_userId()],
+    );
+    final weeks = <LocalDate>{};
+    for (final r in rows) {
+      final week = _decodeMap(r['payload']! as String)['week'];
+      if (week is String) {
+        if (LocalDate.tryParse(week) case final d?) weeks.add(d);
+      }
+    }
+    return weeks.toList()..sort();
+  }
+
   Future<List<ActivityRecord>> _events(String entityType, Iterable<String> entityIds, {Set<String>? types}) async {
     final ids = entityIds.toSet().toList();
     final result = <ActivityRecord>[];

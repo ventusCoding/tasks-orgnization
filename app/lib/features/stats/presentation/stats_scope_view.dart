@@ -19,6 +19,7 @@ import 'package:everslot/features/stats/domain/stats_types.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
 import 'package:everslot/features/stats/presentation/charts/progress_visuals.dart' show LiveCounter;
+import 'package:everslot/features/stats/presentation/export/stats_export.dart';
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
 import 'package:everslot/features/stats/presentation/widgets/explain_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/layout_editor_sheet.dart';
@@ -34,7 +35,14 @@ import 'package:material_ui/material_ui.dart';
 /// Notes of results that do not apply to the entity's kind (volume of a yes/no habit, target of a
 /// limit habit, health milestones and life regained of a non-smoking tracker, reduce-mode cards of
 /// an abstain tracker): their cards are hidden rather than shown empty (T6.5.16, T6.6.04/05/06).
-const hiddenResultNotes = {'yesNoHabit', 'limitHabit', 'notSmoking', 'noLifeEstimate', 'abstainMode'};
+const hiddenResultNotes = {
+  'yesNoHabit',
+  'limitHabit',
+  'notSmoking',
+  'noLifeEstimate',
+  'abstainMode',
+  'gamificationOff',
+};
 
 /// Whether [r] hides its card.
 bool isHiddenResult(MetricResult? r) =>
@@ -153,14 +161,19 @@ class _StatsScopeViewState extends ConsumerState<StatsScopeView> {
             child: PeriodSelector(
               selection: selection,
               onChanged: setSelection,
-              // Only screens on their scope's own layout can be customized (T6.1.22).
-              trailing: widget.layout != null
-                  ? null
-                  : IconButton(
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _ExportButton(results: results, scopeKey: key, periodText: periodText),
+                  // Only screens on their scope's own layout can be customized (T6.1.22).
+                  if (widget.layout == null)
+                    IconButton(
                       tooltip: l.statsLayoutEdit,
                       icon: const Icon(Icons.tune),
                       onPressed: () => showLayoutEditor(context, scope: widget.scope),
                     ),
+                ],
+              ),
             ),
           ),
         ),
@@ -540,6 +553,48 @@ class _EmptyBanner extends StatelessWidget {
           subtitle: Text(message),
         ),
       ),
+    );
+  }
+}
+
+/// "Export data" of a screen (T6.7.12): every metric as CSV files or one JSON document.
+class _ExportButton extends StatelessWidget {
+  const _ExportButton({required this.results, required this.scopeKey, required this.periodText});
+
+  final Map<String, MetricResult> results;
+  final String scopeKey;
+  final String? periodText;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return PopupMenuButton<String>(
+      key: const ValueKey('scope-export'),
+      tooltip: l.statsExportScope,
+      icon: const Icon(Icons.file_download_outlined),
+      enabled: results.isNotEmpty,
+      onSelected: (format) async {
+        final messenger = ScaffoldMessenger.maybeOf(context);
+        final files = scopeExportFiles(
+          results,
+          statFormatOf(context),
+          l,
+          scopeKey: scopeKey,
+          json: format == 'json',
+          period: periodText,
+          options: ExportOptions(bom: format == 'excel'),
+        );
+        try {
+          await statsFileSharer.share(files, title: l.statsExportScope);
+        } on Object {
+          messenger?.showSnackBar(SnackBar(content: Text(l.chartsExportFailed)));
+        }
+      },
+      itemBuilder: (_) => [
+        PopupMenuItem(value: 'csv', child: Text(l.chartsExportCsv)),
+        PopupMenuItem(value: 'excel', child: Text(l.chartsExportBom)),
+        PopupMenuItem(value: 'json', child: Text(l.chartsExportJson)),
+      ],
     );
   }
 }

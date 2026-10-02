@@ -320,20 +320,71 @@ const overviewLayout = StatsLayout(
   MetricScope.global,
   sections: [
     StatsLayoutSection('today', [StatsLayoutItem('GL-01')]),
+    StatsLayoutSection('score', [StatsLayoutItem('GL-07')]),
     StatsLayoutSection('week', [StatsLayoutItem('GL-02')]),
+    StatsLayoutSection('goals', [StatsLayoutItem('GL-09')]),
+    StatsLayoutSection('progress', [StatsLayoutItem('GL-15')]),
     StatsLayoutSection('dataQuality', [StatsLayoutItem('GL-10')]),
   ],
 );
-
-/// Weekly review (T6.7.02).
 const reviewLayout = StatsLayout(
   MetricScope.global,
   sections: [
-    StatsLayoutSection('review', [StatsLayoutItem('GL-03')]),
+    StatsLayoutSection('review', [StatsLayoutItem('GL-03'), StatsLayoutItem('GL-04')]),
   ],
 );
 
-/// Default layout of a metric scope.
+/// Monthly review (T6.7.04).
+const monthLayout = StatsLayout(
+  MetricScope.global,
+  sections: [
+    StatsLayoutSection('month', [StatsLayoutItem('GL-05')]),
+  ],
+);
+
+/// Personal records (T6.7.05).
+const recordsLayout = StatsLayout(
+  MetricScope.global,
+  sections: [
+    StatsLayoutSection('records', [StatsLayoutItem('GL-06')]),
+  ],
+);
+
+/// Weekday patterns and correlations (T6.7.07, T6.7.13).
+const patternsLayout = StatsLayout(
+  MetricScope.global,
+  sections: [
+    StatsLayoutSection('patterns', [StatsLayoutItem('GL-08')]),
+    StatsLayoutSection('correlations', [StatsLayoutItem('GL-13')]),
+  ],
+);
+
+/// Goals and forecasts (T6.7.09, T6.7.18).
+const goalsLayout = StatsLayout(
+  MetricScope.global,
+  sections: [
+    StatsLayoutSection('goals', [StatsLayoutItem('GL-09')]),
+    StatsLayoutSection('forecast', [StatsLayoutItem('GL-18')]),
+  ],
+);
+
+/// Year activity and year in review (T6.7.11, T6.7.14).
+const yearLayout = StatsLayout(
+  MetricScope.global,
+  sections: [
+    StatsLayoutSection('activity', [StatsLayoutItem('GL-11')]),
+    StatsLayoutSection('yearInReview', [StatsLayoutItem('GL-14')]),
+  ],
+);
+
+/// Cross-section time budget (T6.7.17).
+const budgetLayout = StatsLayout(
+  MetricScope.global,
+  sections: [
+    StatsLayoutSection('budget', [StatsLayoutItem('GL-17')]),
+  ],
+);
+
 StatsLayout defaultLayoutOf(MetricScope scope) => switch (scope) {
   MetricScope.task => taskLayout,
   MetricScope.series => seriesLayout,

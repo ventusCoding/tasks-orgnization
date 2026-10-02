@@ -1,9 +1,9 @@
 # Sections organization — progress snapshot
 
-Updated 2026-10-01 after section 4 work (branch `section-4-completion`), counted from the **Progress**
+Updated 2026-10-02 after section 6 work (branch `section-6-completion`), counted from the **Progress**
 checkboxes in `docs/tasks_section_*.md`.
 
-**Total: 544 done / 198 missing / 742 tasks (≈73 %)**
+**Total: 609 done / 133 missing / 742 tasks (≈82 %)**
 
 | Section | Done | Missing |
 |---|---|---|
@@ -32,14 +32,14 @@ checkboxes in `docs/tasks_section_*.md`.
 | 4.4 Item attachments | 9 | 0 ✅ |
 | 4.5 Advanced views | 17 | 0 ✅ |
 | **5 Habits** | **58** | **0 ✅** |
-| **6 Insights** | **77** | **66** |
-| 6.1 Stats engine | 24 | 3 |
-| 6.2 Chart components | 12 | 14 |
-| 6.3 Planner stats | 10 | 11 |
-| 6.4 Checklist stats | 8 | 10 |
-| 6.5 Habit stats | 10 | 8 |
-| 6.6 Quit stats | 9 | 5 |
-| 6.7 Dashboard / reports | 4 | 15 |
+| **6 Insights** | **142** | **1** |
+| 6.1 Stats engine | 26 | 1 (T6.1.27 rollups: waits for device profiling) |
+| 6.2 Chart components | 26 | 0 ✅ |
+| 6.3 Planner stats | 21 | 0 ✅ |
+| 6.4 Checklist stats | 18 | 0 ✅ |
+| 6.5 Habit stats | 18 | 0 ✅ |
+| 6.6 Quit stats | 14 | 0 ✅ |
+| 6.7 Dashboard / reports | 19 | 0 ✅ |
 | **7 Notifications** | **60** | **34** |
 | 7.1 Rules | 15 | 3 |
 | 7.2 Local notifications | 21 | 5 |
@@ -57,8 +57,9 @@ checkboxes in `docs/tasks_section_*.md`.
 
 ## Summary
 
-- Done: Core engines (2), Plan (3), Lists (4) and Habits (5) complete; sync and recurrence done.
-- Biggest gaps: Insights charts / stats / dashboard (6.2–6.7), push + notification catalog (7.4–7.5),
+- Done: Core engines (2), Plan (3), Lists (4), Habits (5) and Insights (6, except the T6.1.27 rollups
+  decision) complete; sync and recurrence done.
+- Biggest gaps: push + notification catalog (7.4–7.5),
   all of 8 and 9.
 - Not started: 9.1, 9.2, 9.3.
 

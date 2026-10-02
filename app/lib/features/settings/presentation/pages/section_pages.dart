@@ -420,6 +420,29 @@ class InsightsDefaultsPage extends ConsumerWidget {
             if (iso != null) await set((s) => s.copyWith(weekStartOverride: iso == 0 ? null : iso));
           },
         ),
+        SettingsValueTile(
+          key: const ValueKey('insights-waking'),
+          icon: Icons.bedtime_outlined,
+          title: l.settingsInsightsWakingHours,
+          value: l.settingsInsightsHours(s.wakingHours),
+          onTap: () async {
+            final hours = await pickChoice<int>(
+              context,
+              title: l.settingsInsightsWakingHours,
+              selected: s.wakingHours,
+              choices: [for (var h = 12; h <= 20; h++) Choice(h, l.settingsInsightsHours(h))],
+            );
+            if (hours != null) await set((s) => s.copyWith(wakingHours: hours));
+          },
+        ),
+        SettingsSwitchTile(
+          key: const ValueKey('insights-gamification'),
+          icon: Icons.military_tech_outlined,
+          title: l.settingsInsightsGamification,
+          subtitle: l.settingsInsightsGamificationHint,
+          value: s.gamification,
+          onChanged: (v) => set((s) => s.copyWith(gamification: v)),
+        ),
       ],
     );
   }

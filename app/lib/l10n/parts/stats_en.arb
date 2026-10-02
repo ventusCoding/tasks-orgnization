@@ -1370,5 +1370,442 @@
   "statsNoteNoTimePerUnit": "Set the time per unit in the tracker to see this",
   "statsNoteTypicalVaries": "Typical timeline — individual experience varies",
   "statsNoteNoCoping": "Note a coping tool when you log a craving to see this",
-  "statsSourceLally2010": "Lally et al. 2010 (European Journal of Social Psychology)"
+  "statsSourceLally2010": "Lally et al. 2010 (European Journal of Social Psychology)",
+  "statsMetricGl04Title": "Weekly review streak",
+  "statsMetricGl04Desc": "Consecutive weeks with a completed guided review.",
+  "statsMetricGl04Formula": "Run of reviewed weeks ending with the last completed week (open until reviewed).",
+  "statsMetricGl05Title": "Monthly review",
+  "statsMetricGl05Desc": "Your month across every section, compared with the previous month (and last year when available).",
+  "statsMetricGl05Formula": "Rates compare directly; sums compare as per-day averages (months have different lengths).",
+  "statsMetricGl06Title": "Personal records",
+  "statsMetricGl06Desc": "Your best days, weeks, months and streaks across every section.",
+  "statsMetricGl06Formula": "New = set in the last 7 days and above every value before.",
+  "statsMetricGl07Title": "Day score",
+  "statsMetricGl07Desc": "One 0–100 number for the day, from the sections you used.",
+  "statsMetricGl07Formula": "Weighted mean of planner done ÷ planned, habits done ÷ due, list completions ÷ usual (max 1) and abstinence; sections without data are left out.",
+  "statsMetricGl08Title": "Day-of-week effects",
+  "statsMetricGl08Desc": "Whether some weekdays go better than others.",
+  "statsMetricGl08Formula": "Mean per weekday over the last 26 weeks (≥ 4 weeks); Kruskal–Wallis test, significant when p < 0.05.",
+  "statsMetricGl09Title": "Goals & projections",
+  "statsMetricGl09Desc": "Every goal with its progress, pace and projected end.",
+  "statsMetricGl09Formula": "Progress = actual ÷ target; pace = target × elapsed share; projected = actual + 28-day rate × remaining days.",
+  "statsMetricGl11Title": "Year activity",
+  "statsMetricGl11Desc": "Every day of the year coloured by what you got done.",
+  "statsMetricGl11Formula": "Done tasks + done habit check-ins + completed list items per day.",
+  "statsMetricGl13Title": "Correlations",
+  "statsMetricGl13Desc": "Things that tend to move together in your data.",
+  "statsMetricGl13Formula": "Phi, point-biserial or Spearman over the last 180 days, lags 0–3, ≥ 21 paired days, false-discovery rate 10 %.",
+  "statsMetricGl14Title": "Year in review",
+  "statsMetricGl14Desc": "Your year as a story: numbers, streaks, records and your style.",
+  "statsMetricGl14Formula": "Yearly totals of the day facts; year-over-year when the previous year has data.",
+  "statsMetricGl15Title": "XP & level",
+  "statsMetricGl15Desc": "Experience points from what you complete (opt-in).",
+  "statsMetricGl15Formula": "Task 10 × priority (× 1.1 on time), habit 10 × (1 + streak/100), list item 5, clean day 20; 500 per day max; level n at 100·n^1.5.",
+  "statsMetricGl17Title": "Time budget",
+  "statsMetricGl17Desc": "How your waking hours split between tasks, habits and free time.",
+  "statsMetricGl17Formula": "max(planned, tracked) task time + duration-habit time − overlap; free = waking hours − used.",
+  "statsMetricGl18Title": "Goal forecast",
+  "statsMetricGl18Desc": "When you are likely to reach your goals at your recent pace.",
+  "statsMetricGl18Formula": "10 000 simulations resampling the last 6 weeks of daily progress; 50 / 85 / 95 % likely dates.",
+  "statsMetricGl19Title": "Insights",
+  "statsMetricGl19Desc": "Short, data-backed observations about your week.",
+  "statsMetricGl19Formula": "18 rules (records, streaks, trends, overload, blockers…), each with a cooldown; dismissed or muted ones stay hidden.",
+  "statsNoteGamificationOff": "XP is off. Turn it on in Insights settings.",
+  "statsNoteCorrelationNotCausation": "Correlation is not causation: these pairs move together, nothing more.",
+  "statsSectionScore": "Day score",
+  "statsSectionGoals": "Goals",
+  "statsSectionProgress": "Progress",
+  "statsSectionMonth": "Month",
+  "statsSectionRecords": "Records",
+  "statsSectionCorrelations": "Correlations",
+  "statsSectionForecast": "Forecast",
+  "statsSectionActivity": "Activity",
+  "statsSectionYearInReview": "Year in review",
+  "statsSectionBudget": "Time budget",
+  "statsScopeMonth": "Monthly review",
+  "statsScopeRecords": "Personal records",
+  "statsScopeGoals": "Goals",
+  "statsScopePatterns": "Patterns",
+  "statsScopeBudget": "Time budget",
+  "statsScopeFeed": "Insights",
+  "statsScopeDashboards": "Dashboards",
+  "statsScopeGuided": "Guided weekly review",
+  "statsScopeWrapped": "Year in review",
+  "statsOverviewMore": "More reports",
+  "statsOverviewStartGuided": "Guided review",
+  "statsReviewLastMonth": "Last month",
+  "statsReviewThisMonth": "This month so far",
+  "statsReviewPerDayNote": "Months have different lengths: totals are compared as per-day averages.",
+  "statsReviewShareWeek": "Share week summary",
+  "statsDayScoreVsMedian": "{delta} vs your 28-day median",
+  "@statsDayScoreVsMedian": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "statsWeekdayEffect": "{metric}: best on {best}, weakest on {worst}",
+  "@statsWeekdayEffect": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      },
+      "best": {
+        "type": "String"
+      },
+      "worst": {
+        "type": "String"
+      }
+    }
+  },
+  "statsWeekdayNoPattern": "{metric}: no clear weekday pattern",
+  "@statsWeekdayNoPattern": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      }
+    }
+  },
+  "statsForecastLikely": "Likely done by {p50} (50 %), {p85} (85 %) or {p95} (95 %) at your recent pace.",
+  "@statsForecastLikely": {
+    "placeholders": {
+      "p50": {
+        "type": "String"
+      },
+      "p85": {
+        "type": "String"
+      },
+      "p95": {
+        "type": "String"
+      }
+    }
+  },
+  "statsGuidedStepWins": "Celebrate your wins",
+  "statsGuidedStepOverdue": "Handle overdue tasks",
+  "statsGuidedStepWaiting": "Process waiting and blocked items",
+  "statsGuidedStepStale": "Review stale lists",
+  "statsGuidedStepHabits": "Check habits at risk",
+  "statsGuidedStepRebalance": "Rebalance next week",
+  "statsGuidedStepOf": "Step {step} of {total}",
+  "@statsGuidedStepOf": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "statsGuidedNext": "Next",
+  "statsGuidedBack": "Back",
+  "statsGuidedFinish": "Finish review",
+  "statsGuidedCompleted": "Review completed — see you next week!",
+  "statsGuidedTomorrow": "Tomorrow",
+  "statsGuidedSkip": "Skip",
+  "statsGuidedDrop": "Drop",
+  "statsGuidedFollowUp": "Follow up tomorrow",
+  "statsGuidedUnblock": "Unblock",
+  "statsGuidedArchive": "Archive",
+  "statsGuidedOpen": "Open",
+  "statsGuidedPause": "Pause 1 week",
+  "statsGuidedUpdated": "Updated",
+  "statsFeedEmpty": "No insights yet",
+  "statsFeedEmptyBody": "Insights appear as your data grows.",
+  "statsFeedWhy": "Why am I seeing this?",
+  "statsFeedDismiss": "Dismiss",
+  "statsFeedMute": "Mute this kind",
+  "statsFeedMutedSnack": "Muted. You can unmute it from the insights feed.",
+  "statsFeedOpen": "Open",
+  "statsFeedBasedOn": "Based on: {metric}",
+  "@statsFeedBasedOn": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      }
+    }
+  },
+  "statsFeedSeeAll": "See all insights",
+  "statsFeedMutedTypes": "Muted insight types",
+  "statsFeedUnmute": "Unmute",
+  "statsInsightNewRecord": "New record: {record} — {value} (previous {previous}).",
+  "@statsInsightNewRecord": {
+    "placeholders": {
+      "record": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "previous": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightNewRecordFirst": "New record: {record} — {value}.",
+  "@statsInsightNewRecordFirst": {
+    "placeholders": {
+      "record": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightStreak": "{name}: {count}-day streak!",
+  "@statsInsightStreak": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightTrendUp": "{name} adherence is rising: +{pp} pp per week.",
+  "@statsInsightTrendUp": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pp": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightTrendDown": "{name} adherence is falling: −{pp} pp per week.",
+  "@statsInsightTrendDown": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pp": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightEstimationBias": "Tasks take ~{pct} longer than planned — try adding a buffer.",
+  "@statsInsightEstimationBias": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightRisingOverdue": "Overdue tasks are piling up ({count}, up from {previous}).",
+  "@statsInsightRisingOverdue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "previous": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightOverbooked": "Next week has overbooked days: {days}.",
+  "@statsInsightOverbooked": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightBlockerCluster": "{count} items blocked on “{reason}” in two weeks.",
+  "@statsInsightBlockerCluster": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightFollowUps": "{count} waiting items need a follow-up.",
+  "@statsInsightFollowUps": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightStaleList": "“{name}” has had no activity for {days} days.",
+  "@statsInsightStaleList": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInsightFallingCravings": "Cravings are down {pct} this week.",
+  "@statsInsightFallingCravings": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightHealth": "Health milestone: {milestone}",
+  "@statsInsightHealth": {
+    "placeholders": {
+      "milestone": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightMoney": "{amount} saved since you quit ({name}).",
+  "@statsInsightMoney": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightPerfectWeek": "Perfect habit week!",
+  "statsInsightBestWeekday": "Your habits go best on {weekday} ({rate}).",
+  "@statsInsightBestWeekday": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightAtRisk": "{name} needs attention this week.",
+  "@statsInsightAtRisk": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightStrength": "{name} strength passed {pct}.",
+  "@statsInsightStrength": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightComeback": "Welcome back to {name}!",
+  "@statsInsightComeback": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightCorrelationPos": "When {a} is higher, {b} tends to be higher too.",
+  "@statsInsightCorrelationPos": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightCorrelationNeg": "When {a} is higher, {b} tends to be lower.",
+  "@statsInsightCorrelationNeg": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      }
+    }
+  },
+  "statsInsightNameNewRecord": "New records",
+  "statsInsightNameStreakMilestone": "Streak milestones",
+  "statsInsightNameSignificantTrend": "Trends",
+  "statsInsightNameEstimationBias": "Estimation bias",
+  "statsInsightNameRisingOverdue": "Rising overdue",
+  "statsInsightNameOverbookedNextWeek": "Overbooked weeks",
+  "statsInsightNameBlockerCluster": "Blocker clusters",
+  "statsInsightNameFollowUpsDue": "Follow-ups due",
+  "statsInsightNameStaleList": "Stale lists",
+  "statsInsightNameFallingCravings": "Falling cravings",
+  "statsInsightNameHealthMilestone": "Health milestones",
+  "statsInsightNameMoneyMilestone": "Money milestones",
+  "statsInsightNamePerfectWeek": "Perfect weeks",
+  "statsInsightNameBestWeekday": "Best weekday",
+  "statsInsightNameHabitAtRisk": "Habits at risk",
+  "statsInsightNameStrengthThreshold": "Strength thresholds",
+  "statsInsightNameComeback": "Comebacks",
+  "statsInsightNameCorrelation": "Correlations",
+  "statsInsightRuleNewRecord": "A value beats every earlier one (set in the last 7 days). Once per value.",
+  "statsInsightRuleStreakMilestone": "A streak reaches 7, 14, 21, 30, 50, 66, 100, 150, 200 or 365 days, then every 100. Once per milestone.",
+  "statsInsightRuleSignificantTrend": "Weekly adherence over 8+ weeks has a significant slope (p < 0.05) of at least 2 pp per week. At most every 14 days.",
+  "statsInsightRuleEstimationBias": "Over the last 30 days (≥ 10 tasks) actual time exceeds planned time by more than 20 %. At most every 30 days.",
+  "statsInsightRuleRisingOverdue": "At least 5 overdue tasks and 30 % more than 4 weeks ago. At most every 7 days.",
+  "statsInsightRuleOverbookedNextWeek": "Two or more days next week are planned beyond capacity. Weekly.",
+  "statsInsightRuleBlockerCluster": "Three or more items blocked for the same reason within 14 days. At most every 14 days.",
+  "statsInsightRuleFollowUpsDue": "Three or more waiting items are past their follow-up date. At most every 3 days.",
+  "statsInsightRuleStaleList": "A list with open items has had no activity for its stale threshold. At most every 14 days.",
+  "statsInsightRuleFallingCravings": "Cravings in the last 7 days are at least 25 % below the 7 days before (≥ 5 before). At most every 7 days.",
+  "statsInsightRuleHealthMilestone": "A smoke-free health milestone was reached. Once per milestone and attempt.",
+  "statsInsightRuleMoneyMilestone": "Money saved crossed 10, 50, 100, 250, 500, 1 000… Once per amount.",
+  "statsInsightRulePerfectWeek": "Every due habit was done on every scheduled day last week. Weekly.",
+  "statsInsightRuleBestWeekday": "A weekday is ≥ 15 pp above your average over 4+ weeks and the weekday effect is significant. At most every 30 days.",
+  "statsInsightRuleHabitAtRisk": "A quota is behind pace or the habit score dropped more than 10 points in 7 days. Daily.",
+  "statsInsightRuleStrengthThreshold": "Habit strength crossed 50 % or 80 % upwards. Once per crossing.",
+  "statsInsightRuleComeback": "A success after 3 or more misses in a row. Once per comeback.",
+  "statsInsightRuleCorrelation": "Two daily series move together, significant after false-discovery control. At most every 30 days per pair.",
+  "statsExportScope": "Export data",
+  "statsWrappedTitle": "Your {year}",
+  "@statsWrappedTitle": {
+    "placeholders": {
+      "year": {
+        "type": "int",
+        "format": "decimalPattern",
+        "optionalParameters": {
+          "decimalDigits": 0
+        }
+      }
+    }
+  },
+  "statsWrappedOpen": "Open year in review",
+  "statsWrappedReady": "Your year in review is ready",
+  "statsWrappedShare": "Share summary",
+  "statsWrappedNext": "Next card",
+  "statsWrappedPrevious": "Previous card",
+  "statsWrappedEmpty": "Not enough data for this year yet.",
+  "statsDashboardsEmpty": "No dashboards yet",
+  "statsDashboardsEmptyBody": "Compose your own view from any metric card.",
+  "statsDashboardNew": "New dashboard",
+  "statsDashboardName": "Name",
+  "statsDashboardDefaultName": "My dashboard",
+  "statsDashboardAddCard": "Add card",
+  "statsDashboardRemoveCard": "Remove card",
+  "statsDashboardWide": "Full width",
+  "statsDashboardNarrow": "Half width",
+  "statsDashboardRename": "Rename",
+  "statsDashboardDelete": "Delete dashboard",
+  "statsDashboardScope": "Section",
+  "statsDashboardMetric": "Metric",
+  "statsDashboardPeriod": "Period",
+  "statsDashboardMoveUp": "Move up",
+  "statsDashboardMoveDown": "Move down",
+  "statsDashboardEmptyCards": "Add cards from any section.",
+  "statsDashboardTracker": "Tracker",
+  "statsDashboardCreate": "Create",
+  "statsDashboardSave": "Save",
+  "statsDashboardDeleted": "Dashboard deleted"
 }

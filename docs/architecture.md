@@ -293,8 +293,8 @@ features/<feature>/
   `ui_checklist_state` (checklist_id, mode edit|preview, focus_item_id, view_type, sort_json, filter_json,
   scroll_offset, last_opened_at), `ui_view_state` (view id, anchor date, scroll minute, zoom),
   `habit_timer_state` (running duration timers survive app kill), `attachment_cache` (§6.7),
-  `search_index` (FTS5), `stats_cache` (optional rollups), `insight_state` (key, fired_at, dismissed_at —
-  insight feed de-duplication).
+  `search_index` (FTS5), `stats_cache` (optional rollups), `insight_state` (key, fired_at, dismissed_at, payload —
+  insight feed de-duplication and the fired insight's JSON, schema v4).
 - DateTime stored as ISO-8601 **text in UTC** (`storeDateTimeValuesAsText: true`); wall-clock values
   as ISO text without offset; dates as `YYYY-MM-DD` text.
 - Runs on a background isolate (`drift_flutter` `driftDatabase(...)` with isolate) to keep UI jank-free.
@@ -1217,7 +1217,9 @@ duration, 30, gte, "min".
   matrixTapCycle, toggleWithShortPress, groupBy, density, showStreakChips, hideNotDue.
 - `stats`: defaultPeriod, compareWithPrevious, weekStartOverride, graceMinutes (on-time), capacity rules,
   deepWorkMinBlockMinutes, slotToleranceMinutes, staleThresholdDays, categoryWeights (productivity score),
-  dayScoreWeights, blockerClusters, announcedRecords, mutedInsights, layouts (per-scope card order).
+  dayScoreWeights, blockerClusters, announcedRecords, mutedInsightTypes (legacy `mutedInsights` still read),
+  layouts (per-scope card order), gamification (opt-in XP, default false), wakingHours (time budget,
+  default 16).
 - `notifications`: quietHours [{days, from, to, mode: defer | silent | drop}], pausedUntil,
   perSection {enabled, defaultProfileId}, digest {dailyAgendaAt, eveningReviewAt, weeklyReviewDay/At},
   multiDevicePolicy (all | primary | last_active), primaryDeviceId, latenessMinutes (drop/mark late after),

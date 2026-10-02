@@ -20,6 +20,7 @@ void main() {
     var db = AppDatabase.forTesting(NativeDatabase(file));
     await db.customStatement('SELECT 1');
     await db.customStatement('ALTER TABLE checklist_items DROP COLUMN mirror_of_id');
+    await db.customStatement('ALTER TABLE insight_state DROP COLUMN payload');
     await db.customStatement(
       'INSERT INTO checklist_items (id, user_id, checklist_id, sort_key, text, created_at, updated_at) '
       "VALUES ('i1', 'u1', 'c1', 'a0', 'Keep me', '2026-09-22T00:00:00.000Z', '2026-09-22T00:00:00.000Z')",
@@ -33,7 +34,7 @@ void main() {
     final row = await (db.select(db.checklistItems)..where((t) => t.id.equals('i1'))).getSingle();
     expect(row.itemText, 'Keep me');
     expect(row.mirrorOfId, isNull);
-    expect(db.schemaVersion, 3);
+    expect(db.schemaVersion, greaterThanOrEqualTo(3));
     await db.close();
   });
 }

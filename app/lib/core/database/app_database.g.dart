@@ -27374,8 +27374,17 @@ class $InsightStateTable extends InsightState with TableInfo<$InsightStateTable,
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _payloadMeta = const VerificationMeta('payload');
   @override
-  List<GeneratedColumn> get $columns => [key, firedAt, dismissedAt];
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [key, firedAt, dismissedAt, payload];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -27396,6 +27405,9 @@ class $InsightStateTable extends InsightState with TableInfo<$InsightStateTable,
     if (data.containsKey('dismissed_at')) {
       context.handle(_dismissedAtMeta, dismissedAt.isAcceptableOrUnknown(data['dismissed_at']!, _dismissedAtMeta));
     }
+    if (data.containsKey('payload')) {
+      context.handle(_payloadMeta, payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta));
+    }
     return context;
   }
 
@@ -27408,6 +27420,7 @@ class $InsightStateTable extends InsightState with TableInfo<$InsightStateTable,
       key: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}key'])!,
       firedAt: attachedDatabase.typeMapping.read(DriftSqlType.dateTime, data['${effectivePrefix}fired_at']),
       dismissedAt: attachedDatabase.typeMapping.read(DriftSqlType.dateTime, data['${effectivePrefix}dismissed_at']),
+      payload: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}payload']),
     );
   }
 
@@ -27421,7 +27434,11 @@ class InsightStateRow extends DataClass implements Insertable<InsightStateRow> {
   final String key;
   final DateTime? firedAt;
   final DateTime? dismissedAt;
-  const InsightStateRow({required this.key, this.firedAt, this.dismissedAt});
+
+  /// The fired insight (trigger, entity, args, target) as JSON, so the feed shows it even after
+  /// the data that produced it changed (schema v4, T6.7.08).
+  final String? payload;
+  const InsightStateRow({required this.key, this.firedAt, this.dismissedAt, this.payload});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -27432,6 +27449,9 @@ class InsightStateRow extends DataClass implements Insertable<InsightStateRow> {
     if (!nullToAbsent || dismissedAt != null) {
       map['dismissed_at'] = Variable<DateTime>(dismissedAt);
     }
+    if (!nullToAbsent || payload != null) {
+      map['payload'] = Variable<String>(payload);
+    }
     return map;
   }
 
@@ -27440,6 +27460,7 @@ class InsightStateRow extends DataClass implements Insertable<InsightStateRow> {
       key: Value(key),
       firedAt: firedAt == null && nullToAbsent ? const Value.absent() : Value(firedAt),
       dismissedAt: dismissedAt == null && nullToAbsent ? const Value.absent() : Value(dismissedAt),
+      payload: payload == null && nullToAbsent ? const Value.absent() : Value(payload),
     );
   }
 
@@ -27449,6 +27470,7 @@ class InsightStateRow extends DataClass implements Insertable<InsightStateRow> {
       key: serializer.fromJson<String>(json['key']),
       firedAt: serializer.fromJson<DateTime?>(json['fired_at']),
       dismissedAt: serializer.fromJson<DateTime?>(json['dismissed_at']),
+      payload: serializer.fromJson<String?>(json['payload']),
     );
   }
   @override
@@ -27458,6 +27480,7 @@ class InsightStateRow extends DataClass implements Insertable<InsightStateRow> {
       'key': serializer.toJson<String>(key),
       'fired_at': serializer.toJson<DateTime?>(firedAt),
       'dismissed_at': serializer.toJson<DateTime?>(dismissedAt),
+      'payload': serializer.toJson<String?>(payload),
     };
   }
 
@@ -27465,16 +27488,19 @@ class InsightStateRow extends DataClass implements Insertable<InsightStateRow> {
     String? key,
     Value<DateTime?> firedAt = const Value.absent(),
     Value<DateTime?> dismissedAt = const Value.absent(),
+    Value<String?> payload = const Value.absent(),
   }) => InsightStateRow(
     key: key ?? this.key,
     firedAt: firedAt.present ? firedAt.value : this.firedAt,
     dismissedAt: dismissedAt.present ? dismissedAt.value : this.dismissedAt,
+    payload: payload.present ? payload.value : this.payload,
   );
   InsightStateRow copyWithCompanion(InsightStateCompanion data) {
     return InsightStateRow(
       key: data.key.present ? data.key.value : this.key,
       firedAt: data.firedAt.present ? data.firedAt.value : this.firedAt,
       dismissedAt: data.dismissedAt.present ? data.dismissedAt.value : this.dismissedAt,
+      payload: data.payload.present ? data.payload.value : this.payload,
     );
   }
 
@@ -27483,49 +27509,56 @@ class InsightStateRow extends DataClass implements Insertable<InsightStateRow> {
     return (StringBuffer('InsightStateRow(')
           ..write('key: $key, ')
           ..write('firedAt: $firedAt, ')
-          ..write('dismissedAt: $dismissedAt')
+          ..write('dismissedAt: $dismissedAt, ')
+          ..write('payload: $payload')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(key, firedAt, dismissedAt);
+  int get hashCode => Object.hash(key, firedAt, dismissedAt, payload);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is InsightStateRow &&
           other.key == this.key &&
           other.firedAt == this.firedAt &&
-          other.dismissedAt == this.dismissedAt);
+          other.dismissedAt == this.dismissedAt &&
+          other.payload == this.payload);
 }
 
 class InsightStateCompanion extends UpdateCompanion<InsightStateRow> {
   final Value<String> key;
   final Value<DateTime?> firedAt;
   final Value<DateTime?> dismissedAt;
+  final Value<String?> payload;
   final Value<int> rowid;
   const InsightStateCompanion({
     this.key = const Value.absent(),
     this.firedAt = const Value.absent(),
     this.dismissedAt = const Value.absent(),
+    this.payload = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   InsightStateCompanion.insert({
     required String key,
     this.firedAt = const Value.absent(),
     this.dismissedAt = const Value.absent(),
+    this.payload = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : key = Value(key);
   static Insertable<InsightStateRow> custom({
     Expression<String>? key,
     Expression<DateTime>? firedAt,
     Expression<DateTime>? dismissedAt,
+    Expression<String>? payload,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (key != null) 'key': key,
       if (firedAt != null) 'fired_at': firedAt,
       if (dismissedAt != null) 'dismissed_at': dismissedAt,
+      if (payload != null) 'payload': payload,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -27534,12 +27567,14 @@ class InsightStateCompanion extends UpdateCompanion<InsightStateRow> {
     Value<String>? key,
     Value<DateTime?>? firedAt,
     Value<DateTime?>? dismissedAt,
+    Value<String?>? payload,
     Value<int>? rowid,
   }) {
     return InsightStateCompanion(
       key: key ?? this.key,
       firedAt: firedAt ?? this.firedAt,
       dismissedAt: dismissedAt ?? this.dismissedAt,
+      payload: payload ?? this.payload,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -27556,6 +27591,9 @@ class InsightStateCompanion extends UpdateCompanion<InsightStateRow> {
     if (dismissedAt.present) {
       map['dismissed_at'] = Variable<DateTime>(dismissedAt.value);
     }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -27568,6 +27606,7 @@ class InsightStateCompanion extends UpdateCompanion<InsightStateRow> {
           ..write('key: $key, ')
           ..write('firedAt: $firedAt, ')
           ..write('dismissedAt: $dismissedAt, ')
+          ..write('payload: $payload, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -39437,12 +39476,14 @@ typedef $$InsightStateTableCreateCompanionBuilder = InsightStateCompanion Functi
   required String key,
   Value<DateTime?> firedAt,
   Value<DateTime?> dismissedAt,
+  Value<String?> payload,
   Value<int> rowid,
 });
 typedef $$InsightStateTableUpdateCompanionBuilder = InsightStateCompanion Function({
   Value<String> key,
   Value<DateTime?> firedAt,
   Value<DateTime?> dismissedAt,
+  Value<String?> payload,
   Value<int> rowid,
 });
 
@@ -39461,6 +39502,9 @@ class $$InsightStateTableFilterComposer extends Composer<_$AppDatabase, $Insight
 
   ColumnFilters<DateTime> get dismissedAt =>
       $composableBuilder(column: $table.dismissedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => ColumnFilters(column));
 }
 
 class $$InsightStateTableOrderingComposer extends Composer<_$AppDatabase, $InsightStateTable> {
@@ -39479,6 +39523,9 @@ class $$InsightStateTableOrderingComposer extends Composer<_$AppDatabase, $Insig
 
   ColumnOrderings<DateTime> get dismissedAt =>
       $composableBuilder(column: $table.dismissedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => ColumnOrderings(column));
 }
 
 class $$InsightStateTableAnnotationComposer extends Composer<_$AppDatabase, $InsightStateTable> {
@@ -39495,6 +39542,8 @@ class $$InsightStateTableAnnotationComposer extends Composer<_$AppDatabase, $Ins
 
   GeneratedColumn<DateTime> get dismissedAt =>
       $composableBuilder(column: $table.dismissedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get payload => $composableBuilder(column: $table.payload, builder: (column) => column);
 }
 
 class $$InsightStateTableTableManager
@@ -39520,18 +39569,34 @@ class $$InsightStateTableTableManager
           createFilteringComposer: () => $$InsightStateTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () => $$InsightStateTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () => $$InsightStateTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> key = const Value.absent(),
-            Value<DateTime?> firedAt = const Value.absent(),
-            Value<DateTime?> dismissedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) => InsightStateCompanion(key: key, firedAt: firedAt, dismissedAt: dismissedAt, rowid: rowid),
-          createCompanionCallback: ({
-            required String key,
-            Value<DateTime?> firedAt = const Value.absent(),
-            Value<DateTime?> dismissedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) => InsightStateCompanion.insert(key: key, firedAt: firedAt, dismissedAt: dismissedAt, rowid: rowid),
+          updateCompanionCallback:
+              ({
+                Value<String> key = const Value.absent(),
+                Value<DateTime?> firedAt = const Value.absent(),
+                Value<DateTime?> dismissedAt = const Value.absent(),
+                Value<String?> payload = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InsightStateCompanion(
+                key: key,
+                firedAt: firedAt,
+                dismissedAt: dismissedAt,
+                payload: payload,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String key,
+                Value<DateTime?> firedAt = const Value.absent(),
+                Value<DateTime?> dismissedAt = const Value.absent(),
+                Value<String?> payload = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InsightStateCompanion.insert(
+                key: key,
+                firedAt: firedAt,
+                dismissedAt: dismissedAt,
+                payload: payload,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (

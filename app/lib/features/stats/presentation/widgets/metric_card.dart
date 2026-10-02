@@ -16,6 +16,7 @@ import 'package:everslot/features/stats/presentation/charts/chart_frame.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_share.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/kpi_tile.dart';
+import 'package:everslot/features/stats/presentation/format/stat_format.dart';
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
 import 'package:everslot/features/stats/presentation/stats_navigation.dart';
 import 'package:everslot/features/stats/presentation/widgets/blocker_clusters_sheet.dart';
@@ -23,7 +24,9 @@ import 'package:everslot/features/stats/presentation/widgets/drill_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/explain_sheet.dart';
 import 'package:everslot/features/stats/presentation/widgets/habit_table.dart';
 import 'package:everslot/features/stats/presentation/widgets/review_view.dart';
+import 'package:everslot/l10n/generated/app_localizations.dart';
 import 'package:everslot_metrics/everslot_metrics.dart' show Insufficient, NotApplicable, Value;
+import 'package:everslot_recurrence/everslot_recurrence.dart' show LocalDate, Weekday;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -124,6 +127,26 @@ class MetricCard extends ConsumerWidget {
       // Data-quality tips (GL-10).
       for (final k in (r?.args['guidance'] as List?)?.whereType<String>() ?? const <String>[])
         if (guidanceText(l, k) case final t?) t,
+      // Day score vs the 28-day median (GL-07).
+      if (def.id == 'GL-07' && r?.args['deltaVsMedian'] is num)
+        l.statsDayScoreVsMedian(
+          '${(r!.args['deltaVsMedian']! as num) >= 0 ? '+' : '−'}${f.number(((r.args['deltaVsMedian']! as num).abs() * 100).toDouble(), decimals: 0)}',
+        ),
+      // Weekday effects (GL-08): best / worst weekday or "no clear pattern".
+      if (def.id == 'GL-08')
+        for (final e
+            in (r?.args['effects'] as List?)?.whereType<Map<dynamic, dynamic>>() ?? const <Map<dynamic, dynamic>>[])
+          weekdayEffectText(l, f, e),
+      // Probabilistic goal forecast (GL-18).
+      if (def.id == 'GL-18')
+        for (final e
+            in (r?.args['forecasts'] as List?)?.whereType<Map<dynamic, dynamic>>().take(1) ??
+                const <Map<dynamic, dynamic>>[])
+          l.statsForecastLikely(
+            f.date(LocalDate.parse('${e['p50']}')),
+            f.date(LocalDate.parse('${e['p85']}')),
+            f.date(LocalDate.parse('${e['p95']}')),
+          ),
       if (def.id == 'QT-11' && status == ChartFrameStatus.data) ...[l.statsHealthClockNote, l.statsHealthElapsedNote],
     ];
     return _Card(
@@ -157,7 +180,9 @@ class MetricCard extends ConsumerWidget {
         onExplain: explain,
         onShare: chart == null || status != ChartFrameStatus.data
             ? null
-            : () => unawaited(showChartShareSheet(context, title: title, subtitle: periodText, data: chart)),
+            : () => unawaited(
+                showChartShareSheet(context, title: title, subtitle: periodText, data: chart, metricId: def.id),
+              ),
         onTap: (tap) {
           final refs = tap.drillKey == null ? null : r?.drill[tap.drillKey];
           if (refs == null || refs.isEmpty) return;
@@ -209,5 +234,26 @@ class _Disclaimer extends StatelessWidget {
         Expanded(child: Text(text, style: context.text.bodySmall)),
       ],
     ),
+  );
+}
+
+/// One GL-08 effect line: best / worst weekday when significant, else "no clear weekday pattern".
+String weekdayEffectText(AppLocalizations l, StatFormat f, Map<dynamic, dynamic> e) {
+  final token = switch (e['metric']) {
+    'planner' => LabelToken.agenda,
+    'habits' => LabelToken.habits,
+    'items' => LabelToken.items,
+    'cravings' => LabelToken.cravings,
+    _ => LabelToken.deepWork,
+  };
+  final metric = labelTokenText(l, token);
+  if (e['significant'] != true) return l.statsWeekdayNoPattern(metric);
+  Weekday? day(Object? code) => Weekday.values.where((w) => w.code == code).firstOrNull;
+  final best = day(e['best']);
+  final worst = day(e['worst']);
+  return l.statsWeekdayEffect(
+    metric,
+    best == null ? '' : f.weekdayLong(best),
+    worst == null ? '' : f.weekdayLong(worst),
   );
 }

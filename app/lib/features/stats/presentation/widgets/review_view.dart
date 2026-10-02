@@ -2,10 +2,14 @@
 /// entity), where the time went and next week's load vs capacity; last week or this week so far.
 library;
 
+import 'dart:async';
+
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/domain/chart_data.dart';
 import 'package:everslot/features/stats/domain/stats_types.dart';
+import 'package:everslot/features/stats/presentation/charts/chart_share.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
+import 'package:everslot/features/stats/presentation/charts/chart_view.dart';
 import 'package:everslot/features/stats/presentation/charts/simple_views.dart';
 import 'package:everslot/features/stats/presentation/format/stat_format.dart';
 import 'package:everslot/features/stats/presentation/l10n/stats_l10n.dart';
@@ -81,14 +85,31 @@ class ReviewView extends StatelessWidget {
                     style: context.text.titleMedium?.copyWith(fontWeight: FontWeight.w600),
                   ),
                 ),
+                if (data.headline.isNotEmpty)
+                  IconButton(
+                    key: const ValueKey('share-review'),
+                    tooltip: l.statsReviewShareWeek,
+                    icon: const Icon(Icons.ios_share),
+                    onPressed: () => unawaited(
+                      showChartShareSheet(
+                        context,
+                        title: l.statsReviewRange(f.date(data.from), f.date(data.to)),
+                        data: TilesData(data.headline),
+                        metricId: data.perDay ? 'GL-05' : 'GL-03',
+                      ),
+                    ),
+                  ),
               ],
             ),
             if (onToggle != null) ...[
               const SizedBox(height: Space.sm),
               SegmentedButton<bool>(
                 segments: [
-                  ButtonSegment(value: false, label: Text(l.statsReviewLastWeek)),
-                  ButtonSegment(value: true, label: Text(l.statsReviewThisWeek)),
+                  ButtonSegment(
+                    value: false,
+                    label: Text(data.perDay ? l.statsReviewLastMonth : l.statsReviewLastWeek),
+                  ),
+                  ButtonSegment(value: true, label: Text(data.perDay ? l.statsReviewThisMonth : l.statsReviewThisWeek)),
                 ],
                 selected: {current},
                 onSelectionChanged: (s) => onToggle!(s.first),
@@ -96,6 +117,14 @@ class ReviewView extends StatelessWidget {
             ],
             header(l.statsReviewHeadline),
             if (data.headline.isEmpty) Text(l.statsReviewNothing) else ValueTilesView(TilesData(data.headline)),
+            if (data.perDay)
+              Padding(
+                padding: const EdgeInsetsDirectional.only(top: Space.xs),
+                child: Text(
+                  l.statsReviewPerDayNote,
+                  style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant),
+                ),
+              ),
             header(labelTokenText(l, LabelToken.wins)),
             entries(data.wins),
             header(labelTokenText(l, LabelToken.attention)),
@@ -128,6 +157,10 @@ class ReviewView extends StatelessWidget {
                     ],
                   ),
                 ),
+            ],
+            if (data.calendar case final calendar? when !calendar.isEmpty) ...[
+              header(l.statsSectionActivity),
+              ChartView(calendar, height: 260),
             ],
             if (data.nextWeek.isNotEmpty) ...[
               header(l.statsReviewNextWeek),

@@ -279,5 +279,16 @@
   "settingsExportFailed": "The export failed. Please try again.",
   "settingsExportShareSubject": "Everslot export",
   "settingsDynamicColor": "Wallpaper colors",
-  "settingsDynamicColorSubtitle": "Use your device's Material You colors. Category colors stay the same."
+  "settingsDynamicColorSubtitle": "Use your device's Material You colors. Category colors stay the same.",
+  "settingsInsightsWakingHours": "Waking hours",
+  "settingsInsightsHours": "{count, plural, =1{1 hour} other{{count} hours}}",
+  "@settingsInsightsHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsInsightsGamification": "XP and levels",
+  "settingsInsightsGamificationHint": "Earn XP for what you complete (off by default)."
 }

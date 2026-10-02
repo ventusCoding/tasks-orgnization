@@ -3441,6 +3441,13 @@
       }
     }
   },
+  "@settingsInsightsHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@settingsInsightsWeekStartProfile": {
     "placeholders": {
       "day": {
@@ -3545,6 +3552,13 @@
   "@statsClustersIn": {
     "placeholders": {
       "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsDayScoreVsMedian": {
+    "placeholders": {
+      "delta": {
         "type": "String"
       }
     }
@@ -3765,10 +3779,30 @@
       }
     }
   },
+  "@statsFeedBasedOn": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      }
+    }
+  },
   "@statsFiltersActive": {
     "placeholders": {
       "count": {
         "type": "num"
+      }
+    }
+  },
+  "@statsForecastLikely": {
+    "placeholders": {
+      "p50": {
+        "type": "String"
+      },
+      "p85": {
+        "type": "String"
+      },
+      "p95": {
+        "type": "String"
       }
     }
   },
@@ -3786,12 +3820,204 @@
       }
     }
   },
+  "@statsGuidedStepOf": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "@statsHealthRange": {
     "placeholders": {
       "from": {
         "type": "String"
       },
       "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightAtRisk": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightBestWeekday": {
+    "placeholders": {
+      "weekday": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightBlockerCluster": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightComeback": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightCorrelationNeg": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightCorrelationPos": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightEstimationBias": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightFallingCravings": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightFollowUps": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@statsInsightHealth": {
+    "placeholders": {
+      "milestone": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightMoney": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightNewRecord": {
+    "placeholders": {
+      "record": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      },
+      "previous": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightNewRecordFirst": {
+    "placeholders": {
+      "record": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightOverbooked": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightRisingOverdue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "previous": {
+        "type": "int"
+      }
+    }
+  },
+  "@statsInsightStaleList": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@statsInsightStreak": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@statsInsightStrength": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightTrendDown": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pp": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsInsightTrendUp": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pp": {
         "type": "String"
       }
     }
@@ -3979,6 +4205,37 @@
     "placeholders": {
       "section": {
         "type": "String"
+      }
+    }
+  },
+  "@statsWeekdayEffect": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      },
+      "best": {
+        "type": "String"
+      },
+      "worst": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsWeekdayNoPattern": {
+    "placeholders": {
+      "metric": {
+        "type": "String"
+      }
+    }
+  },
+  "@statsWrappedTitle": {
+    "placeholders": {
+      "year": {
+        "type": "int",
+        "format": "decimalPattern",
+        "optionalParameters": {
+          "decimalDigits": 0
+        }
       }
     }
   },
@@ -4713,6 +4970,11 @@
   "chartsError": "This chart couldn’t be computed",
   "chartsEstimate": "≈ {value}",
   "chartsExplain": "About this metric",
+  "chartsExportBom": "Excel-compatible (UTF-8 BOM)",
+  "chartsExportCsv": "Export CSV",
+  "chartsExportFailed": "Couldn’t export",
+  "chartsExportJson": "Export JSON",
+  "chartsExportLocale": "Local number and date format",
   "chartsFrozen": "{count, plural, =1{1 frozen} other{{count} frozen}}",
   "chartsGalleryDark": "Dark theme",
   "chartsGalleryEmptyState": "Empty state",
@@ -4728,16 +4990,21 @@
   "chartsKilo": "{value} k",
   "chartsKpiSemantics": "{title}: {value}. {delta}",
   "chartsLabelAbstinent": "Abstinent",
+  "chartsLabelAchieved": "Achieved",
+  "chartsLabelActive": "Active",
   "chartsLabelActual": "Actual",
   "chartsLabelAfterHours": "After hours",
   "chartsLabelAgenda": "Agenda",
+  "chartsLabelArchetype": "Your style",
   "chartsLabelArchived": "Archived",
   "chartsLabelArrivals": "Arrivals",
   "chartsLabelArrivalsPerDeparture": "Arrivals ÷ departures",
+  "chartsLabelAtRisk": "At risk",
   "chartsLabelAttempt": "Attempt",
   "chartsLabelAttention": "Needs attention",
   "chartsLabelBackfillShare": "Logged late",
   "chartsLabelBaseline": "Baseline",
+  "chartsLabelBehind": "Behind",
   "chartsLabelBest": "Best",
   "chartsLabelBestDay": "Best day",
   "chartsLabelBestMonth": "Best month",
@@ -4745,12 +5012,14 @@
   "chartsLabelBias": "Bias",
   "chartsLabelBlocked": "Blocked",
   "chartsLabelBranching": "Children per parent",
+  "chartsLabelBusiest": "Busiest times",
   "chartsLabelCancelled": "Cancelled",
   "chartsLabelCapacity": "Capacity",
   "chartsLabelCheckIns": "Check-ins",
   "chartsLabelComebacks": "Comebacks",
   "chartsLabelCompleted": "Completed",
   "chartsLabelConsistency": "Consistency",
+  "chartsLabelConsistent": "Consistent",
   "chartsLabelContextSwitches": "Switches",
   "chartsLabelCount": "Count",
   "chartsLabelCravings": "Cravings",
@@ -4764,11 +5033,13 @@
   "chartsLabelDoneLate": "Late",
   "chartsLabelDoneOnTime": "On time",
   "chartsLabelEarly": "Early",
+  "chartsLabelEarlyBird": "Early Bird",
   "chartsLabelEvent": "Events",
   "chartsLabelExcused": "Excused",
   "chartsLabelFailed": "Not done",
   "chartsLabelFalling": "Falling",
   "chartsLabelFiles": "Files",
+  "chartsLabelFinisher": "Finisher",
   "chartsLabelFocus": "Focus",
   "chartsLabelFollowUpOverdue": "Follow-up overdue",
   "chartsLabelFragmentation": "Fragmentation",
@@ -4792,6 +5063,7 @@
   "chartsLabelLate": "Late",
   "chartsLabelLeafDepth": "Mean leaf depth",
   "chartsLabelLeaves": "Leaves",
+  "chartsLabelLevel": "Level",
   "chartsLabelLifeRegained": "Life regained",
   "chartsLabelLimit": "Limit",
   "chartsLabelLists": "Lists",
@@ -4799,9 +5071,11 @@
   "chartsLabelLoggedRatio": "Logged",
   "chartsLabelLongestBlock": "Longest block",
   "chartsLabelLongestGap": "Longest gap",
+  "chartsLabelLongestStreaks": "Longest streaks",
   "chartsLabelLoops": "Ongoing ↔ waiting loops",
   "chartsLabelLowPriority": "Low priority",
   "chartsLabelMape": "Error",
+  "chartsLabelMarathoner": "Marathoner",
   "chartsLabelMaxDepth": "Max depth",
   "chartsLabelMaxIntensity": "Peak intensity",
   "chartsLabelMean": "Mean",
@@ -4809,9 +5083,11 @@
   "chartsLabelMeanIntensity": "Average intensity",
   "chartsLabelMeanUse": "Average use",
   "chartsLabelMedian": "Median",
+  "chartsLabelMilestones": "Milestones",
   "chartsLabelMissed": "Missed",
   "chartsLabelMoney": "Money",
   "chartsLabelMonth": "Month",
+  "chartsLabelMood": "Mood",
   "chartsLabelMoods": "Moods",
   "chartsLabelMostActive": "Most active",
   "chartsLabelMostBlocked": "Most blocked",
@@ -4821,10 +5097,12 @@
   "chartsLabelMovedShare": "Moved",
   "chartsLabelNet": "Net flow",
   "chartsLabelNextUp": "Next up",
+  "chartsLabelNightOwl": "Night Owl",
   "chartsLabelNo": "No",
   "chartsLabelNotDue": "Not due",
   "chartsLabelNotTracked": "Not tracked",
   "chartsLabelOnTime": "On time",
+  "chartsLabelOnTrack": "On track",
   "chartsLabelOneOff": "One-off",
   "chartsLabelOngoing": "Ongoing",
   "chartsLabelOther": "Other",
@@ -4861,8 +5139,21 @@
   "chartsLabelProjection1y": "Next year",
   "chartsLabelProjection5y": "In 5 years",
   "chartsLabelQuit": "Quit",
+  "chartsLabelQuitJourney": "Your quit journey",
   "chartsLabelRate": "Rate",
   "chartsLabelRating": "Rating",
+  "chartsLabelRecordAbstinence": "Longest abstinence",
+  "chartsLabelRecordActualWeek": "Most hours worked in a week",
+  "chartsLabelRecordCompletionWeek": "Best weekly completion vs plan",
+  "chartsLabelRecordDeepWorkWeek": "Most deep-work hours in a week",
+  "chartsLabelRecordHabitMaxDay": "Best day",
+  "chartsLabelRecordHabitStreak": "Longest habit streak",
+  "chartsLabelRecordHabitVolumeWeek": "Best volume week",
+  "chartsLabelRecordItemsWeek": "Most items completed in a week",
+  "chartsLabelRecordMoneyMonth": "Most money saved in a month",
+  "chartsLabelRecordPerfectStreak": "Longest perfect-day streak",
+  "chartsLabelRecordTasksDay": "Most tasks done in a day",
+  "chartsLabelRecordsBroken": "Records broken",
   "chartsLabelRecurring": "Recurring",
   "chartsLabelReduction": "Reduction",
   "chartsLabelRelapse": "Relapse",
@@ -4897,6 +5188,7 @@
   "chartsLabelTimeNotSpent": "Time not spent",
   "chartsLabelToday": "Today",
   "chartsLabelTodo": "To do",
+  "chartsLabelTopCategories": "Top categories",
   "chartsLabelTotal": "Total",
   "chartsLabelTrackedTime": "Tracked time",
   "chartsLabelTrend": "Trend",
@@ -4912,6 +5204,7 @@
   "chartsLabelVolume": "Volume",
   "chartsLabelWaiting": "Waiting",
   "chartsLabelWeek": "Week",
+  "chartsLabelWeekdayLabel": "Weekday",
   "chartsLabelWeekend": "Weekend",
   "chartsLabelWhenLabel": "When",
   "chartsLabelWidestLevel": "Widest level",
@@ -4923,7 +5216,10 @@
   "chartsLabelWithdrawalPeak": "Days 1–3: strongest",
   "chartsLabelWithinLimit": "Within limit",
   "chartsLabelWithinLimitDays": "Days within limit",
+  "chartsLabelXp": "XP",
   "chartsLabelYear": "Year",
+  "chartsLabelYearInNumbers": "Your year in numbers",
+  "chartsLabelYearOverYear": "Year over year",
   "chartsLabelYes": "Yes",
   "chartsLegend": "Legend",
   "chartsLoading": "Loading…",
@@ -7239,8 +7535,12 @@
   "settingsHomeZoneSubtitle": "Fixed-time tasks and habits use this zone",
   "settingsInsights": "Insights",
   "settingsInsightsCompare": "Compare with the previous period",
+  "settingsInsightsGamification": "XP and levels",
+  "settingsInsightsGamificationHint": "Earn XP for what you complete (off by default).",
+  "settingsInsightsHours": "{count, plural, =1{1 hour} other{{count} hours}}",
   "settingsInsightsPeriod": "Default period",
   "settingsInsightsSubtitle": "Default period, comparisons",
+  "settingsInsightsWakingHours": "Waking hours",
   "settingsInsightsWeekStart": "Week starts on (insights)",
   "settingsInsightsWeekStartProfile": "Same as the app ({day})",
   "settingsLanguage": "Language",
@@ -7395,6 +7695,28 @@
   "statsClustersTitle": "Blocker clusters",
   "statsClustersUnmerge": "Remove from groups",
   "statsCompareToggle": "Compare with previous period",
+  "statsDashboardAddCard": "Add card",
+  "statsDashboardCreate": "Create",
+  "statsDashboardDefaultName": "My dashboard",
+  "statsDashboardDelete": "Delete dashboard",
+  "statsDashboardDeleted": "Dashboard deleted",
+  "statsDashboardEmptyCards": "Add cards from any section.",
+  "statsDashboardMetric": "Metric",
+  "statsDashboardMoveDown": "Move down",
+  "statsDashboardMoveUp": "Move up",
+  "statsDashboardName": "Name",
+  "statsDashboardNarrow": "Half width",
+  "statsDashboardNew": "New dashboard",
+  "statsDashboardPeriod": "Period",
+  "statsDashboardRemoveCard": "Remove card",
+  "statsDashboardRename": "Rename",
+  "statsDashboardSave": "Save",
+  "statsDashboardScope": "Section",
+  "statsDashboardTracker": "Tracker",
+  "statsDashboardWide": "Full width",
+  "statsDashboardsEmpty": "No dashboards yet",
+  "statsDashboardsEmptyBody": "Compose your own view from any metric card.",
+  "statsDayScoreVsMedian": "{delta} vs your 28-day median",
   "statsDetailAllTime": "All time: {value}",
   "statsDetailBacklog": "{count, plural, =1{1 unscheduled task} other{{count} unscheduled tasks}}",
   "statsDetailBest": "Best: {value}",
@@ -7442,6 +7764,18 @@
   "statsExplainThisView": "In this view",
   "statsExplainValue": "Value: {value}",
   "statsExplainWhat": "What it measures",
+  "statsExportScope": "Export data",
+  "statsFeedBasedOn": "Based on: {metric}",
+  "statsFeedDismiss": "Dismiss",
+  "statsFeedEmpty": "No insights yet",
+  "statsFeedEmptyBody": "Insights appear as your data grows.",
+  "statsFeedMute": "Mute this kind",
+  "statsFeedMutedSnack": "Muted. You can unmute it from the insights feed.",
+  "statsFeedMutedTypes": "Muted insight types",
+  "statsFeedOpen": "Open",
+  "statsFeedSeeAll": "See all insights",
+  "statsFeedUnmute": "Unmute",
+  "statsFeedWhy": "Why am I seeing this?",
   "statsFilterApply": "Apply",
   "statsFilterCategories": "Categories",
   "statsFilterClear": "Clear",
@@ -7453,6 +7787,7 @@
   "statsFilterTrackingTimer": "Timer",
   "statsFilters": "Filters",
   "statsFiltersActive": "{count, plural, =1{1 filter} other{{count} filters}}",
+  "statsForecastLikely": "Likely done by {p50} (50 %), {p85} (85 %) or {p95} (95 %) at your recent pace.",
   "statsGlossaryCount": "{count, plural, =1{1 metric} other{{count} metrics}}",
   "statsGlossaryEmpty": "No metric matches “{query}”.",
   "statsGlossaryFormula": "Formula",
@@ -7462,10 +7797,87 @@
   "statsGuidanceLogSameDay": "Try to log on the same day — late entries are easy to misremember.",
   "statsGuidanceSyncPending": "Some changes from other devices may be missing until sync completes.",
   "statsGuidanceTrackTime": "Start the timer on tasks to see your actual hours.",
+  "statsGuidedArchive": "Archive",
+  "statsGuidedBack": "Back",
+  "statsGuidedCompleted": "Review completed — see you next week!",
+  "statsGuidedDrop": "Drop",
+  "statsGuidedFinish": "Finish review",
+  "statsGuidedFollowUp": "Follow up tomorrow",
+  "statsGuidedNext": "Next",
+  "statsGuidedOpen": "Open",
+  "statsGuidedPause": "Pause 1 week",
+  "statsGuidedSkip": "Skip",
+  "statsGuidedStepHabits": "Check habits at risk",
+  "statsGuidedStepOf": "Step {step} of {total}",
+  "statsGuidedStepOverdue": "Handle overdue tasks",
+  "statsGuidedStepRebalance": "Rebalance next week",
+  "statsGuidedStepStale": "Review stale lists",
+  "statsGuidedStepWaiting": "Process waiting and blocked items",
+  "statsGuidedStepWins": "Celebrate your wins",
+  "statsGuidedTomorrow": "Tomorrow",
+  "statsGuidedUnblock": "Unblock",
+  "statsGuidedUpdated": "Updated",
   "statsHealthClockNote": "Milestones follow your current smoke-free time: the clock restarts after a slip.",
   "statsHealthDisclaimer": "Educational estimates based on population averages from WHO, NHS, CDC and the American Cancer Society; individual results vary. Not medical advice. Consult a healthcare professional.",
   "statsHealthElapsedNote": "Percentages show elapsed time only, not physiological measurements.",
   "statsHealthRange": "{from} – {to}",
+  "statsInsightAtRisk": "{name} needs attention this week.",
+  "statsInsightBestWeekday": "Your habits go best on {weekday} ({rate}).",
+  "statsInsightBlockerCluster": "{count} items blocked on “{reason}” in two weeks.",
+  "statsInsightComeback": "Welcome back to {name}!",
+  "statsInsightCorrelationNeg": "When {a} is higher, {b} tends to be lower.",
+  "statsInsightCorrelationPos": "When {a} is higher, {b} tends to be higher too.",
+  "statsInsightEstimationBias": "Tasks take ~{pct} longer than planned — try adding a buffer.",
+  "statsInsightFallingCravings": "Cravings are down {pct} this week.",
+  "statsInsightFollowUps": "{count} waiting items need a follow-up.",
+  "statsInsightHealth": "Health milestone: {milestone}",
+  "statsInsightMoney": "{amount} saved since you quit ({name}).",
+  "statsInsightNameBestWeekday": "Best weekday",
+  "statsInsightNameBlockerCluster": "Blocker clusters",
+  "statsInsightNameComeback": "Comebacks",
+  "statsInsightNameCorrelation": "Correlations",
+  "statsInsightNameEstimationBias": "Estimation bias",
+  "statsInsightNameFallingCravings": "Falling cravings",
+  "statsInsightNameFollowUpsDue": "Follow-ups due",
+  "statsInsightNameHabitAtRisk": "Habits at risk",
+  "statsInsightNameHealthMilestone": "Health milestones",
+  "statsInsightNameMoneyMilestone": "Money milestones",
+  "statsInsightNameNewRecord": "New records",
+  "statsInsightNameOverbookedNextWeek": "Overbooked weeks",
+  "statsInsightNamePerfectWeek": "Perfect weeks",
+  "statsInsightNameRisingOverdue": "Rising overdue",
+  "statsInsightNameSignificantTrend": "Trends",
+  "statsInsightNameStaleList": "Stale lists",
+  "statsInsightNameStreakMilestone": "Streak milestones",
+  "statsInsightNameStrengthThreshold": "Strength thresholds",
+  "statsInsightNewRecord": "New record: {record} — {value} (previous {previous}).",
+  "statsInsightNewRecordFirst": "New record: {record} — {value}.",
+  "statsInsightOverbooked": "Next week has overbooked days: {days}.",
+  "statsInsightPerfectWeek": "Perfect habit week!",
+  "statsInsightRisingOverdue": "Overdue tasks are piling up ({count}, up from {previous}).",
+  "statsInsightRuleBestWeekday": "A weekday is ≥ 15 pp above your average over 4+ weeks and the weekday effect is significant. At most every 30 days.",
+  "statsInsightRuleBlockerCluster": "Three or more items blocked for the same reason within 14 days. At most every 14 days.",
+  "statsInsightRuleComeback": "A success after 3 or more misses in a row. Once per comeback.",
+  "statsInsightRuleCorrelation": "Two daily series move together, significant after false-discovery control. At most every 30 days per pair.",
+  "statsInsightRuleEstimationBias": "Over the last 30 days (≥ 10 tasks) actual time exceeds planned time by more than 20 %. At most every 30 days.",
+  "statsInsightRuleFallingCravings": "Cravings in the last 7 days are at least 25 % below the 7 days before (≥ 5 before). At most every 7 days.",
+  "statsInsightRuleFollowUpsDue": "Three or more waiting items are past their follow-up date. At most every 3 days.",
+  "statsInsightRuleHabitAtRisk": "A quota is behind pace or the habit score dropped more than 10 points in 7 days. Daily.",
+  "statsInsightRuleHealthMilestone": "A smoke-free health milestone was reached. Once per milestone and attempt.",
+  "statsInsightRuleMoneyMilestone": "Money saved crossed 10, 50, 100, 250, 500, 1 000… Once per amount.",
+  "statsInsightRuleNewRecord": "A value beats every earlier one (set in the last 7 days). Once per value.",
+  "statsInsightRuleOverbookedNextWeek": "Two or more days next week are planned beyond capacity. Weekly.",
+  "statsInsightRulePerfectWeek": "Every due habit was done on every scheduled day last week. Weekly.",
+  "statsInsightRuleRisingOverdue": "At least 5 overdue tasks and 30 % more than 4 weeks ago. At most every 7 days.",
+  "statsInsightRuleSignificantTrend": "Weekly adherence over 8+ weeks has a significant slope (p < 0.05) of at least 2 pp per week. At most every 14 days.",
+  "statsInsightRuleStaleList": "A list with open items has had no activity for its stale threshold. At most every 14 days.",
+  "statsInsightRuleStreakMilestone": "A streak reaches 7, 14, 21, 30, 50, 66, 100, 150, 200 or 365 days, then every 100. Once per milestone.",
+  "statsInsightRuleStrengthThreshold": "Habit strength crossed 50 % or 80 % upwards. Once per crossing.",
+  "statsInsightStaleList": "“{name}” has had no activity for {days} days.",
+  "statsInsightStreak": "{name}: {count}-day streak!",
+  "statsInsightStrength": "{name} strength passed {pct}.",
+  "statsInsightTrendDown": "{name} adherence is falling: −{pp} pp per week.",
+  "statsInsightTrendUp": "{name} adherence is rising: +{pp} pp per week.",
   "statsLayoutDone": "Done",
   "statsLayoutEdit": "Customize cards",
   "statsLayoutHiddenTag": "Hidden",
@@ -7654,9 +8066,48 @@
   "statsMetricGl03Desc": "Your week: headline numbers, wins, what needs attention and next week’s load.",
   "statsMetricGl03Formula": "Section KPIs with their change vs the previous week.",
   "statsMetricGl03Title": "Weekly review",
+  "statsMetricGl04Desc": "Consecutive weeks with a completed guided review.",
+  "statsMetricGl04Formula": "Run of reviewed weeks ending with the last completed week (open until reviewed).",
+  "statsMetricGl04Title": "Weekly review streak",
+  "statsMetricGl05Desc": "Your month across every section, compared with the previous month (and last year when available).",
+  "statsMetricGl05Formula": "Rates compare directly; sums compare as per-day averages (months have different lengths).",
+  "statsMetricGl05Title": "Monthly review",
+  "statsMetricGl06Desc": "Your best days, weeks, months and streaks across every section.",
+  "statsMetricGl06Formula": "New = set in the last 7 days and above every value before.",
+  "statsMetricGl06Title": "Personal records",
+  "statsMetricGl07Desc": "One 0–100 number for the day, from the sections you used.",
+  "statsMetricGl07Formula": "Weighted mean of planner done ÷ planned, habits done ÷ due, list completions ÷ usual (max 1) and abstinence; sections without data are left out.",
+  "statsMetricGl07Title": "Day score",
+  "statsMetricGl08Desc": "Whether some weekdays go better than others.",
+  "statsMetricGl08Formula": "Mean per weekday over the last 26 weeks (≥ 4 weeks); Kruskal–Wallis test, significant when p < 0.05.",
+  "statsMetricGl08Title": "Day-of-week effects",
+  "statsMetricGl09Desc": "Every goal with its progress, pace and projected end.",
+  "statsMetricGl09Formula": "Progress = actual ÷ target; pace = target × elapsed share; projected = actual + 28-day rate × remaining days.",
+  "statsMetricGl09Title": "Goals & projections",
   "statsMetricGl10Desc": "How trustworthy your statistics are: habit logging, late entries, tracked time on tasks and changes still waiting to sync — each with a tip to improve it.",
   "statsMetricGl10Formula": "Habit logged ratio and unknown units (last 30 days); late-log share (> 24 h); planner actual-time coverage = done occurrences with tracked time ÷ done occurrences; pending sync changes.",
   "statsMetricGl10Title": "Data quality",
+  "statsMetricGl11Desc": "Every day of the year coloured by what you got done.",
+  "statsMetricGl11Formula": "Done tasks + done habit check-ins + completed list items per day.",
+  "statsMetricGl11Title": "Year activity",
+  "statsMetricGl13Desc": "Things that tend to move together in your data.",
+  "statsMetricGl13Formula": "Phi, point-biserial or Spearman over the last 180 days, lags 0–3, ≥ 21 paired days, false-discovery rate 10 %.",
+  "statsMetricGl13Title": "Correlations",
+  "statsMetricGl14Desc": "Your year as a story: numbers, streaks, records and your style.",
+  "statsMetricGl14Formula": "Yearly totals of the day facts; year-over-year when the previous year has data.",
+  "statsMetricGl14Title": "Year in review",
+  "statsMetricGl15Desc": "Experience points from what you complete (opt-in).",
+  "statsMetricGl15Formula": "Task 10 × priority (× 1.1 on time), habit 10 × (1 + streak/100), list item 5, clean day 20; 500 per day max; level n at 100·n^1.5.",
+  "statsMetricGl15Title": "XP & level",
+  "statsMetricGl17Desc": "How your waking hours split between tasks, habits and free time.",
+  "statsMetricGl17Formula": "max(planned, tracked) task time + duration-habit time − overlap; free = waking hours − used.",
+  "statsMetricGl17Title": "Time budget",
+  "statsMetricGl18Desc": "When you are likely to reach your goals at your recent pace.",
+  "statsMetricGl18Formula": "10 000 simulations resampling the last 6 weeks of daily progress; 50 / 85 / 95 % likely dates.",
+  "statsMetricGl18Title": "Goal forecast",
+  "statsMetricGl19Desc": "Short, data-backed observations about your week.",
+  "statsMetricGl19Formula": "18 rules (records, streaks, trends, overload, blockers…), each with a cooldown; dismissed or muted ones stay hidden.",
+  "statsMetricGl19Title": "Insights",
   "statsMetricHbH01Desc": "How well the habit is established — recent days count more.",
   "statsMetricHbH01Formula": "Loop score: score = previous × m + credit × (1 − m), m = 0.5^(√f ÷ 13).",
   "statsMetricHbH01Title": "Habit strength",
@@ -8131,8 +8582,10 @@
   "statsNoteAbstainMode": "Only for reduce-mode trackers.",
   "statsNoteAllDay": "All-day tasks have no duration.",
   "statsNoteClosed": "This item is closed.",
+  "statsNoteCorrelationNotCausation": "Correlation is not causation: these pairs move together, nothing more.",
   "statsNoteCravingPasses": "A craving usually passes within a few minutes",
   "statsNoteError": "Couldn’t compute",
+  "statsNoteGamificationOff": "XP is off. Turn it on in Insights settings.",
   "statsNoteLimitHabit": "Limit habits show within-limit days instead.",
   "statsNoteLowCoverage": "Track time on at least 60 % of done tasks to see this.",
   "statsNoteNeedsMoreData": "Needs more data",
@@ -8182,8 +8635,10 @@
   "statsNoteYesNoHabit": "Not available for yes/no habits.",
   "statsNoteZeroDenominator": "Nothing was due in this period.",
   "statsOpenInsights": "Open {section}",
+  "statsOverviewMore": "More reports",
   "statsOverviewNextUp": "Next up: {title} at {time}",
   "statsOverviewOpenReview": "Weekly review",
+  "statsOverviewStartGuided": "Guided review",
   "statsPeriodAll": "All",
   "statsPeriodCustom": "Custom",
   "statsPeriodCustomRange": "{from} – {to}",
@@ -8222,40 +8677,56 @@
   "statsReviewFollowUp": "Follow-up overdue: {title}",
   "statsReviewHeadline": "Headline numbers",
   "statsReviewHealth": "Health milestone reached: {title}",
+  "statsReviewLastMonth": "Last month",
   "statsReviewLastWeek": "Last week",
   "statsReviewLoad": "{planned} planned of {capacity}",
   "statsReviewNextWeek": "Next week",
   "statsReviewNothing": "Nothing here this week.",
   "statsReviewOverbooked": "{date} is overbooked by {time}",
   "statsReviewOverdue": "Overdue: {title}",
+  "statsReviewPerDayNote": "Months have different lengths: totals are compared as per-day averages.",
   "statsReviewPerfectDays": "{count, plural, =1{1 perfect day} other{{count} perfect days}}",
   "statsReviewRange": "{from} – {to}",
   "statsReviewRecord": "New record: {title}",
+  "statsReviewShareWeek": "Share week summary",
   "statsReviewStale": "No recent activity: {title}",
   "statsReviewStreak": "{title}: {count}-day streak",
+  "statsReviewThisMonth": "This month so far",
   "statsReviewThisWeek": "This week so far",
   "statsReviewTime": "Where the time went",
+  "statsScopeBudget": "Time budget",
   "statsScopeChecklist": "List insights",
   "statsScopeChecklists": "Lists insights",
+  "statsScopeDashboards": "Dashboards",
+  "statsScopeFeed": "Insights",
   "statsScopeGlobal": "Overview",
+  "statsScopeGoals": "Goals",
+  "statsScopeGuided": "Guided weekly review",
   "statsScopeHabit": "Habit insights",
   "statsScopeHabits": "Habits insights",
   "statsScopeItem": "Item insights",
+  "statsScopeMonth": "Monthly review",
+  "statsScopePatterns": "Patterns",
   "statsScopePlanner": "Plan insights",
   "statsScopeQuit": "Quit insights",
+  "statsScopeRecords": "Personal records",
   "statsScopeReview": "Weekly review",
   "statsScopeSeries": "Series insights",
   "statsScopeTask": "Task insights",
+  "statsScopeWrapped": "Year in review",
   "statsScopeYear": "Year in review",
   "statsSectionAbstinence": "Abstinence",
+  "statsSectionActivity": "Activity",
   "statsSectionAdvanced": "Advanced",
   "statsSectionAllocation": "Time allocation",
   "statsSectionAttachments": "Attachments & edits",
   "statsSectionBlockers": "Blocked & waiting",
+  "statsSectionBudget": "Time budget",
   "statsSectionBurn": "Burn-down & scope",
   "statsSectionCalendar": "Calendar",
   "statsSectionCapacity": "Capacity",
   "statsSectionCollapse": "Collapse {section}",
+  "statsSectionCorrelations": "Correlations",
   "statsSectionCravings": "Cravings",
   "statsSectionCycleTime": "Cycle time",
   "statsSectionDataQuality": "Data quality",
@@ -8263,23 +8734,29 @@
   "statsSectionExpand": "Expand {section}",
   "statsSectionFlow": "Flow",
   "statsSectionFocus": "Focus & balance",
+  "statsSectionForecast": "Forecast",
+  "statsSectionGoals": "Goals",
   "statsSectionHabitTable": "Your habits",
   "statsSectionHistory": "History",
   "statsSectionItem": "This item",
   "statsSectionLists": "Lists",
   "statsSectionMilestones": "Health milestones",
   "statsSectionMoney": "Money & units",
+  "statsSectionMonth": "Month",
   "statsSectionOccurrence": "This occurrence",
   "statsSectionOutcomes": "Outcomes",
   "statsSectionPatterns": "Patterns",
   "statsSectionPinned": "Pinned",
   "statsSectionPlanning": "Planning",
   "statsSectionPlanningQuality": "Planning quality",
+  "statsSectionProgress": "Progress",
   "statsSectionQuality": "Quality",
   "statsSectionQuitTrackers": "Quit trackers",
+  "statsSectionRecords": "Records",
   "statsSectionReduction": "Reduction",
   "statsSectionReview": "Weekly review",
   "statsSectionRuns": "Routine runs",
+  "statsSectionScore": "Day score",
   "statsSectionSeries": "Execution",
   "statsSectionShortcuts": "Sections",
   "statsSectionStale": "Stale items",
@@ -8292,6 +8769,7 @@
   "statsSectionTree": "Tree",
   "statsSectionTrend": "Trend",
   "statsSectionWeek": "Week at a glance",
+  "statsSectionYearInReview": "Year in review",
   "statsSeeAll": "See all stats",
   "statsSeeSeries": "See series stats",
   "statsSegmentHabits": "Habits",
@@ -8309,6 +8787,15 @@
   "statsSourceNhs": "NHS",
   "statsSourceWho": "WHO",
   "statsUnknownScope": "This insight doesn’t exist.",
+  "statsWeekdayEffect": "{metric}: best on {best}, weakest on {worst}",
+  "statsWeekdayNoPattern": "{metric}: no clear weekday pattern",
+  "statsWrappedEmpty": "Not enough data for this year yet.",
+  "statsWrappedNext": "Next card",
+  "statsWrappedOpen": "Open year in review",
+  "statsWrappedPrevious": "Previous card",
+  "statsWrappedReady": "Your year in review is ready",
+  "statsWrappedShare": "Share summary",
+  "statsWrappedTitle": "Your {year}",
   "statusAddNote": "Add note…",
   "statusAgeDays": "{n} d",
   "statusAgeHours": "{n} h",

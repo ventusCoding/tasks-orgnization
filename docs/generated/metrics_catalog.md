@@ -3,7 +3,7 @@
 Generated from the metric registry (`app/lib/features/stats/application/catalog/`) by
 `app/test/features/stats/engine/metric_catalog_test.dart` — do not edit by hand.
 
-217 metrics.
+230 metrics.
 
 ## task
 
@@ -271,4 +271,17 @@ Generated from the metric registry (`app/lib/features/stats/application/catalog/
 | GL-02 | Week at a glance | Section KPIs to date with their change vs the previous week. | P0 | tiles | count |
 | GL-03 | Weekly review | Section KPIs with their change vs the previous week. | P0 | list | count |
 | GL-10 | Data quality | Habit logged ratio and unknown units (last 30 days); late-log share (> 24 h); planner actual-time coverage = done occurrences with tracked time ÷ done occurrences; pending sync changes. | P1 | tiles | count |
+| GL-04 | Weekly review streak | Run of reviewed weeks ending with the last completed week (open until reviewed). | P1 | kpi | count |
+| GL-05 | Monthly review | Rates compare directly; sums compare as per-day averages (months have different lengths). | P1 | list | count |
+| GL-06 | Personal records | New = set in the last 7 days and above every value before. | P1 | list | count |
+| GL-07 | Day score | Weighted mean of planner done ÷ planned, habits done ÷ due, list completions ÷ usual (max 1) and abstinence; sections without data are left out. | P1 | line | score |
+| GL-08 | Day-of-week effects | Mean per weekday over the last 26 weeks (≥ 4 weeks); Kruskal–Wallis test, significant when p < 0.05. | P1 | bars | count |
+| GL-09 | Goals & projections | Progress = actual ÷ target; pace = target × elapsed share; projected = actual + 28-day rate × remaining days. | P1 | bullet | count |
+| GL-11 | Year activity | Done tasks + done habit check-ins + completed list items per day. | P1 | yearGrid | count |
+| GL-13 | Correlations | Phi, point-biserial or Spearman over the last 180 days, lags 0–3, ≥ 21 paired days, false-discovery rate 10 %. | P2 | list | count |
+| GL-14 | Year in review | Yearly totals of the day facts; year-over-year when the previous year has data. | P2 | tiles | count |
+| GL-15 | XP & level | Task 10 × priority (× 1.1 on time), habit 10 × (1 + streak/100), list item 5, clean day 20; 500 per day max; level n at 100·n^1.5. | P2 | bullet | count |
+| GL-17 | Time budget | max(planned, tracked) task time + duration-habit time − overlap; free = waking hours − used. | P2 | stackedBars | hours |
+| GL-18 | Goal forecast | 10 000 simulations resampling the last 6 weeks of daily progress; 50 / 85 / 95 % likely dates. | P2 | forecast | days |
+| GL-19 | Insights | 18 rules (records, streaks, trends, overload, blockers…), each with a cooldown; dismissed or muted ones stay hidden. | P1 | list | count |
 

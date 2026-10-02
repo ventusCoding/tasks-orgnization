@@ -28,12 +28,12 @@ final class GlobalContext extends StatsContext {
 
   late final LocalDate thisWeekStart = today.startOfWeek(weekStart);
 
-  /// Days covered by the section facts: the period, two weeks back (at least the last 30 days, for
-  /// GL-10) and next week.
+  /// Days covered by the section facts: the period, two weeks back, the last 120 days (GL-10's
+  /// 30 days, GL-07's 28 shown days with their 28-day medians) and next week.
   late final DateRange window = DateRange(
     LocalDate.min(
       LocalDate.min(range.start, previous.start),
-      LocalDate.min(thisWeekStart.minusDays(14), today.minusDays(29)),
+      LocalDate.min(thisWeekStart.minusDays(14), today.minusDays(119)),
     ),
     LocalDate.max(range.end, thisWeekStart.plusDays(13)),
   );
@@ -41,10 +41,10 @@ final class GlobalContext extends StatsContext {
   /// The last 30 days (data quality, GL-10).
   late final DateRange last30 = DateRange(today.minusDays(29), today);
 
-  StatsJob _sub(MetricScope scope) => StatsJob(
+  StatsJob _sub(MetricScope scope, [DateRange? r]) => StatsJob(
     request: StatsRequest(
       scope,
-      selection: PeriodSelection(StatsPeriod.custom(window.start, window.end), compare: false),
+      selection: PeriodSelection(StatsPeriod.custom((r ?? window).start, (r ?? window).end), compare: false),
     ),
     env: env,
     metricIds: const [],
@@ -52,6 +52,7 @@ final class GlobalContext extends StatsContext {
     checklists: job.checklists,
     habits: job.habits,
     pendingOutbox: job.pendingOutbox,
+    firstDataDate: job.firstDataDate,
   );
 
   late final PlannerContext planner = PlannerContext(_sub(MetricScope.planner), resolver);
@@ -63,18 +64,8 @@ final class GlobalContext extends StatsContext {
   bool get hasHabits => habits.buildHabits.isNotEmpty;
   bool get hasQuit => habits.quitCalculators.isNotEmpty;
 
-  late final Map<LocalDate, CapacityDay> _capacityDays = {
-    for (final d in capacityReport(
-      planner.plannedIn(window),
-      range: window,
-      clock: planner.clock,
-      settings: planner.ps,
-    ).days)
-      d.date: d,
-  };
-
   late final Map<LocalDate, double> _completions = {
-    for (final p in completionsPerDay(lists.sectionFacts, range: window, bounds: bounds)) p.bucket: p.value,
+    for (final p in completionsPerDay(lists.sectionFacts, range: history, bounds: bounds)) p.bucket: p.value,
   };
 
   late final Map<LocalDate, List<int>> _moods = () {
@@ -85,75 +76,56 @@ final class GlobalContext extends StatsContext {
     return map;
   }();
 
+  /// Quit days and cravings per date (all trackers).
+  late final Map<LocalDate, List<QuitDayFact>> _quitDays = () {
+    final map = <LocalDate, List<QuitDayFact>>{};
+    for (final q in habits.quitCalculators) {
+      for (final d in q.days) {
+        map.putIfAbsent(d.localDate, () => []).add(d);
+      }
+    }
+    return map;
+  }();
+
+  late final Map<LocalDate, int> _cravings = () {
+    final map = <LocalDate, int>{};
+    for (final q in habits.quitCalculators) {
+      for (final l in q.logs) {
+        if (l.kind == HabitLogKind.craving) map[l.localDate] = (map[l.localDate] ?? 0) + 1;
+      }
+    }
+    return map;
+  }();
+
   /// Per-day section facts over [window] (null fields = no data in that section).
-  late final List<DaySectionFacts> days = [for (final d in window.dates) _day(d)];
+  late final List<DaySectionFacts> days = window == history
+      ? historyDays
+      : _DayFactsBuilder(this, planner).build(window);
 
   late final Map<LocalDate, DaySectionFacts> byDate = {for (final d in days) d.date: d};
 
-  DaySectionFacts _day(LocalDate d) {
-    int? planned;
-    int? done;
-    int? onTime;
-    double? plannedMinutes;
-    double? actualMinutes;
-    if (hasPlanner && !d.isAfter(today)) {
-      final snap = planSnapshot(planner.facts, period: DateRange(d, d), bounds: bounds, now: now);
-      planned = snap.planned.length;
-      done = snap.plannedDone.length;
-      onTime = snap.plannedDone
-          .where((f) => plannerOutcome(f, now: now, settings: planner.ps) == PlannerOutcome.doneOnTime)
-          .length;
-    }
-    if (hasPlanner) {
-      final cap = _capacityDays[d];
-      plannedMinutes = cap?.plannedMinutes ?? 0;
-      actualMinutes = cap?.actualMinutes ?? 0;
-    }
-    int? due;
-    int? habitsDone;
-    if (hasHabits && !d.isAfter(today)) {
-      due = 0;
-      habitsDone = 0;
-      for (final h in habits.series) {
-        for (final r in h.dayUnitsOn(d)) {
-          if (!h.isDue(r)) continue;
-          due = due! + 1;
-          if (r.status == PeriodStatus.done) habitsDone = habitsDone! + 1;
-        }
-      }
-    }
-    bool? abstinent;
-    Decimal? money;
-    int? cravings;
-    if (hasQuit && !d.isAfter(today)) {
-      abstinent = true;
-      money = Decimal.zero;
-      cravings = 0;
-      for (final q in habits.quitCalculators) {
-        final day = q.days.firstWhereOrNull((x) => x.localDate == d);
-        if (day == null) continue;
-        if (!day.abstinent) abstinent = false;
-        if (day.cpu != null) money = money! + Decimal.parse(day.avoided.toString()) * day.cpu!;
-        cravings = cravings! + q.logs.where((l) => l.kind == HabitLogKind.craving && l.localDate == d).length;
-      }
-    }
-    final moods = _moods[d];
-    return DaySectionFacts(
-      d,
-      plannerPlanned: planned,
-      plannerDone: done,
-      plannerDoneOnTime: onTime,
-      plannedMinutes: plannedMinutes,
-      actualMinutes: actualMinutes,
-      habitsDue: due,
-      habitsDone: habitsDone,
-      itemsCompleted: hasLists && !d.isAfter(today) ? (_completions[d] ?? 0).round() : null,
-      quitAbstinent: abstinent,
-      moneySaved: money,
-      cravings: cravings,
-      mood: moods == null || moods.isEmpty ? null : moods.reduce((a, b) => a + b) / moods.length,
-    );
-  }
+  /// History covered by the multi-period metrics (records, heatmap, correlations, Wrapped): from
+  /// the first data date (at most five years back) to the end of [window].
+  late final DateRange history = () {
+    final first = firstDataDate;
+    if (first == null || !first.isBefore(window.start)) return window;
+    return DateRange(LocalDate.max(first, today.minusDays(5 * 366)), window.end);
+  }();
+
+  /// Planner facts over [history] (the window's when it covers the history).
+  late final PlannerContext historyPlanner = history == window
+      ? planner
+      : PlannerContext(_sub(MetricScope.planner, history), resolver);
+
+  /// Per-day section facts over [history].
+  late final List<DaySectionFacts> historyDays = _DayFactsBuilder(this, historyPlanner).build(history);
+
+  /// Day facts of [r] (dates outside the history are absent); ranges inside [window] never
+  /// resolve the whole history.
+  List<DaySectionFacts> daysIn(DateRange r) => [
+    for (final d in !r.start.isBefore(window.start) && !r.end.isAfter(window.end) ? days : historyDays)
+      if (r.contains(d.date)) d,
+  ];
 
   /// The week reviewed by GL-03: the last completed week, or this week so far (`extra: current`).
   late final LocalDate reviewWeekStart = request.extra == 'current' ? thisWeekStart : thisWeekStart.minusDays(7);
@@ -167,7 +139,109 @@ final class GlobalContext extends StatsContext {
   }
 }
 
-const _allTables = {
+/// Builds [DaySectionFacts] for a date range. Planner facts are bucketed by every date they were
+/// ever planned on (final start and each move's origin/target), so each day's plan snapshot only
+/// scans its own candidates — the same result as scanning every fact, in linear time.
+final class _DayFactsBuilder {
+  _DayFactsBuilder(this.c, this.planner);
+
+  final GlobalContext c;
+  final PlannerContext planner;
+
+  List<DaySectionFacts> build(DateRange r) {
+    final buckets = <LocalDate, List<PlannerOccurrenceFact>>{};
+    if (c.hasPlanner) {
+      for (final f in planner.facts) {
+        final dates = <LocalDate>{
+          if (f.plannedStartLocal case final s?) s.date,
+          for (final m in f.moves) ...[m.fromStart.date, m.toStart.date],
+        };
+        for (final d in dates) {
+          buckets.putIfAbsent(d, () => []).add(f);
+        }
+      }
+    }
+    final capacity = c.hasPlanner
+        ? {
+            for (final d in capacityReport(
+              planner.plannedIn(r),
+              range: r,
+              clock: planner.clock,
+              settings: planner.ps,
+            ).days)
+              d.date: d,
+          }
+        : const <LocalDate, CapacityDay>{};
+    final deepWork = <LocalDate, double>{};
+    if (c.hasPlanner) {
+      for (final b in deepWorkBlocks(planner.plannedIn(r), settings: planner.ps)) {
+        final d = planner.clock.toLocal(b.start).date;
+        deepWork[d] = (deepWork[d] ?? 0) + b.tracked.inSeconds / 60;
+      }
+    }
+    return [for (final d in r.dates) _day(d, buckets[d] ?? const [], capacity[d], deepWork[d])];
+  }
+
+  DaySectionFacts _day(LocalDate d, List<PlannerOccurrenceFact> candidates, CapacityDay? cap, double? deepWork) {
+    final today = c.today;
+    final now = c.now;
+    int? planned;
+    int? done;
+    int? onTime;
+    if (c.hasPlanner && !d.isAfter(today)) {
+      final snap = planSnapshot(candidates, period: DateRange(d, d), bounds: c.bounds, now: now);
+      planned = snap.planned.length;
+      done = snap.plannedDone.length;
+      onTime = snap.plannedDone
+          .where((f) => plannerOutcome(f, now: now, settings: planner.ps) == PlannerOutcome.doneOnTime)
+          .length;
+    }
+    int? due;
+    int? habitsDone;
+    if (c.hasHabits && !d.isAfter(today)) {
+      due = 0;
+      habitsDone = 0;
+      for (final h in c.habits.series) {
+        for (final r in h.dayUnitsOn(d)) {
+          if (!h.isDue(r)) continue;
+          due = due! + 1;
+          if (r.status == PeriodStatus.done) habitsDone = habitsDone! + 1;
+        }
+      }
+    }
+    bool? abstinent;
+    Decimal? money;
+    int? cravings;
+    if (c.hasQuit && !d.isAfter(today)) {
+      abstinent = true;
+      money = Decimal.zero;
+      for (final day in c._quitDays[d] ?? const <QuitDayFact>[]) {
+        if (!day.abstinent) abstinent = false;
+        if (day.cpu != null) money = money! + Decimal.parse(day.avoided.toString()) * day.cpu!;
+      }
+      cravings = c._cravings[d] ?? 0;
+    }
+    final moods = c._moods[d];
+    return DaySectionFacts(
+      d,
+      plannerPlanned: planned,
+      plannerDone: done,
+      plannerDoneOnTime: onTime,
+      plannedMinutes: c.hasPlanner ? cap?.plannedMinutes ?? 0 : null,
+      actualMinutes: c.hasPlanner ? cap?.actualMinutes ?? 0 : null,
+      deepWorkMinutes: c.hasPlanner ? deepWork ?? 0 : null,
+      habitsDue: due,
+      habitsDone: habitsDone,
+      itemsCompleted: c.hasLists && !d.isAfter(today) ? (c._completions[d] ?? 0).round() : null,
+      quitAbstinent: abstinent,
+      moneySaved: money,
+      cravings: cravings,
+      mood: moods == null || moods.isEmpty ? null : moods.reduce((a, b) => a + b) / moods.length,
+    );
+  }
+}
+
+const globalTables = {
   StatsTable.tasks,
   StatsTable.taskOccurrences,
   StatsTable.checklistItems,
@@ -175,7 +249,7 @@ const _allTables = {
   StatsTable.habitLogs,
 };
 
-ValueTile _kpiTile(KpiDelta k, {required String currency}) {
+ValueTile globalKpiTile(KpiDelta k, {required String currency}) {
   final c = k.comparison;
   final (LabelToken token, StatUnit unit, MetricDirection dir) = switch (k.metricId) {
     'PL-X-01' => (LabelToken.agenda, StatUnit.percent, MetricDirection.higherIsBetter),
@@ -200,7 +274,7 @@ ValueTile _kpiTile(KpiDelta k, {required String currency}) {
 /// Habit adherence over [r] exactly as HB-X-04 defines it (closed scheduled units — quota periods
 /// included — minus excluded units, archived habits dropped after their archive date), so the
 /// Overview and review tiles equal the Habits screen.
-Stat<double> _habitAdherence(GlobalContext c, DateRange r) {
+Stat<double> habitAdherenceIn(GlobalContext c, DateRange r) {
   var done = 0;
   var total = 0;
   for (final h in c.habits.series) {
@@ -221,7 +295,7 @@ List<KpiDelta> _withHabitAdherence(GlobalContext c, List<KpiDelta> kpis, DateRan
     if (k.metricId == 'HB-X-04')
       (
         metricId: k.metricId,
-        comparison: compareWithPrevious(_habitAdherence(c, current), _habitAdherence(c, previous), isRate: true),
+        comparison: compareWithPrevious(habitAdherenceIn(c, current), habitAdherenceIn(c, previous), isRate: true),
       )
     else
       k,
@@ -238,7 +312,7 @@ final List<MetricDefinition> globalMetrics = [
     unit: StatUnit.count,
     chart: ChartKind.tiles,
     direction: MetricDirection.neutral,
-    requires: _allTables,
+    requires: globalTables,
     compute: (c) {
       final today = c.byDate[c.today] ?? DaySectionFacts(c.today);
       final wip = c.hasLists
@@ -345,7 +419,7 @@ final List<MetricDefinition> globalMetrics = [
     unit: StatUnit.count,
     chart: ChartKind.tiles,
     direction: MetricDirection.neutral,
-    requires: _allTables,
+    requires: globalTables,
     compute: (c) {
       final w = weekAtAGlance(c.days, today: c.today, weekStart: c.weekStart);
       final currency = c.currency();
@@ -358,7 +432,7 @@ final List<MetricDefinition> globalMetrics = [
       );
       return chartResult(
         'GL-02',
-        TilesData([for (final k in deltas) _kpiTile(k, currency: currency)]),
+        TilesData([for (final k in deltas) globalKpiTile(k, currency: currency)]),
         value: Value<double>(w.deltas.length.toDouble()),
         args: {'plannedHours': w.current.plannedHours, 'previousPlannedHours': w.previous.plannedHours},
       );
@@ -374,7 +448,7 @@ final List<MetricDefinition> globalMetrics = [
     unit: StatUnit.count,
     chart: ChartKind.list,
     direction: MetricDirection.neutral,
-    requires: _allTables,
+    requires: globalTables,
     compute: (c) {
       final week = DateRange(c.reviewWeekStart, c.reviewWeekStart.plusDays(6));
       final prevWeek = week.shiftDays(-7);
@@ -499,7 +573,7 @@ final List<MetricDefinition> globalMetrics = [
               DateRange(week.start, LocalDate.min(week.end, c.today)),
               prevWeek,
             ))
-              _kpiTile(k, currency: currency),
+              globalKpiTile(k, currency: currency),
           ],
           wins: [for (final w in report.wins) entry(w)],
           attention: [for (final a in report.attention) entry(a)],
@@ -525,7 +599,7 @@ final List<MetricDefinition> globalMetrics = [
     chart: ChartKind.tiles,
     direction: MetricDirection.neutral,
     priority: MetricPriority.p1,
-    requires: {..._allTables, StatsTable.syncOutbox},
+    requires: {...globalTables, StatsTable.syncOutbox},
     compute: (c) {
       final habits = c.hasHabits ? habitCompletenessIn(c.habits.evaluations, c.last30) : null;
       final coverage = c.hasPlanner ? actualTimeCoverage(c.planner.plannedIn(c.last30)) : null;

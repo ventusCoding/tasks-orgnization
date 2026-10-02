@@ -267,6 +267,19 @@ void main() {
     expectBudget('Lists Insights (year)', section.coldMs, 1000);
   });
 
+  test('Year in review over every section (5 years of habits, 3 of planner, 2 of lists)', () async {
+    // T6.7.14: computed fully offline in < 2 s for 5 years of data (GL-11 heatmap + GL-14 cards).
+    final year = await measure(h, 'yearInReview', screen(MetricScope.global, yearLayout, const StatsPeriod.thisYear()));
+    expectBudget('Year in review', year.coldMs, 2000);
+    // The Overview on the same data (recorded; T6.7.01 budgets the overview_week fixture).
+    final overview = await measure(
+      h,
+      'overview',
+      screen(MetricScope.global, overviewLayout, const StatsPeriod.thisWeek()),
+    );
+    expectBudget('Overview', overview.coldMs, 1000);
+  });
+
   test('scenarios do not regress more than 10 % against the previous run', () {
     final path = Platform.environment['STATS_PERF_BASELINE'];
     if (path == null || !File(path).existsSync()) {

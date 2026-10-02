@@ -209,5 +209,9 @@
   "settingsExportFailed": "فشل التصدير. حاول مرة أخرى.",
   "settingsExportShareSubject": "تصدير Everslot",
   "settingsDynamicColor": "ألوان الخلفية",
-  "settingsDynamicColorSubtitle": "استخدام ألوان Material You من جهازك. ألوان الفئات لا تتغير."
+  "settingsDynamicColorSubtitle": "استخدام ألوان Material You من جهازك. ألوان الفئات لا تتغير.",
+  "settingsInsightsWakingHours": "ساعات اليقظة",
+  "settingsInsightsHours": "{count, plural, =1{ساعة واحدة} =2{ساعتان} few{{count} ساعات} other{{count} ساعة}}",
+  "settingsInsightsGamification": "نقاط الخبرة والمستويات",
+  "settingsInsightsGamificationHint": "اكسب نقاط خبرة مقابل ما تنجزه (معطّل افتراضيًا)."
 }

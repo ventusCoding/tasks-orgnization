@@ -1173,6 +1173,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsExplain => 'À propos de cet indicateur';
 
   @override
+  String get chartsExportBom => 'Compatible Excel (BOM UTF-8)';
+
+  @override
+  String get chartsExportCsv => 'Exporter en CSV';
+
+  @override
+  String get chartsExportFailed => 'Échec de l’export';
+
+  @override
+  String get chartsExportJson => 'Exporter en JSON';
+
+  @override
+  String get chartsExportLocale => 'Format local des nombres et dates';
+
+  @override
   String chartsFrozen(num count) {
     String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count gelés', one: '1 gelé');
     return '$_temp0';
@@ -1231,6 +1246,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelAbstinent => 'Abstinent';
 
   @override
+  String get chartsLabelAchieved => 'Atteint';
+
+  @override
+  String get chartsLabelActive => 'En cours';
+
+  @override
   String get chartsLabelActual => 'Réel';
 
   @override
@@ -1240,6 +1261,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelAgenda => 'Agenda';
 
   @override
+  String get chartsLabelArchetype => 'Votre style';
+
+  @override
   String get chartsLabelArchived => 'Archivées';
 
   @override
@@ -1247,6 +1271,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelArrivalsPerDeparture => 'Arrivées ÷ départs';
+
+  @override
+  String get chartsLabelAtRisk => 'À risque';
 
   @override
   String get chartsLabelAttempt => 'Tentative';
@@ -1259,6 +1286,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelBaseline => 'Référence';
+
+  @override
+  String get chartsLabelBehind => 'En retard';
 
   @override
   String get chartsLabelBest => 'Record';
@@ -1282,6 +1312,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelBranching => 'Enfants par parent';
 
   @override
+  String get chartsLabelBusiest => 'Périodes les plus chargées';
+
+  @override
   String get chartsLabelCancelled => 'Annulé';
 
   @override
@@ -1298,6 +1331,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelConsistency => 'Régularité';
+
+  @override
+  String get chartsLabelConsistent => 'Régulier';
 
   @override
   String get chartsLabelContextSwitches => 'Changements';
@@ -1339,6 +1375,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelEarly => 'En avance';
 
   @override
+  String get chartsLabelEarlyBird => 'Lève-tôt';
+
+  @override
   String get chartsLabelEvent => 'Événements';
 
   @override
@@ -1352,6 +1391,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelFiles => 'Fichiers';
+
+  @override
+  String get chartsLabelFinisher => 'Finisseur';
 
   @override
   String get chartsLabelFocus => 'Concentration';
@@ -1423,6 +1465,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelLeaves => 'Feuilles';
 
   @override
+  String get chartsLabelLevel => 'Niveau';
+
+  @override
   String get chartsLabelLifeRegained => 'Vie regagnée';
 
   @override
@@ -1444,6 +1489,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelLongestGap => 'Plus long écart';
 
   @override
+  String get chartsLabelLongestStreaks => 'Plus longues séries';
+
+  @override
   String get chartsLabelLoops => 'Boucles en cours ↔ attente';
 
   @override
@@ -1451,6 +1499,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelMape => 'Erreur';
+
+  @override
+  String get chartsLabelMarathoner => 'Marathonien';
 
   @override
   String get chartsLabelMaxDepth => 'Profondeur max';
@@ -1474,6 +1525,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelMedian => 'Médiane';
 
   @override
+  String get chartsLabelMilestones => 'Étapes';
+
+  @override
   String get chartsLabelMissed => 'Manqué';
 
   @override
@@ -1481,6 +1535,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelMonth => 'Mois';
+
+  @override
+  String get chartsLabelMood => 'Humeur';
 
   @override
   String get chartsLabelMoods => 'Humeurs';
@@ -1510,6 +1567,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelNextUp => 'À suivre';
 
   @override
+  String get chartsLabelNightOwl => 'Oiseau de nuit';
+
+  @override
   String get chartsLabelNo => 'Non';
 
   @override
@@ -1520,6 +1580,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chartsLabelOnTime => 'À l’heure';
+
+  @override
+  String get chartsLabelOnTrack => 'En bonne voie';
 
   @override
   String get chartsLabelOneOff => 'Ponctuel';
@@ -1630,10 +1693,49 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelQuit => 'Arrêt';
 
   @override
+  String get chartsLabelQuitJourney => 'Votre parcours d\'arrêt';
+
+  @override
   String get chartsLabelRate => 'Taux';
 
   @override
   String get chartsLabelRating => 'Note';
+
+  @override
+  String get chartsLabelRecordAbstinence => 'Plus longue abstinence';
+
+  @override
+  String get chartsLabelRecordActualWeek => 'Plus d\'heures réelles en une semaine';
+
+  @override
+  String get chartsLabelRecordCompletionWeek => 'Meilleure réalisation hebdo vs plan';
+
+  @override
+  String get chartsLabelRecordDeepWorkWeek => 'Plus d\'heures de travail profond en une semaine';
+
+  @override
+  String get chartsLabelRecordHabitMaxDay => 'Meilleur jour';
+
+  @override
+  String get chartsLabelRecordHabitStreak => 'Plus longue série d\'habitude';
+
+  @override
+  String get chartsLabelRecordHabitVolumeWeek => 'Meilleure semaine en volume';
+
+  @override
+  String get chartsLabelRecordItemsWeek => 'Plus d\'éléments terminés en une semaine';
+
+  @override
+  String get chartsLabelRecordMoneyMonth => 'Plus d\'argent économisé en un mois';
+
+  @override
+  String get chartsLabelRecordPerfectStreak => 'Plus longue série de journées parfaites';
+
+  @override
+  String get chartsLabelRecordTasksDay => 'Plus de tâches faites en un jour';
+
+  @override
+  String get chartsLabelRecordsBroken => 'Records battus';
 
   @override
   String get chartsLabelRecurring => 'Récurrent';
@@ -1738,6 +1840,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelTodo => 'À faire';
 
   @override
+  String get chartsLabelTopCategories => 'Catégories principales';
+
+  @override
   String get chartsLabelTotal => 'Total';
 
   @override
@@ -1783,6 +1888,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelWeek => 'Semaine';
 
   @override
+  String get chartsLabelWeekdayLabel => 'Jour de semaine';
+
+  @override
   String get chartsLabelWeekend => 'Week-end';
 
   @override
@@ -1816,7 +1924,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chartsLabelWithinLimitDays => 'Jours dans la limite';
 
   @override
+  String get chartsLabelXp => 'XP';
+
+  @override
   String get chartsLabelYear => 'Année';
+
+  @override
+  String get chartsLabelYearInNumbers => 'Votre année en chiffres';
+
+  @override
+  String get chartsLabelYearOverYear => 'D\'une année sur l\'autre';
 
   @override
   String get chartsLabelYes => 'Oui';
@@ -10054,10 +10171,25 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsInsightsCompare => 'Comparer avec la période précédente';
 
   @override
+  String get settingsInsightsGamification => 'XP et niveaux';
+
+  @override
+  String get settingsInsightsGamificationHint => 'Gagnez des XP pour ce que vous accomplissez (désactivé par défaut).';
+
+  @override
+  String settingsInsightsHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count heures', one: '1 heure');
+    return '$_temp0';
+  }
+
+  @override
   String get settingsInsightsPeriod => 'Période par défaut';
 
   @override
   String get settingsInsightsSubtitle => 'Période par défaut, comparaisons';
+
+  @override
+  String get settingsInsightsWakingHours => 'Heures d’éveil';
 
   @override
   String get settingsInsightsWeekStart => 'Début de semaine (statistiques)';
@@ -10584,6 +10716,74 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsCompareToggle => 'Comparer à la période précédente';
 
   @override
+  String get statsDashboardAddCard => 'Ajouter une carte';
+
+  @override
+  String get statsDashboardCreate => 'Créer';
+
+  @override
+  String get statsDashboardDefaultName => 'Mon tableau de bord';
+
+  @override
+  String get statsDashboardDelete => 'Supprimer le tableau de bord';
+
+  @override
+  String get statsDashboardDeleted => 'Tableau de bord supprimé';
+
+  @override
+  String get statsDashboardEmptyCards => 'Ajoutez des cartes de n’importe quelle section.';
+
+  @override
+  String get statsDashboardMetric => 'Indicateur';
+
+  @override
+  String get statsDashboardMoveDown => 'Descendre';
+
+  @override
+  String get statsDashboardMoveUp => 'Monter';
+
+  @override
+  String get statsDashboardName => 'Nom';
+
+  @override
+  String get statsDashboardNarrow => 'Demi-largeur';
+
+  @override
+  String get statsDashboardNew => 'Nouveau tableau de bord';
+
+  @override
+  String get statsDashboardPeriod => 'Période';
+
+  @override
+  String get statsDashboardRemoveCard => 'Retirer la carte';
+
+  @override
+  String get statsDashboardRename => 'Renommer';
+
+  @override
+  String get statsDashboardSave => 'Enregistrer';
+
+  @override
+  String get statsDashboardScope => 'Section';
+
+  @override
+  String get statsDashboardTracker => 'Suivi';
+
+  @override
+  String get statsDashboardWide => 'Pleine largeur';
+
+  @override
+  String get statsDashboardsEmpty => 'Aucun tableau de bord';
+
+  @override
+  String get statsDashboardsEmptyBody => 'Composez votre propre vue avec n’importe quelle carte.';
+
+  @override
+  String statsDayScoreVsMedian(String delta) {
+    return '$delta par rapport à votre médiane sur 28 jours';
+  }
+
+  @override
   String statsDetailAllTime(String value) {
     return 'Au total : $value';
   }
@@ -10841,6 +11041,44 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsExplainWhat => 'Ce qui est mesuré';
 
   @override
+  String get statsExportScope => 'Exporter les données';
+
+  @override
+  String statsFeedBasedOn(String metric) {
+    return 'Basé sur : $metric';
+  }
+
+  @override
+  String get statsFeedDismiss => 'Ignorer';
+
+  @override
+  String get statsFeedEmpty => 'Aucun constat pour l’instant';
+
+  @override
+  String get statsFeedEmptyBody => 'Les constats apparaissent à mesure que vos données s’enrichissent.';
+
+  @override
+  String get statsFeedMute => 'Masquer ce type';
+
+  @override
+  String get statsFeedMutedSnack => 'Masqué. Vous pouvez le réactiver depuis les constats.';
+
+  @override
+  String get statsFeedMutedTypes => 'Types de constats masqués';
+
+  @override
+  String get statsFeedOpen => 'Ouvrir';
+
+  @override
+  String get statsFeedSeeAll => 'Voir tous les constats';
+
+  @override
+  String get statsFeedUnmute => 'Réactiver';
+
+  @override
+  String get statsFeedWhy => 'Pourquoi ce constat ?';
+
+  @override
   String get statsFilterApply => 'Appliquer';
 
   @override
@@ -10874,6 +11112,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String statsFiltersActive(num count) {
     String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count filtres', one: '1 filtre');
     return '$_temp0';
+  }
+
+  @override
+  String statsForecastLikely(String p50, String p85, String p95) {
+    return 'Probablement atteint d’ici le $p50 (50 %), le $p85 (85 %) ou le $p95 (95 %) à votre rythme récent.';
   }
 
   @override
@@ -10912,6 +11155,68 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsGuidanceTrackTime => 'Lancez le minuteur sur vos tâches pour voir vos heures réelles.';
 
   @override
+  String get statsGuidedArchive => 'Archiver';
+
+  @override
+  String get statsGuidedBack => 'Retour';
+
+  @override
+  String get statsGuidedCompleted => 'Revue terminée — à la semaine prochaine !';
+
+  @override
+  String get statsGuidedDrop => 'Abandonner';
+
+  @override
+  String get statsGuidedFinish => 'Terminer la revue';
+
+  @override
+  String get statsGuidedFollowUp => 'Relancer demain';
+
+  @override
+  String get statsGuidedNext => 'Suivant';
+
+  @override
+  String get statsGuidedOpen => 'Ouvrir';
+
+  @override
+  String get statsGuidedPause => 'Pause 1 semaine';
+
+  @override
+  String get statsGuidedSkip => 'Passer';
+
+  @override
+  String get statsGuidedStepHabits => 'Vérifiez les habitudes à risque';
+
+  @override
+  String statsGuidedStepOf(int step, int total) {
+    return 'Étape $step sur $total';
+  }
+
+  @override
+  String get statsGuidedStepOverdue => 'Traitez les tâches en retard';
+
+  @override
+  String get statsGuidedStepRebalance => 'Rééquilibrez la semaine prochaine';
+
+  @override
+  String get statsGuidedStepStale => 'Revoyez les listes inactives';
+
+  @override
+  String get statsGuidedStepWaiting => 'Traitez les éléments en attente et bloqués';
+
+  @override
+  String get statsGuidedStepWins => 'Célébrez vos réussites';
+
+  @override
+  String get statsGuidedTomorrow => 'Demain';
+
+  @override
+  String get statsGuidedUnblock => 'Débloquer';
+
+  @override
+  String get statsGuidedUpdated => 'Mis à jour';
+
+  @override
   String get statsHealthClockNote =>
       'Les étapes suivent votre temps actuel sans tabac : le compteur redémarre après un écart.';
 
@@ -10925,6 +11230,234 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String statsHealthRange(String from, String to) {
     return '$from – $to';
+  }
+
+  @override
+  String statsInsightAtRisk(String name) {
+    return '$name demande votre attention cette semaine.';
+  }
+
+  @override
+  String statsInsightBestWeekday(String weekday, String rate) {
+    return 'Vos habitudes réussissent le mieux le $weekday ($rate).';
+  }
+
+  @override
+  String statsInsightBlockerCluster(int count, String reason) {
+    return '$count éléments bloqués sur « $reason » en deux semaines.';
+  }
+
+  @override
+  String statsInsightComeback(String name) {
+    return 'Bon retour sur $name !';
+  }
+
+  @override
+  String statsInsightCorrelationNeg(String a, String b) {
+    return 'Quand $a est plus élevé, $b a tendance à être plus bas.';
+  }
+
+  @override
+  String statsInsightCorrelationPos(String a, String b) {
+    return 'Quand $a est plus élevé, $b a tendance à l’être aussi.';
+  }
+
+  @override
+  String statsInsightEstimationBias(String pct) {
+    return 'Les tâches prennent ~$pct de plus que prévu — prévoyez une marge.';
+  }
+
+  @override
+  String statsInsightFallingCravings(String pct) {
+    return 'Les envies ont baissé de $pct cette semaine.';
+  }
+
+  @override
+  String statsInsightFollowUps(int count) {
+    return '$count éléments en attente doivent être relancés.';
+  }
+
+  @override
+  String statsInsightHealth(String milestone) {
+    return 'Étape santé : $milestone';
+  }
+
+  @override
+  String statsInsightMoney(String amount, String name) {
+    return '$amount économisés depuis l’arrêt ($name).';
+  }
+
+  @override
+  String get statsInsightNameBestWeekday => 'Meilleur jour';
+
+  @override
+  String get statsInsightNameBlockerCluster => 'Blocages récurrents';
+
+  @override
+  String get statsInsightNameComeback => 'Retours';
+
+  @override
+  String get statsInsightNameCorrelation => 'Corrélations';
+
+  @override
+  String get statsInsightNameEstimationBias => 'Biais d’estimation';
+
+  @override
+  String get statsInsightNameFallingCravings => 'Envies en baisse';
+
+  @override
+  String get statsInsightNameFollowUpsDue => 'Relances dues';
+
+  @override
+  String get statsInsightNameHabitAtRisk => 'Habitudes à risque';
+
+  @override
+  String get statsInsightNameHealthMilestone => 'Étapes santé';
+
+  @override
+  String get statsInsightNameMoneyMilestone => 'Paliers d’économies';
+
+  @override
+  String get statsInsightNameNewRecord => 'Nouveaux records';
+
+  @override
+  String get statsInsightNameOverbookedNextWeek => 'Semaines surchargées';
+
+  @override
+  String get statsInsightNamePerfectWeek => 'Semaines parfaites';
+
+  @override
+  String get statsInsightNameRisingOverdue => 'Retards en hausse';
+
+  @override
+  String get statsInsightNameSignificantTrend => 'Tendances';
+
+  @override
+  String get statsInsightNameStaleList => 'Listes inactives';
+
+  @override
+  String get statsInsightNameStreakMilestone => 'Paliers de série';
+
+  @override
+  String get statsInsightNameStrengthThreshold => 'Seuils de force';
+
+  @override
+  String statsInsightNewRecord(String record, String value, String previous) {
+    return 'Nouveau record : $record — $value (précédent $previous).';
+  }
+
+  @override
+  String statsInsightNewRecordFirst(String record, String value) {
+    return 'Nouveau record : $record — $value.';
+  }
+
+  @override
+  String statsInsightOverbooked(String days) {
+    return 'La semaine prochaine a des jours surchargés : $days.';
+  }
+
+  @override
+  String get statsInsightPerfectWeek => 'Semaine d’habitudes parfaite !';
+
+  @override
+  String statsInsightRisingOverdue(int count, int previous) {
+    return 'Les tâches en retard s’accumulent ($count, contre $previous).';
+  }
+
+  @override
+  String get statsInsightRuleBestWeekday =>
+      'Un jour dépasse votre moyenne d’au moins 15 pts sur 4+ semaines et l’effet est significatif. Au plus tous les 30 jours.';
+
+  @override
+  String get statsInsightRuleBlockerCluster =>
+      'Au moins trois éléments bloqués pour la même raison en 14 jours. Au plus tous les 14 jours.';
+
+  @override
+  String get statsInsightRuleComeback => 'Une réussite après au moins 3 échecs d’affilée. Une fois par retour.';
+
+  @override
+  String get statsInsightRuleCorrelation =>
+      'Deux séries quotidiennes varient ensemble, de façon significative après contrôle des fausses découvertes. Au plus tous les 30 jours par paire.';
+
+  @override
+  String get statsInsightRuleEstimationBias =>
+      'Sur 30 jours (≥ 10 tâches), le temps réel dépasse le prévu de plus de 20 %. Au plus tous les 30 jours.';
+
+  @override
+  String get statsInsightRuleFallingCravings =>
+      'Les envies des 7 derniers jours sont au moins 25 % sous les 7 jours précédents (≥ 5 avant). Au plus tous les 7 jours.';
+
+  @override
+  String get statsInsightRuleFollowUpsDue =>
+      'Au moins trois éléments en attente ont dépassé leur date de relance. Au plus tous les 3 jours.';
+
+  @override
+  String get statsInsightRuleHabitAtRisk =>
+      'Un quota est en retard ou le score a baissé de plus de 10 points en 7 jours. Chaque jour.';
+
+  @override
+  String get statsInsightRuleHealthMilestone =>
+      'Une étape santé sans tabac a été atteinte. Une fois par étape et par tentative.';
+
+  @override
+  String get statsInsightRuleMoneyMilestone =>
+      'Les économies ont franchi 10, 50, 100, 250, 500, 1 000… Une fois par montant.';
+
+  @override
+  String get statsInsightRuleNewRecord =>
+      'Une valeur dépasse toutes les précédentes (établie ces 7 derniers jours). Une fois par valeur.';
+
+  @override
+  String get statsInsightRuleOverbookedNextWeek =>
+      'Au moins deux jours de la semaine prochaine dépassent la capacité. Chaque semaine.';
+
+  @override
+  String get statsInsightRulePerfectWeek =>
+      'Chaque habitude due a été faite chaque jour prévu la semaine dernière. Chaque semaine.';
+
+  @override
+  String get statsInsightRuleRisingOverdue =>
+      'Au moins 5 tâches en retard et 30 % de plus qu’il y a 4 semaines. Au plus tous les 7 jours.';
+
+  @override
+  String get statsInsightRuleSignificantTrend =>
+      'L’assiduité hebdomadaire sur 8+ semaines a une pente significative (p < 0,05) d’au moins 2 pts par semaine. Au plus tous les 14 jours.';
+
+  @override
+  String get statsInsightRuleStaleList =>
+      'Une liste avec des éléments ouverts est inactive depuis son seuil. Au plus tous les 14 jours.';
+
+  @override
+  String get statsInsightRuleStreakMilestone =>
+      'Une série atteint 7, 14, 21, 30, 50, 66, 100, 150, 200 ou 365 jours, puis tous les 100. Une fois par palier.';
+
+  @override
+  String get statsInsightRuleStrengthThreshold =>
+      'La force de l’habitude a franchi 50 % ou 80 % à la hausse. Une fois par franchissement.';
+
+  @override
+  String statsInsightStaleList(String name, int days) {
+    return '« $name » est inactive depuis $days jours.';
+  }
+
+  @override
+  String statsInsightStreak(String name, int count) {
+    return '$name : série de $count jours !';
+  }
+
+  @override
+  String statsInsightStrength(String name, String pct) {
+    return 'La force de $name a dépassé $pct.';
+  }
+
+  @override
+  String statsInsightTrendDown(String name, String pp) {
+    return 'L’assiduité pour $name baisse : −$pp pts par semaine.';
+  }
+
+  @override
+  String statsInsightTrendUp(String name, String pp) {
+    return 'L’assiduité pour $name progresse : +$pp pts par semaine.';
   }
 
   @override
@@ -11528,6 +12061,66 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsMetricGl03Title => 'Bilan hebdomadaire';
 
   @override
+  String get statsMetricGl04Desc => 'Semaines consécutives avec une revue guidée terminée.';
+
+  @override
+  String get statsMetricGl04Formula =>
+      'Suite de semaines revues jusqu’à la dernière semaine terminée (ouverte tant qu’elle n’est pas revue).';
+
+  @override
+  String get statsMetricGl04Title => 'Série de revues hebdomadaires';
+
+  @override
+  String get statsMetricGl05Desc =>
+      'Votre mois dans toutes les sections, comparé au mois précédent (et à l’an dernier si possible).';
+
+  @override
+  String get statsMetricGl05Formula =>
+      'Les taux se comparent directement ; les sommes en moyennes par jour (les mois n’ont pas la même durée).';
+
+  @override
+  String get statsMetricGl05Title => 'Revue mensuelle';
+
+  @override
+  String get statsMetricGl06Desc => 'Vos meilleurs jours, semaines, mois et séries dans toutes les sections.';
+
+  @override
+  String get statsMetricGl06Formula => 'Nouveau = établi ces 7 derniers jours et supérieur à toute valeur antérieure.';
+
+  @override
+  String get statsMetricGl06Title => 'Records personnels';
+
+  @override
+  String get statsMetricGl07Desc => 'Un chiffre de 0 à 100 pour la journée, issu des sections utilisées.';
+
+  @override
+  String get statsMetricGl07Formula =>
+      'Moyenne pondérée : tâches faites ÷ prévues, habitudes faites ÷ dues, éléments terminés ÷ habituel (max 1) et abstinence ; les sections sans données sont exclues.';
+
+  @override
+  String get statsMetricGl07Title => 'Score du jour';
+
+  @override
+  String get statsMetricGl08Desc => 'Si certains jours de la semaine se passent mieux que d’autres.';
+
+  @override
+  String get statsMetricGl08Formula =>
+      'Moyenne par jour sur les 26 dernières semaines (≥ 4 semaines) ; test de Kruskal–Wallis, significatif si p < 0,05.';
+
+  @override
+  String get statsMetricGl08Title => 'Effets du jour de la semaine';
+
+  @override
+  String get statsMetricGl09Desc => 'Chaque objectif avec sa progression, son rythme et sa projection.';
+
+  @override
+  String get statsMetricGl09Formula =>
+      'Progression = réel ÷ cible ; rythme = cible × part écoulée ; projection = réel + rythme sur 28 jours × jours restants.';
+
+  @override
+  String get statsMetricGl09Title => 'Objectifs et projections';
+
+  @override
   String get statsMetricGl10Desc =>
       'La fiabilité de vos statistiques : saisie des habitudes, saisies tardives, temps suivi sur les tâches et modifications en attente de synchronisation — chacune avec un conseil pour l’améliorer.';
 
@@ -11537,6 +12130,76 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsMetricGl10Title => 'Qualité des données';
+
+  @override
+  String get statsMetricGl11Desc => 'Chaque jour de l’année coloré selon ce que vous avez accompli.';
+
+  @override
+  String get statsMetricGl11Formula => 'Tâches faites + habitudes faites + éléments terminés par jour.';
+
+  @override
+  String get statsMetricGl11Title => 'Activité de l’année';
+
+  @override
+  String get statsMetricGl13Desc => 'Ce qui a tendance à varier ensemble dans vos données.';
+
+  @override
+  String get statsMetricGl13Formula =>
+      'Phi, bisériale de point ou Spearman sur 180 jours, décalages 0–3, ≥ 21 jours appariés, taux de fausses découvertes 10 %.';
+
+  @override
+  String get statsMetricGl13Title => 'Corrélations';
+
+  @override
+  String get statsMetricGl14Desc => 'Votre année en histoire : chiffres, séries, records et votre style.';
+
+  @override
+  String get statsMetricGl14Formula =>
+      'Totaux annuels des faits quotidiens ; comparaison annuelle si l’année précédente a des données.';
+
+  @override
+  String get statsMetricGl14Title => 'Bilan de l’année';
+
+  @override
+  String get statsMetricGl15Desc => 'Points d’expérience gagnés en accomplissant (optionnel).';
+
+  @override
+  String get statsMetricGl15Formula =>
+      'Tâche 10 × priorité (× 1,1 à l’heure), habitude 10 × (1 + série/100), élément 5, jour sans 20 ; 500 max par jour ; niveau n à 100·n^1,5.';
+
+  @override
+  String get statsMetricGl15Title => 'XP et niveau';
+
+  @override
+  String get statsMetricGl17Desc =>
+      'Comment vos heures d’éveil se répartissent entre tâches, habitudes et temps libre.';
+
+  @override
+  String get statsMetricGl17Formula =>
+      'max(prévu, suivi) des tâches + temps des habitudes − chevauchement ; libre = heures d’éveil − utilisé.';
+
+  @override
+  String get statsMetricGl17Title => 'Budget temps';
+
+  @override
+  String get statsMetricGl18Desc => 'Quand vous atteindrez probablement vos objectifs au rythme récent.';
+
+  @override
+  String get statsMetricGl18Formula =>
+      '10 000 simulations rééchantillonnant 6 semaines de progression ; dates probables à 50 / 85 / 95 %.';
+
+  @override
+  String get statsMetricGl18Title => 'Prévision d’objectif';
+
+  @override
+  String get statsMetricGl19Desc => 'Courtes observations fondées sur vos données.';
+
+  @override
+  String get statsMetricGl19Formula =>
+      '18 règles (records, séries, tendances, surcharge, blocages…), chacune avec un délai ; les constats ignorés ou mis en sourdine restent masqués.';
+
+  @override
+  String get statsMetricGl19Title => 'Constats';
 
   @override
   String get statsMetricHbH01Desc => 'À quel point l’habitude est ancrée — les jours récents comptent plus.';
@@ -13018,10 +13681,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsNoteClosed => 'Cet élément est clos.';
 
   @override
+  String get statsNoteCorrelationNotCausation =>
+      'Corrélation n’est pas causalité : ces paires varient ensemble, rien de plus.';
+
+  @override
   String get statsNoteCravingPasses => 'Une envie passe en général en quelques minutes';
 
   @override
   String get statsNoteError => 'Calcul impossible';
+
+  @override
+  String get statsNoteGamificationOff => 'Les XP sont désactivés. Activez-les dans les réglages des statistiques.';
 
   @override
   String get statsNoteLimitHabit => 'Les habitudes à limite affichent plutôt les jours sous la limite.';
@@ -13178,12 +13848,18 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get statsOverviewMore => 'Autres rapports';
+
+  @override
   String statsOverviewNextUp(String title, String time) {
     return 'À suivre : $title à $time';
   }
 
   @override
   String get statsOverviewOpenReview => 'Bilan hebdomadaire';
+
+  @override
+  String get statsOverviewStartGuided => 'Revue guidée';
 
   @override
   String get statsPeriodAll => 'Tout';
@@ -13317,6 +13993,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get statsReviewLastMonth => 'Mois dernier';
+
+  @override
   String get statsReviewLastWeek => 'Semaine dernière';
 
   @override
@@ -13341,6 +14020,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get statsReviewPerDayNote =>
+      'Les mois n’ont pas la même durée : les totaux sont comparés en moyennes par jour.';
+
+  @override
   String statsReviewPerfectDays(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -13362,6 +14045,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get statsReviewShareWeek => 'Partager le résumé de la semaine';
+
+  @override
   String statsReviewStale(String title) {
     return 'Aucune activité récente : $title';
   }
@@ -13372,10 +14058,16 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get statsReviewThisMonth => 'Ce mois-ci';
+
+  @override
   String get statsReviewThisWeek => 'Cette semaine jusqu’ici';
 
   @override
   String get statsReviewTime => 'Où est passé le temps';
+
+  @override
+  String get statsScopeBudget => 'Budget temps';
 
   @override
   String get statsScopeChecklist => 'Statistiques de la liste';
@@ -13384,7 +14076,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsScopeChecklists => 'Statistiques des listes';
 
   @override
+  String get statsScopeDashboards => 'Tableaux de bord';
+
+  @override
+  String get statsScopeFeed => 'Constats';
+
+  @override
   String get statsScopeGlobal => 'Vue d’ensemble';
+
+  @override
+  String get statsScopeGoals => 'Objectifs';
+
+  @override
+  String get statsScopeGuided => 'Revue hebdomadaire guidée';
 
   @override
   String get statsScopeHabit => 'Statistiques de l’habitude';
@@ -13396,10 +14100,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsScopeItem => 'Statistiques de l’élément';
 
   @override
+  String get statsScopeMonth => 'Revue mensuelle';
+
+  @override
+  String get statsScopePatterns => 'Tendances';
+
+  @override
   String get statsScopePlanner => 'Statistiques du plan';
 
   @override
   String get statsScopeQuit => 'Statistiques de l’arrêt';
+
+  @override
+  String get statsScopeRecords => 'Records personnels';
 
   @override
   String get statsScopeReview => 'Bilan hebdomadaire';
@@ -13411,10 +14124,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsScopeTask => 'Statistiques de la tâche';
 
   @override
+  String get statsScopeWrapped => 'Bilan de l’année';
+
+  @override
   String get statsScopeYear => 'L’année en revue';
 
   @override
   String get statsSectionAbstinence => 'Abstinence';
+
+  @override
+  String get statsSectionActivity => 'Activité';
 
   @override
   String get statsSectionAdvanced => 'Avancé';
@@ -13429,6 +14148,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsSectionBlockers => 'Bloqués et en attente';
 
   @override
+  String get statsSectionBudget => 'Budget temps';
+
+  @override
   String get statsSectionBurn => 'Burn-down et périmètre';
 
   @override
@@ -13441,6 +14163,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String statsSectionCollapse(String section) {
     return 'Replier $section';
   }
+
+  @override
+  String get statsSectionCorrelations => 'Corrélations';
 
   @override
   String get statsSectionCravings => 'Envies';
@@ -13466,6 +14191,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsSectionFocus => 'Concentration et équilibre';
 
   @override
+  String get statsSectionForecast => 'Prévision';
+
+  @override
+  String get statsSectionGoals => 'Objectifs';
+
+  @override
   String get statsSectionHabitTable => 'Vos habitudes';
 
   @override
@@ -13482,6 +14213,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSectionMoney => 'Argent et unités';
+
+  @override
+  String get statsSectionMonth => 'Mois';
 
   @override
   String get statsSectionOccurrence => 'Cette occurrence';
@@ -13502,10 +14236,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statsSectionPlanningQuality => 'Qualité de planification';
 
   @override
+  String get statsSectionProgress => 'Progression';
+
+  @override
   String get statsSectionQuality => 'Qualité';
 
   @override
   String get statsSectionQuitTrackers => 'Suivis d’arrêt';
+
+  @override
+  String get statsSectionRecords => 'Records';
 
   @override
   String get statsSectionReduction => 'Réduction';
@@ -13515,6 +14255,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSectionRuns => 'Tours de routine';
+
+  @override
+  String get statsSectionScore => 'Score du jour';
 
   @override
   String get statsSectionSeries => 'Exécution';
@@ -13551,6 +14294,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsSectionWeek => 'La semaine en bref';
+
+  @override
+  String get statsSectionYearInReview => 'Bilan de l’année';
 
   @override
   String get statsSeeAll => 'Voir toutes les statistiques';
@@ -13602,6 +14348,42 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statsUnknownScope => 'Cette statistique n’existe pas.';
+
+  @override
+  String statsWeekdayEffect(String metric, String best, String worst) {
+    return '$metric : meilleur le $best, plus faible le $worst';
+  }
+
+  @override
+  String statsWeekdayNoPattern(String metric) {
+    return '$metric : pas de tendance nette selon le jour';
+  }
+
+  @override
+  String get statsWrappedEmpty => 'Pas encore assez de données pour cette année.';
+
+  @override
+  String get statsWrappedNext => 'Carte suivante';
+
+  @override
+  String get statsWrappedOpen => 'Ouvrir le bilan de l’année';
+
+  @override
+  String get statsWrappedPrevious => 'Carte précédente';
+
+  @override
+  String get statsWrappedReady => 'Votre bilan de l’année est prêt';
+
+  @override
+  String get statsWrappedShare => 'Partager le résumé';
+
+  @override
+  String statsWrappedTitle(int year) {
+    final intl.NumberFormat yearNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final String yearString = yearNumberFormat.format(year);
+
+    return 'Votre année $yearString';
+  }
 
   @override
   String get statusAddNote => 'Ajouter une note…';

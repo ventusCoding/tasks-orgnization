@@ -68,7 +68,7 @@ class AppDatabase extends _$AppDatabase {
       driftDatabase(name: 'everslot', native: const DriftNativeOptions(shareAcrossIsolates: true));
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -94,6 +94,10 @@ class AppDatabase extends _$AppDatabase {
       // v3: live item mirrors (T4.5.16).
       if (from < 3) {
         await m.addColumn(checklistItems, checklistItems.mirrorOfId);
+      }
+      // v4: fired insights keep their payload (T6.7.08).
+      if (from < 4) {
+        await m.addColumn(insightState, insightState.payload);
       }
     },
     beforeOpen: (details) async {

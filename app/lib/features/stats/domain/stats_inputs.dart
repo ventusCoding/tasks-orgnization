@@ -658,6 +658,7 @@ final class StatsJob {
     this.habits,
     this.pendingOutbox = 0,
     this.firstDataDate,
+    this.reviewedWeeks = const [],
   });
 
   final StatsRequest request;
@@ -674,4 +675,7 @@ final class StatsJob {
 
   /// First data date of the scope (all-time periods).
   final LocalDate? firstDataDate;
+
+  /// Week starts with a completed guided weekly review (global scope, GL-04).
+  final List<LocalDate> reviewedWeeks;
 }

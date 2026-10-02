@@ -13,6 +13,7 @@ import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/stats/domain/chart_data.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_support.dart';
 import 'package:everslot/features/stats/presentation/charts/chart_view.dart';
+import 'package:everslot/features/stats/presentation/export/stats_export.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:path_provider/path_provider.dart';
@@ -63,18 +64,19 @@ Future<void> showChartShareSheet(
   required String title,
   required ChartData data,
   String? subtitle,
+  String? metricId,
 }) {
   final prefs = ChartPrefs.maybeOf(context);
   return showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     showDragHandle: true,
-    builder: (_) => ChartShareSheet(title: title, subtitle: subtitle, data: data, prefs: prefs),
+    builder: (_) => ChartShareSheet(title: title, subtitle: subtitle, data: data, prefs: prefs, metricId: metricId),
   );
 }
 
 class ChartShareSheet extends StatefulWidget {
-  const ChartShareSheet({required this.title, required this.data, super.key, this.subtitle, this.prefs});
+  const ChartShareSheet({required this.title, required this.data, super.key, this.subtitle, this.prefs, this.metricId});
 
   final String title;
   final String? subtitle;
@@ -82,6 +84,9 @@ class ChartShareSheet extends StatefulWidget {
 
   /// Chart preferences of the screen the chart came from (12/24 h, digits, week start…).
   final ChartPrefs? prefs;
+
+  /// Metric of the chart: enables the CSV / JSON export of its series (T6.7.12).
+  final String? metricId;
 
   @override
   State<ChartShareSheet> createState() => ChartShareSheetState();
@@ -92,6 +97,27 @@ class ChartShareSheetState extends State<ChartShareSheet> {
   final boundaryKey = GlobalKey(debugLabel: 'chart-share-card');
   bool _hideNames = false;
   bool _busy = false;
+  bool _bom = false;
+  bool _localeFormat = false;
+
+  Future<void> _export({required bool json}) async {
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    final l = context.l10n;
+    final files = chartExportFiles(
+      widget.metricId!,
+      widget.data,
+      statFormatOf(context),
+      l,
+      json: json,
+      period: widget.subtitle,
+      options: ExportOptions(bom: _bom, localeFormatted: _localeFormat),
+    );
+    try {
+      await statsFileSharer.share(files, title: widget.title);
+    } on Object {
+      messenger?.showSnackBar(SnackBar(content: Text(l.chartsExportFailed)));
+    }
+  }
 
   Future<void> _share() async {
     setState(() => _busy = true);
@@ -142,6 +168,39 @@ class ChartShareSheetState extends State<ChartShareSheet> {
             icon: const Icon(Icons.ios_share),
             label: Text(context.l10n.chartsShareAction),
           ),
+          if (widget.metricId != null) ...[
+            const SizedBox(height: Space.md),
+            const Divider(),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(context.l10n.chartsExportLocale),
+              value: _localeFormat,
+              onChanged: (v) => setState(() => _localeFormat = v),
+            ),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(context.l10n.chartsExportBom),
+              value: _bom,
+              onChanged: (v) => setState(() => _bom = v),
+            ),
+            Wrap(
+              spacing: Space.sm,
+              children: [
+                OutlinedButton.icon(
+                  key: const ValueKey('export-csv'),
+                  onPressed: () => unawaited(_export(json: false)),
+                  icon: const Icon(Icons.table_view_outlined),
+                  label: Text(context.l10n.chartsExportCsv),
+                ),
+                OutlinedButton.icon(
+                  key: const ValueKey('export-json'),
+                  onPressed: () => unawaited(_export(json: true)),
+                  icon: const Icon(Icons.data_object),
+                  label: Text(context.l10n.chartsExportJson),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     ),

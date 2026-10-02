@@ -21,6 +21,9 @@ enum InsightsRoute {
   habit('habit'),
   quit('quit'),
   review('review'),
+  month('month'),
+  reviewFlow('review-flow'),
+  wrapped('wrapped'),
   year('year'),
   feed('feed'),
   goals('goals'),
@@ -46,7 +49,18 @@ enum InsightsRoute {
 
   /// The metric scope computed on this route (null for non-metric screens).
   MetricScope? get metricScope => switch (this) {
-    overview || review || year || feed || goals || records || quality || correlations || budget => MetricScope.global,
+    overview ||
+    review ||
+    month ||
+    reviewFlow ||
+    wrapped ||
+    year ||
+    feed ||
+    goals ||
+    records ||
+    quality ||
+    correlations ||
+    budget => MetricScope.global,
     planner => MetricScope.planner,
     series => MetricScope.series,
     task => MetricScope.task,

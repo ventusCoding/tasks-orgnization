@@ -138,6 +138,10 @@ class InsightState extends Table {
   DateTimeColumn get firedAt => dateTime().nullable()();
   DateTimeColumn get dismissedAt => dateTime().nullable()();
 
+  /// The fired insight (trigger, entity, args, target) as JSON, so the feed shows it even after
+  /// the data that produced it changed (schema v4, T6.7.08).
+  TextColumn get payload => text().nullable()();
+
   @override
   Set<Column<Object>> get primaryKey => {key};
 }
