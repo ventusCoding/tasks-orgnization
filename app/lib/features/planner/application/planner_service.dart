@@ -83,12 +83,16 @@ class PlannerService {
   // ---------------------------------------------------------------------------
   // Creation
 
-  /// Quick-create (planner contract): floating task at [start] (viewer wall clock).
+  /// Quick-create (planner contract): floating task at [start] (viewer wall clock), optionally
+  /// repeating with a category and priority (natural-language quick add, T8.1.17).
   Future<TaskWriteResult> createAt(
     LocalDateTime start,
     int durationMinutes, {
     String? title,
     bool allDay = false,
+    RecurrenceRule? recurrence,
+    String? categoryId,
+    int priority = 0,
   }) async {
     final days = (durationMinutes / 1440).ceil().clamp(1, 365);
     final result = await tasks.create(
@@ -100,6 +104,9 @@ class PlannerService {
         durationMinutes: allDay ? days * 1440 : durationMinutes,
         isAllDay: allDay,
         trackingMode: settings.defaultTrackingMode,
+        recurrence: recurrence,
+        categoryId: categoryId,
+        priority: priority,
       ),
       source: 'quick',
     );

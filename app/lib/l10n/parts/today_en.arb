@@ -206,5 +206,15 @@
         "type": "String"
       }
     }
+  },
+  "quickAddSmart": "Understand dates",
+  "quickAddSmartHint": "e.g. Gym tomorrow 7pm for 1h every Mon #health",
+  "quickAddUnknownCategory": "No category “{name}”",
+  "@quickAddUnknownCategory": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

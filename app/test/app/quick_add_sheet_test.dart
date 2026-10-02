@@ -1,6 +1,7 @@
 import 'package:everslot/app/quick_add_sheet.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
+import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,6 +50,55 @@ void main() {
     );
     expect(tasks!.map((t) => t.title).toSet(), {'Call mum', 'Pay rent'});
     expect(tasks.first.startLocal, LocalDateTime.of(2026, 9, 22, 10, 30));
+    await tester.pump(const Duration(seconds: 5));
+  });
+
+  testWidgets('natural language: preview before saving, then a recurring task with category and priority', (
+    tester,
+  ) async {
+    final health = await tester.runAsync(
+      () async => (await h.read(categoriesRepositoryProvider).add(name: 'Health', color: 1)).id,
+    );
+    await open(tester);
+    await tester.enterText(
+      find.byKey(const ValueKey('quick-title')),
+      'Gym tomorrow 7pm for 1h every Mon and Wed #health !high',
+    );
+    await settle(tester);
+    expect(find.byKey(const ValueKey('quick-parsed')), findsOneWidget);
+    expect(find.text('Sep 23, 2026 19:00'), findsOneWidget);
+    expect(find.text('Every Monday and Wednesday at 19:00'), findsOneWidget);
+    expect(find.text('#health'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('quick-add')));
+    await settle(tester);
+    final tasks = await tester.runAsync(
+      () => h.read(plannerQueriesProvider).tasksForRange(at(2026, 9, 23), at(2026, 9, 24)),
+    );
+    final gym = tasks!.single;
+    expect(gym.title, 'Gym');
+    expect(gym.startLocal, LocalDateTime.of(2026, 9, 23, 19));
+    expect(gym.durationMinutes, 60);
+    expect(gym.recurrence!.freq, Frequency.weekly);
+    expect(gym.recurrence!.byWeekday!.map((d) => d.day), [Weekday.monday, Weekday.wednesday]);
+    expect(gym.categoryId, health);
+    expect(gym.priority, 3);
+    await tester.pump(const Duration(seconds: 5));
+  });
+
+  testWidgets('natural language can be switched off; unknown categories are flagged', (tester) async {
+    await open(tester);
+    await tester.enterText(find.byKey(const ValueKey('quick-title')), 'Read tomorrow #books');
+    await settle(tester);
+    expect(find.text('No category “books”'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('quick-smart')));
+    await settle(tester);
+    expect(find.byKey(const ValueKey('quick-parsed')), findsNothing);
+    await tester.tap(find.byKey(const ValueKey('quick-add')));
+    await settle(tester);
+    final tasks = await tester.runAsync(
+      () => h.read(plannerQueriesProvider).tasksForRange(at(2026, 9, 22), at(2026, 9, 23)),
+    );
+    expect(tasks!.single.title, 'Read tomorrow #books', reason: 'taken literally');
     await tester.pump(const Duration(seconds: 5));
   });
 

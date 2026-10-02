@@ -9364,10 +9364,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get quickAddQuit => 'Suivi d’arrêt';
 
   @override
+  String get quickAddSmart => 'Comprendre les dates';
+
+  @override
+  String get quickAddSmartHint => 'ex. Sport demain 19h pendant 1h tous les lundis #santé';
+
+  @override
   String get quickAddTask => 'Tâche';
 
   @override
   String get quickAddTitleHint => 'Quoi ?';
+
+  @override
+  String quickAddUnknownCategory(String name) {
+    return 'Aucune catégorie « $name »';
+  }
 
   @override
   String get quitAddUse => '+1';

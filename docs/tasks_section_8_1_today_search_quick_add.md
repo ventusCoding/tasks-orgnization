@@ -34,7 +34,7 @@ palette (P2).
 - [x] T8.1.14 — Global search screen
 - [x] T8.1.15 — Search filters, recents & result actions
 - [x] T8.1.16 — Search query syntax
-- [ ] T8.1.17 — Natural-language quick add
+- [x] T8.1.17 — Natural-language quick add
 - [ ] T8.1.18 — Command palette
 
 ## Tasks
@@ -214,6 +214,14 @@ duration, recurrence, category and priority; live-highlight recognized tokens; E
 the parsed interpretation before saving. (Optional LLM assist tracked in 9.3.)
 **Acceptance criteria:** ≥ 95 % of a 200-phrase fixture parses to the expected structure.
 **Tests:** fixture-driven parser tests.
+**Notes:** `QuickParser` (planner domain, pure Dart, EN + FR vocabulary in one grammar): dates, times,
+ranges, durations, recurrence (daily/weekly lists/every N/nth weekday/day of month/count/until),
+`#category`, `!priority` and all-day; `"quoted"` text stays literal. Conservative defaults:
+abbreviated weekdays need a connector, `at 1`–`at 6` mean pm, bare `7h` is a time. 241-phrase fixture
+(`test/features/planner/fixtures/quick_parse.json`) passes 100 %. Quick add highlights recognized
+tokens in the field, previews date / duration / recurrence description / category / priority, and can
+be switched off; unknown categories are flagged, not created. `createAt` gained recurrence, category
+and priority. AR vocabulary deferred (spec: "AR later").
 
 ### T8.1.18 — Command palette
 **Priority:** P2 · **Size:** M · **Depends on:** T8.1.14

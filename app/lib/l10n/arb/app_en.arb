@@ -3428,6 +3428,13 @@
       }
     }
   },
+  "@quickAddUnknownCategory": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "@quitBreathCycle": {
     "placeholders": {
       "cycle": {
@@ -7882,8 +7889,11 @@
   "quickAddPickHabit": "Habit or tracker",
   "quickAddPickList": "Add to list",
   "quickAddQuit": "Quit tracker",
+  "quickAddSmart": "Understand dates",
+  "quickAddSmartHint": "e.g. Gym tomorrow 7pm for 1h every Mon #health",
   "quickAddTask": "Task",
   "quickAddTitleHint": "What?",
+  "quickAddUnknownCategory": "No category “{name}”",
   "quitAddUse": "+1",
   "quitAllClocks": "All clocks",
   "quitAmount": "Amount",

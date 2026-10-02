@@ -71,5 +71,8 @@
   "quickAddMore": "Plus d’options",
   "quickAddPickList": "Ajouter à la liste",
   "quickAddPickHabit": "Habitude ou suivi",
-  "quickAddAdded": "« {title} » ajouté"
+  "quickAddAdded": "« {title} » ajouté",
+  "quickAddSmart": "Comprendre les dates",
+  "quickAddSmartHint": "ex. Sport demain 19h pendant 1h tous les lundis #santé",
+  "quickAddUnknownCategory": "Aucune catégorie « {name} »"
 }

@@ -9146,10 +9146,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickAddQuit => 'Quit tracker';
 
   @override
+  String get quickAddSmart => 'Understand dates';
+
+  @override
+  String get quickAddSmartHint => 'e.g. Gym tomorrow 7pm for 1h every Mon #health';
+
+  @override
   String get quickAddTask => 'Task';
 
   @override
   String get quickAddTitleHint => 'What?';
+
+  @override
+  String quickAddUnknownCategory(String name) {
+    return 'No category “$name”';
+  }
 
   @override
   String get quitAddUse => '+1';

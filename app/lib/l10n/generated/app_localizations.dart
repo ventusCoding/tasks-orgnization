@@ -15873,6 +15873,18 @@ abstract class AppLocalizations {
   /// **'Quit tracker'**
   String get quickAddQuit;
 
+  /// No description provided for @quickAddSmart.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand dates'**
+  String get quickAddSmart;
+
+  /// No description provided for @quickAddSmartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Gym tomorrow 7pm for 1h every Mon #health'**
+  String get quickAddSmartHint;
+
   /// No description provided for @quickAddTask.
   ///
   /// In en, this message translates to:
@@ -15884,6 +15896,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What?'**
   String get quickAddTitleHint;
+
+  /// No description provided for @quickAddUnknownCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No category “{name}”'**
+  String quickAddUnknownCategory(String name);
 
   /// No description provided for @quitAddUse.
   ///

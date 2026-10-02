@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:everslot/core/ids/ids.dart';
 import 'package:everslot/core/providers.dart';
 import 'package:everslot/core/routing/deep_links.dart';
+import 'package:everslot/core/time/recurrence_service.dart';
 import 'package:everslot/design_system/design_system.dart';
 import 'package:everslot/features/checklists/application/providers.dart';
 import 'package:everslot/features/checklists/domain/checklist.dart';
+import 'package:everslot/features/checklists/domain/collation.dart';
 import 'package:everslot/features/habits/application/habit_providers.dart';
 import 'package:everslot/features/habits/application/habit_service.dart';
 import 'package:everslot/features/habits/domain/habit.dart';
@@ -13,8 +15,10 @@ import 'package:everslot/features/habits/domain/schedule_presets.dart';
 import 'package:everslot/features/habits/presentation/check_in_sheets.dart';
 import 'package:everslot/features/habits/presentation/habit_routes.dart';
 import 'package:everslot/features/habits/presentation/quit/quit_sheets.dart';
+import 'package:everslot/features/organization/application/providers.dart';
 import 'package:everslot/features/planner/application/planner_providers.dart';
 import 'package:everslot/features/planner/application/planner_service.dart';
+import 'package:everslot/features/planner/domain/quick_parse.dart';
 import 'package:everslot_recurrence/everslot_recurrence.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -53,13 +57,17 @@ class QuickAddSheet extends ConsumerStatefulWidget {
 
 class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
   late QuickAddType _type = widget.initial.type;
-  final _title = TextEditingController();
+  final _title = QuickParseController();
   final _focus = FocusNode();
   late LocalDateTime _start = widget.initial.start ?? _defaultStart();
   late int _duration = widget.initial.durationMinutes ?? ref.read(plannerSettingsProvider).defaultTaskDurationMinutes;
   bool _allDay = false;
   late String? _checklistId = widget.initial.checklistId;
   String? _habitId;
+
+  /// Natural-language parsing of task titles (T8.1.17).
+  bool _smart = true;
+  QuickParse? _parsed;
 
   @override
   void dispose() {
@@ -78,13 +86,47 @@ class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
 
   bool get _needsTitle => _type != QuickAddType.log && _type != QuickAddType.quit;
 
+  QuickParse? get _smartParse => _type == QuickAddType.task && _smart ? _parsed : null;
+
+  void _reparse() {
+    final on = _type == QuickAddType.task && _smart && _title.text.trim().isNotEmpty;
+    final now = ref.read(zoneResolverProvider).toLocal(ref.read(clockProvider).nowUtc(), ref.read(deviceZoneProvider));
+    _parsed = on
+        ? QuickParser.parse(_title.text, now: now, weekStart: ref.read(userPreferencesProvider).weekStart)
+        : null;
+    _title.spans = _parsed?.spans ?? const [];
+  }
+
+  String? _categoryIdOf(String? name) {
+    if (name == null) return null;
+    final key = Collation.key(name);
+    return (ref.read(categoriesProvider).value ?? const []).where((c) => Collation.key(c.name) == key).firstOrNull?.id;
+  }
+
   Future<bool> _add() async {
     final l = context.l10n;
-    final title = _title.text.trim();
+    var title = _title.text.trim();
     if (_needsTitle && title.isEmpty) return false;
     switch (_type) {
       case QuickAddType.task:
-        await ref.read(plannerServiceProvider).createAt(_start, _duration, title: title, allDay: _allDay);
+        final p = _smartParse;
+        if (p != null && p.recognizedAnything) {
+          title = p.title;
+          final date = p.date;
+          await ref
+              .read(plannerServiceProvider)
+              .createAt(
+                date == null ? _start : LocalDateTime(date, p.time ?? _start.time),
+                p.durationMinutes ?? _duration,
+                title: title,
+                allDay: p.allDay || (date == null && _allDay),
+                recurrence: p.rule,
+                categoryId: _categoryIdOf(p.category),
+                priority: p.priority?.index ?? 0,
+              );
+        } else {
+          await ref.read(plannerServiceProvider).createAt(_start, _duration, title: title, allDay: _allDay);
+        }
       case QuickAddType.list:
         await ref.read(checklistsRepositoryProvider).create(title: title);
       case QuickAddType.item:
@@ -148,6 +190,8 @@ class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
     final fmt = AppFormat(context.localeName, use24h: ref.watch(userPreferencesProvider).use24h, l10n: l);
     final lists = ref.watch(boardChecklistsProvider).value ?? const <Checklist>[];
     final habits = ref.watch(habitsProvider).value ?? const <Habit>[];
+    // Keeps categories loaded for `#category` lookups.
+    ref.watch(categoriesProvider);
     String typeLabel(QuickAddType t) => switch (t) {
       QuickAddType.task => l.quickAddTask,
       QuickAddType.list => l.quickAddList,
@@ -176,7 +220,10 @@ class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
                   key: ValueKey('quick-type-${t.name}'),
                   label: Text(typeLabel(t)),
                   selected: _type == t,
-                  onSelected: (_) => setState(() => _type = t),
+                  onSelected: (_) => setState(() {
+                    _type = t;
+                    _reparse();
+                  }),
                 ),
             ],
           ),
@@ -207,10 +254,18 @@ class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
               focusNode: _focus,
               autofocus: true,
               textInputAction: TextInputAction.done,
-              decoration: InputDecoration(labelText: l.quickAddTitleHint),
+              decoration: InputDecoration(
+                labelText: l.quickAddTitleHint,
+                hintText: _type == QuickAddType.task && _smart ? l.quickAddSmartHint : null,
+              ),
+              onChanged: (_) => setState(_reparse),
               onSubmitted: (_) => unawaited(_addAndClose()),
             ),
-          if (_type == QuickAddType.task) ...[
+          if (_smartParse case final p? when p.recognizedAnything) ...[
+            const SizedBox(height: Space.sm),
+            QuickParsePreview(parse: p, fallbackStart: _start, categoryKnown: _categoryIdOf(p.category) != null),
+          ],
+          if (_type == QuickAddType.task && !(_smartParse?.recognizedAnything ?? false)) ...[
             const SizedBox(height: Space.sm),
             Wrap(
               spacing: Space.sm,
@@ -250,6 +305,20 @@ class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
               ],
             ),
           ],
+          if (_type == QuickAddType.task)
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: FilterChip(
+                key: const ValueKey('quick-smart'),
+                avatar: const Icon(Icons.auto_awesome_outlined),
+                label: Text(l.quickAddSmart),
+                selected: _smart,
+                onSelected: (v) => setState(() {
+                  _smart = v;
+                  _reparse();
+                }),
+              ),
+            ),
           const SizedBox(height: Space.md),
           OverflowBar(
             alignment: MainAxisAlignment.end,
@@ -283,5 +352,107 @@ class _QuickAddSheetState extends ConsumerState<QuickAddSheet> {
   Future<void> _addAndClose() async {
     final added = await _add();
     if (added && mounted && _type != QuickAddType.quit) Navigator.pop(context);
+  }
+}
+
+/// Title field that highlights what the quick-add parser recognized (T8.1.17).
+class QuickParseController extends TextEditingController {
+  List<QuickSpan> spans = const [];
+
+  @override
+  TextSpan buildTextSpan({required BuildContext context, TextStyle? style, required bool withComposing}) {
+    final visible = [
+      for (final s in spans)
+        if (s.end <= text.length) s,
+    ];
+    if (visible.isEmpty || (withComposing && value.isComposingRangeValid)) {
+      return super.buildTextSpan(context: context, style: style, withComposing: withComposing);
+    }
+    final mark = (style ?? const TextStyle()).copyWith(
+      color: context.colors.primary,
+      fontWeight: FontWeight.w600,
+      decoration: TextDecoration.underline,
+      decorationColor: context.colors.primary,
+    );
+    final children = <TextSpan>[];
+    var at = 0;
+    for (final s in visible) {
+      if (s.start < at) continue;
+      if (s.start > at) children.add(TextSpan(text: text.substring(at, s.start)));
+      children.add(TextSpan(text: text.substring(s.start, s.end), style: mark));
+      at = s.end;
+    }
+    if (at < text.length) children.add(TextSpan(text: text.substring(at)));
+    return TextSpan(style: style, children: children);
+  }
+}
+
+/// What the parsed phrase will create, before saving (T8.1.17).
+class QuickParsePreview extends ConsumerWidget {
+  const QuickParsePreview({required this.parse, required this.fallbackStart, required this.categoryKnown, super.key});
+
+  final QuickParse parse;
+  final LocalDateTime fallbackStart;
+  final bool categoryKnown;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final prefs = ref.watch(userPreferencesProvider);
+    final fmt = AppFormat(context.localeName, use24h: prefs.use24h, l10n: l);
+    final p = parse;
+    final start = p.date == null ? null : LocalDateTime(p.date!, p.time ?? fallbackStart.time);
+    String? repeat;
+    if (p.rule case final rule?) {
+      try {
+        repeat = ref
+            .watch(recurrenceServiceProvider)
+            .describe(
+              rule,
+              RecurrenceAnchor(start ?? fallbackStart, ref.watch(deviceZoneProvider), allDay: p.allDay),
+              locale: context.localeName,
+              use24h: prefs.use24h,
+            );
+      } on Object {
+        repeat = null;
+      }
+    }
+    Widget chip(IconData icon, String label, {Key? key, bool warn = false}) => Chip(
+      key: key,
+      avatar: Icon(icon, size: 18, color: warn ? context.colors.error : null),
+      label: Text(label),
+      visualDensity: VisualDensity.compact,
+    );
+    return Wrap(
+      key: const ValueKey('quick-parsed'),
+      spacing: Space.sm,
+      runSpacing: Space.xs,
+      children: [
+        if (start != null)
+          chip(
+            Icons.event,
+            p.allDay
+                ? '${fmt.dateMedium(start.date)} · ${l.todayAllDay}'
+                : '${fmt.dateMedium(start.date)} ${fmt.timeOf(start)}',
+            key: const ValueKey('quick-parsed-start'),
+          ),
+        if (p.durationMinutes case final d?)
+          chip(Icons.timelapse, fmt.duration(d), key: const ValueKey('quick-parsed-duration')),
+        if (repeat != null && repeat.isNotEmpty) chip(Icons.repeat, repeat, key: const ValueKey('quick-parsed-repeat')),
+        if (p.category case final c?)
+          chip(
+            categoryKnown ? Icons.label_outline : Icons.label_off_outlined,
+            categoryKnown ? '#$c' : l.quickAddUnknownCategory(c),
+            key: const ValueKey('quick-parsed-category'),
+            warn: !categoryKnown,
+          ),
+        if (p.priority case final pr?)
+          chip(
+            Icons.flag_outlined,
+            PriorityStyle.label(context, pr.index),
+            key: const ValueKey('quick-parsed-priority'),
+          ),
+      ],
+    );
   }
 }

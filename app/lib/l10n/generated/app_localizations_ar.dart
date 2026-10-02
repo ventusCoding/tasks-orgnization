@@ -9798,10 +9798,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get quickAddQuit => 'متتبع إقلاع';
 
   @override
+  String get quickAddSmart => 'فهم التواريخ';
+
+  @override
+  String get quickAddSmartHint => 'مثال: Gym tomorrow 7pm for 1h every Mon #health';
+
+  @override
   String get quickAddTask => 'مهمة';
 
   @override
   String get quickAddTitleHint => 'ماذا؟';
+
+  @override
+  String quickAddUnknownCategory(String name) {
+    return 'لا توجد فئة «$name»';
+  }
 
   @override
   String get quitAddUse => '+1';

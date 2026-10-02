@@ -71,5 +71,8 @@
   "quickAddMore": "خيارات أكثر",
   "quickAddPickList": "إضافة إلى القائمة",
   "quickAddPickHabit": "عادة أو متتبع",
-  "quickAddAdded": "تمت إضافة «{title}»"
+  "quickAddAdded": "تمت إضافة «{title}»",
+  "quickAddSmart": "فهم التواريخ",
+  "quickAddSmartHint": "مثال: Gym tomorrow 7pm for 1h every Mon #health",
+  "quickAddUnknownCategory": "لا توجد فئة «{name}»"
 }
