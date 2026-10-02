@@ -116,7 +116,7 @@ jobs:
       - run: dart run tool/release_notes.dart "$GITHUB_REF_NAME" > release_notes.md
       - uses: actions/download-artifact@v4
         with: { name: android-aab }
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           body_path: release_notes.md
           files: app-prod-release.aab
