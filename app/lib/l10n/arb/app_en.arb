@@ -2724,6 +2724,49 @@
       }
     }
   },
+  "@notifSmartCurrent": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notifSmartSuggestion": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "usual": {
+        "type": "String"
+      },
+      "proposed": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSmartSummaryLine": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSmartSummaryTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@notifSnoozeHours": {
     "placeholders": {
       "hours": {
@@ -7077,6 +7120,18 @@
   "notifSkipStatus": "Status doesn’t match",
   "notifSkipWeekday": "Not on this weekday",
   "notifSkipWindow": "Outside the time window",
+  "notifSmartApply": "Move it",
+  "notifSmartAuto": "Adjust automatically",
+  "notifSmartAutoHint": "Once a week, move reminders to fit your habits and leave a summary in the inbox.",
+  "notifSmartCurrent": "Now at {current} · based on {count} times",
+  "notifSmartDismiss": "Not now",
+  "notifSmartNone": "No suggestions right now",
+  "notifSmartNoneBody": "Suggestions appear once a habit or task has been done at a steady time for a while.",
+  "notifSmartSuggestion": "You usually do {title} around {usual} — move the reminder to {proposed}?",
+  "notifSmartSummaryLine": "{title}: {from} → {to}",
+  "notifSmartSummaryTitle": "{count, plural, =1{1 reminder moved to fit your habits} other{{count} reminders moved to fit your habits}}",
+  "notifSmartThisItem": "this",
+  "notifSmartTitle": "Smart suggestions",
   "notifSnoozeCustom": "Custom…",
   "notifSnoozeEvening": "This evening",
   "notifSnoozeHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",

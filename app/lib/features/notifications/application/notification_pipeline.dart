@@ -10,6 +10,7 @@ import 'package:everslot/features/notifications/application/local_scheduler.dart
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notification_registry.dart';
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart';
+import 'package:everslot/features/notifications/application/smart_reminders.dart';
 import 'package:everslot/features/notifications/domain/badge_count.dart';
 import 'package:everslot/features/notifications/domain/digest_composer.dart';
 import 'package:everslot/features/notifications/domain/notification_rule.dart';
@@ -220,6 +221,14 @@ class NotificationPipeline {
           'INSERT INTO local_kv(key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
           [lastForegroundKey, at.toIso8601String()],
         );
+        // Weekly smart adjustment (T7.5.19, opt-in): moved reminders are planned right below.
+        if (read(notificationSettingsProvider).smartAdjust) {
+          try {
+            await read(smartRemindersProvider).autoAdjustIfDue();
+          } on Object catch (e, st) {
+            _log.warning('smart adjustment failed', e, st);
+          }
+        }
       }
       final ctx = await buildContext();
       final result = NotificationPlanner.plan(ctx);

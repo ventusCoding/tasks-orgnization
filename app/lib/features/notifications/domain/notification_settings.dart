@@ -92,6 +92,7 @@ class NotificationSettings {
     this.digestLatenessMinutes = 120,
     this.bannerInApp = true,
     this.emailDigests = false,
+    this.smartAdjust = false,
     this.snoozePresets = const [10, 5, 15, 30, 60],
     this.maxNagRepeats = 5,
     this.dateOnlyDefaultTime,
@@ -135,6 +136,7 @@ class NotificationSettings {
       latenessMinutes: asInt(notifications['latenessMinutes']) ?? 30,
       bannerInApp: asBool(notifications['bannerInApp']) ?? true,
       emailDigests: asBool((asJsonMap(notifications['emailDigests']) ?? const {})['enabled']) ?? false,
+      smartAdjust: asBool(notifications['smartAdjust']) ?? false,
       snoozePresets: asIntList(notifications['snoozePresets']) ?? const [10, 5, 15, 30, 60],
       maxNagRepeats: (asInt(notifications['maxNagRepeats']) ?? 5).clamp(1, 10),
       dateOnlyDefaultTime: time(notifications['dateOnlyDefaultTime']),
@@ -167,6 +169,9 @@ class NotificationSettings {
   /// Opt-in email copies of digests (`emailDigests.enabled`, T7.4.18): sent by the server to the
   /// account address with a one-click unsubscribe link; never individual reminders.
   final bool emailDigests;
+
+  /// Move reminder times automatically to the user's habits, weekly summary (T7.5.19, opt-in).
+  final bool smartAdjust;
 
   /// First entry = the notification's *Snooze* button.
   final List<int> snoozePresets;
@@ -220,6 +225,7 @@ class NotificationSettings {
       other.latenessMinutes == latenessMinutes &&
       other.bannerInApp == bannerInApp &&
       other.emailDigests == emailDigests &&
+      other.smartAdjust == smartAdjust &&
       jsonEquals(other.snoozePresets, snoozePresets) &&
       other.maxNagRepeats == maxNagRepeats &&
       other.dateOnlyDefaultTime == dateOnlyDefaultTime &&

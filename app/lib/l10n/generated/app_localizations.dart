@@ -12423,6 +12423,78 @@ abstract class AppLocalizations {
   /// **'Outside the time window'**
   String get notifSkipWindow;
 
+  /// No description provided for @notifSmartApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Move it'**
+  String get notifSmartApply;
+
+  /// No description provided for @notifSmartAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust automatically'**
+  String get notifSmartAuto;
+
+  /// No description provided for @notifSmartAutoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a week, move reminders to fit your habits and leave a summary in the inbox.'**
+  String get notifSmartAutoHint;
+
+  /// No description provided for @notifSmartCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Now at {current} · based on {count} times'**
+  String notifSmartCurrent(String current, int count);
+
+  /// No description provided for @notifSmartDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notifSmartDismiss;
+
+  /// No description provided for @notifSmartNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No suggestions right now'**
+  String get notifSmartNone;
+
+  /// No description provided for @notifSmartNoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestions appear once a habit or task has been done at a steady time for a while.'**
+  String get notifSmartNoneBody;
+
+  /// No description provided for @notifSmartSuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'You usually do {title} around {usual} — move the reminder to {proposed}?'**
+  String notifSmartSuggestion(String title, String usual, String proposed);
+
+  /// No description provided for @notifSmartSummaryLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{title}: {from} → {to}'**
+  String notifSmartSummaryLine(String title, String from, String to);
+
+  /// No description provided for @notifSmartSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reminder moved to fit your habits} other{{count} reminders moved to fit your habits}}'**
+  String notifSmartSummaryTitle(int count);
+
+  /// No description provided for @notifSmartThisItem.
+  ///
+  /// In en, this message translates to:
+  /// **'this'**
+  String get notifSmartThisItem;
+
+  /// No description provided for @notifSmartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart suggestions'**
+  String get notifSmartTitle;
+
   /// No description provided for @notifSnoozeCustom.
   ///
   /// In en, this message translates to:

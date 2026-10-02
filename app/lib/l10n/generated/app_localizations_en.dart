@@ -7170,6 +7170,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifSkipWindow => 'Outside the time window';
 
   @override
+  String get notifSmartApply => 'Move it';
+
+  @override
+  String get notifSmartAuto => 'Adjust automatically';
+
+  @override
+  String get notifSmartAutoHint => 'Once a week, move reminders to fit your habits and leave a summary in the inbox.';
+
+  @override
+  String notifSmartCurrent(String current, int count) {
+    return 'Now at $current · based on $count times';
+  }
+
+  @override
+  String get notifSmartDismiss => 'Not now';
+
+  @override
+  String get notifSmartNone => 'No suggestions right now';
+
+  @override
+  String get notifSmartNoneBody =>
+      'Suggestions appear once a habit or task has been done at a steady time for a while.';
+
+  @override
+  String notifSmartSuggestion(String title, String usual, String proposed) {
+    return 'You usually do $title around $usual — move the reminder to $proposed?';
+  }
+
+  @override
+  String notifSmartSummaryLine(String title, String from, String to) {
+    return '$title: $from → $to';
+  }
+
+  @override
+  String notifSmartSummaryTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reminders moved to fit your habits',
+      one: '1 reminder moved to fit your habits',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifSmartThisItem => 'this';
+
+  @override
+  String get notifSmartTitle => 'Smart suggestions';
+
+  @override
   String get notifSnoozeCustom => 'Custom…';
 
   @override

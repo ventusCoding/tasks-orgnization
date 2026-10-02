@@ -64,7 +64,7 @@ live timer surfaces and widget refreshes ([8.2]); hide-content privacy option ([
 - [x] T7.5.16 — Mute until (rule, item, list, habit, section)
 - [x] T7.5.17 — Notification statistics
 - [x] T7.5.18 — Digests: agenda, plan tomorrow, overdue, weekly & monthly
-- [ ] T7.5.19 — Smart reminder suggestions
+- [x] T7.5.19 — Smart reminder suggestions
 - [ ] T7.5.20 — Status-change & custom event triggers
 
 ## Tasks
@@ -275,6 +275,7 @@ channel and never repeat.
 response times from notification stats): "You usually do push-ups around 07:45 — move the reminder to
 07:30?"; optional auto-adjust with a weekly summary of changes.
 **Tests:** unit tests for suggestion logic on fixture histories.
+**Notes:** `SmartSuggestions` (domain): circular mean of the local check-in / start times of the last 28 days (≥ 5 samples, concentration ≥ 0.6) → reminder 15 min before, rounded to 5 min, only when it moves ≥ 15 min; applies to an item's own fixed-time rules (relative at a time of day, daily schedule with one time). `SmartReminders` (application) reads activity from the `TargetActivitySource` sections, applies / dismisses (dismissals in `local_kv`), and with `notifications.smartAdjust` (opt-in) adjusts weekly on a foreground replan and files an inbox summary ("1 reminder moved…: 09:00 → 07:30"). Response times from statistics aren't used yet — the usual activity time is the stronger signal. Screen: Settings › Notifications › Smart suggestions.
 
 ### T7.5.20 — Status-change & custom event triggers
 **Priority:** P2 · **Size:** S · **Depends on:** T7.5.09

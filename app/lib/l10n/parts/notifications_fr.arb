@@ -624,5 +624,17 @@
   "notifStatsLate": "en retard",
   "notifStatsDeferred": "{count, plural, =1{1 reportée par les heures calmes} other{{count} reportées par les heures calmes}}",
   "notifStatsMedian": "traitée après {minutes} min (médiane)",
-  "notifStatsEffective": "suivies dans l’heure"
+  "notifStatsEffective": "suivies dans l’heure",
+  "notifSmartTitle": "Suggestions intelligentes",
+  "notifSmartAuto": "Ajuster automatiquement",
+  "notifSmartAutoHint": "Une fois par semaine, déplacer les rappels selon vos habitudes et laisser un résumé dans la boîte de réception.",
+  "notifSmartNone": "Aucune suggestion pour l’instant",
+  "notifSmartNoneBody": "Les suggestions apparaissent quand une habitude ou une tâche est faite à heure régulière depuis un moment.",
+  "notifSmartSuggestion": "Vous faites souvent {title} vers {usual} — déplacer le rappel à {proposed} ?",
+  "notifSmartCurrent": "Actuellement à {current} · d’après {count} fois",
+  "notifSmartApply": "Le déplacer",
+  "notifSmartDismiss": "Pas maintenant",
+  "notifSmartThisItem": "ceci",
+  "notifSmartSummaryTitle": "{count, plural, =1{1 rappel déplacé selon vos habitudes} other{{count} rappels déplacés selon vos habitudes}}",
+  "notifSmartSummaryLine": "{title} : {from} → {to}"
 }

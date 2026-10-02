@@ -7697,6 +7697,56 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifSkipWindow => 'خارج النافذة الزمنية';
 
   @override
+  String get notifSmartApply => 'انقله';
+
+  @override
+  String get notifSmartAuto => 'الضبط تلقائيًا';
+
+  @override
+  String get notifSmartAutoHint => 'مرة في الأسبوع، انقل التذكيرات لتناسب عاداتك واترك ملخصًا في صندوق الوارد.';
+
+  @override
+  String notifSmartCurrent(String current, int count) {
+    return 'حاليًا عند $current · بناءً على $count مرة';
+  }
+
+  @override
+  String get notifSmartDismiss => 'ليس الآن';
+
+  @override
+  String get notifSmartNone => 'لا توجد اقتراحات حاليًا';
+
+  @override
+  String get notifSmartNoneBody => 'تظهر الاقتراحات عندما تُنجز عادة أو مهمة في وقت ثابت لفترة.';
+
+  @override
+  String notifSmartSuggestion(String title, String usual, String proposed) {
+    return 'عادةً تقوم بـ $title حوالي $usual — هل تنقل التذكير إلى $proposed؟';
+  }
+
+  @override
+  String notifSmartSummaryLine(String title, String from, String to) {
+    return '$title: $from ← $to';
+  }
+
+  @override
+  String notifSmartSummaryTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'نُقل $count تذكيرات لتناسب عاداتك',
+      one: 'نُقل تذكير واحد ليناسب عاداتك',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifSmartThisItem => 'هذا';
+
+  @override
+  String get notifSmartTitle => 'اقتراحات ذكية';
+
+  @override
   String get notifSnoozeCustom => 'مخصص…';
 
   @override

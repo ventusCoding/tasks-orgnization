@@ -624,5 +624,17 @@
   "notifStatsLate": "متأخرة",
   "notifStatsDeferred": "{count, plural, =1{واحدة أُجّلت بسبب ساعات الهدوء} other{{count} أُجّلت بسبب ساعات الهدوء}}",
   "notifStatsMedian": "نُفّذت بعد {minutes} د (الوسيط)",
-  "notifStatsEffective": "تبعها إنجاز خلال ساعة"
+  "notifStatsEffective": "تبعها إنجاز خلال ساعة",
+  "notifSmartTitle": "اقتراحات ذكية",
+  "notifSmartAuto": "الضبط تلقائيًا",
+  "notifSmartAutoHint": "مرة في الأسبوع، انقل التذكيرات لتناسب عاداتك واترك ملخصًا في صندوق الوارد.",
+  "notifSmartNone": "لا توجد اقتراحات حاليًا",
+  "notifSmartNoneBody": "تظهر الاقتراحات عندما تُنجز عادة أو مهمة في وقت ثابت لفترة.",
+  "notifSmartSuggestion": "عادةً تقوم بـ {title} حوالي {usual} — هل تنقل التذكير إلى {proposed}؟",
+  "notifSmartCurrent": "حاليًا عند {current} · بناءً على {count} مرة",
+  "notifSmartApply": "انقله",
+  "notifSmartDismiss": "ليس الآن",
+  "notifSmartThisItem": "هذا",
+  "notifSmartSummaryTitle": "{count, plural, =1{نُقل تذكير واحد ليناسب عاداتك} other{نُقل {count} تذكيرات لتناسب عاداتك}}",
+  "notifSmartSummaryLine": "{title}: {from} ← {to}"
 }

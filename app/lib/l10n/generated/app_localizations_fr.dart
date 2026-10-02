@@ -7340,6 +7340,58 @@ class AppLocalizationsFr extends AppLocalizations {
   String get notifSkipWindow => 'Hors de la plage horaire';
 
   @override
+  String get notifSmartApply => 'Le déplacer';
+
+  @override
+  String get notifSmartAuto => 'Ajuster automatiquement';
+
+  @override
+  String get notifSmartAutoHint =>
+      'Une fois par semaine, déplacer les rappels selon vos habitudes et laisser un résumé dans la boîte de réception.';
+
+  @override
+  String notifSmartCurrent(String current, int count) {
+    return 'Actuellement à $current · d’après $count fois';
+  }
+
+  @override
+  String get notifSmartDismiss => 'Pas maintenant';
+
+  @override
+  String get notifSmartNone => 'Aucune suggestion pour l’instant';
+
+  @override
+  String get notifSmartNoneBody =>
+      'Les suggestions apparaissent quand une habitude ou une tâche est faite à heure régulière depuis un moment.';
+
+  @override
+  String notifSmartSuggestion(String title, String usual, String proposed) {
+    return 'Vous faites souvent $title vers $usual — déplacer le rappel à $proposed ?';
+  }
+
+  @override
+  String notifSmartSummaryLine(String title, String from, String to) {
+    return '$title : $from → $to';
+  }
+
+  @override
+  String notifSmartSummaryTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rappels déplacés selon vos habitudes',
+      one: '1 rappel déplacé selon vos habitudes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifSmartThisItem => 'ceci';
+
+  @override
+  String get notifSmartTitle => 'Suggestions intelligentes';
+
+  @override
   String get notifSnoozeCustom => 'Personnalisé…';
 
   @override

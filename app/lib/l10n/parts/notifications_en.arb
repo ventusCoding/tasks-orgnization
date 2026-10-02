@@ -1495,5 +1495,60 @@
       }
     }
   },
-  "notifStatsEffective": "followed within an hour"
+  "notifStatsEffective": "followed within an hour",
+  "notifSmartTitle": "Smart suggestions",
+  "notifSmartAuto": "Adjust automatically",
+  "notifSmartAutoHint": "Once a week, move reminders to fit your habits and leave a summary in the inbox.",
+  "notifSmartNone": "No suggestions right now",
+  "notifSmartNoneBody": "Suggestions appear once a habit or task has been done at a steady time for a while.",
+  "notifSmartSuggestion": "You usually do {title} around {usual} — move the reminder to {proposed}?",
+  "@notifSmartSuggestion": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "usual": {
+        "type": "String"
+      },
+      "proposed": {
+        "type": "String"
+      }
+    }
+  },
+  "notifSmartCurrent": "Now at {current} · based on {count} times",
+  "@notifSmartCurrent": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSmartApply": "Move it",
+  "notifSmartDismiss": "Not now",
+  "notifSmartThisItem": "this",
+  "notifSmartSummaryTitle": "{count, plural, =1{1 reminder moved to fit your habits} other{{count} reminders moved to fit your habits}}",
+  "@notifSmartSummaryTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSmartSummaryLine": "{title}: {from} → {to}",
+  "@notifSmartSummaryLine": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  }
 }
