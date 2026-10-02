@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:everslot/design_system/design_system.dart';
+import 'package:everslot/features/notifications/application/capabilities_service.dart';
 import 'package:everslot/features/notifications/application/notification_providers.dart';
 import 'package:everslot/features/notifications/application/notification_texts_l10n.dart' show builtinProfileName;
 import 'package:everslot/features/notifications/application/rule_preview.dart';
@@ -224,6 +225,9 @@ class _AdvancedRuleEditorScreenState extends ConsumerState<AdvancedRuleEditorScr
               ],
             ),
           ),
+          if (profiles.any((p) => p.id == _profileId && p.spec.delivery.alarmStyle == true) ||
+              (_spec.repeat?.escalation ?? const <EscalationStep>[]).any((s) => s.profile == BuiltinProfiles.alarm))
+            const AlarmCapabilityHint(),
           for (final e in errors)
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
@@ -1118,6 +1122,43 @@ class _ContentPreview extends ConsumerWidget {
         subtitle: Text(
           [if (body.isNotEmpty) body, if (hide) '${l.notifHideContent}: ${l.notifRedactedTitle}'].join('\n'),
         ),
+      ),
+    );
+  }
+}
+
+/// Alarm profile without everything it needs to ring through silent (T7.2.24): says so and, on
+/// Android, offers the full-screen permission. Hidden when nothing is missing.
+class AlarmCapabilityHint extends ConsumerWidget {
+  const AlarmCapabilityHint({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final caps = ref.watch(notificationCapabilitiesProvider);
+    final limited = caps.isAndroid ? !(caps.exactAlarm && caps.fullScreenIntent) : caps.isIos;
+    if (!caps.determined || !limited) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(Space.lg, Space.sm, Space.lg, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            caps.isIos ? l.notifAlarmIosFallback : l.notifAlarmLimited,
+            style: context.text.bodySmall?.copyWith(color: context.colors.onSurfaceVariant),
+          ),
+          if (caps.isAndroid && !caps.fullScreenIntent)
+            TextButton(
+              key: const ValueKey('alarm-allow-fullscreen'),
+              onPressed: () => unawaited(ref.read(notificationCapabilitiesProvider.notifier).requestFullScreenIntent()),
+              child: Text(l.notifAlarmAllowFullScreen),
+            ),
+          if (caps.isAndroid && !caps.exactAlarm)
+            TextButton(
+              onPressed: () => unawaited(ref.read(notificationCapabilitiesProvider.notifier).requestExactAlarms()),
+              child: Text(l.notifAlarmAllowExact),
+            ),
+        ],
       ),
     );
   }

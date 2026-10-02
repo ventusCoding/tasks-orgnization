@@ -275,7 +275,7 @@
         {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:00:00Z", "channel": "dl.planner.standard.v1", "local": false},
         {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:10:00Z", "repeat": 1, "channel": "dl.planner.standard.v1", "local": false},
         {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:20:00Z", "repeat": 2, "channel": "dl.planner.nag.v1", "local": false},
-        {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:30:00Z", "repeat": 3, "channel": "dl.planner.alarm.v1", "local": true}
+        {"rule": "e", "target": "t", "fireAtUtc": "2026-09-22T06:30:00Z", "repeat": 3, "channel": "dl.planner.alarm.v2", "local": true}
       ]
     },
     {

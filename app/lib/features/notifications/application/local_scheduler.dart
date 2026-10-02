@@ -110,6 +110,7 @@ class LocalNotificationScheduler {
     required bool foreground,
     required bool bannerInApp,
     required DateTime horizonEnd,
+    bool fullScreenAllowed = false,
     bool authenticationRequired = false,
     ZoneResolver? zones,
     String? zone,
@@ -134,8 +135,15 @@ class LocalNotificationScheduler {
           ? null
           : RepeatingOptions(zones: zones, zone: zone, now: now, horizonEnd: horizonEnd, honorsStartDate: isAndroid),
     );
+    // Alarm items depend on the exact-alarm / full-screen permissions too (T7.2.24): a change
+    // re-issues them.
+    final alarmMode = '|alarm:${exactAllowed ? 'x' : ''}${fullScreenAllowed ? 'f' : ''}';
+    final effective = [
+      for (final d in desired)
+        if (d.planned?.alarmStyle ?? false) d.withHash('${d.hash}$alarmMode') else d,
+    ];
     final current = await store.all();
-    final diff = ScheduleComputation.diff(current, desired, now);
+    final diff = ScheduleComputation.diff(current, effective, now);
     var calls = 0;
     var scheduledNow = 0;
     for (final e in diff.cancel) {
@@ -183,6 +191,7 @@ class LocalNotificationScheduler {
           d,
           id,
           exactAllowed: exactAllowed,
+          fullScreenAllowed: fullScreenAllowed,
           presentInForeground: !bannerInApp,
           authenticationRequired: authenticationRequired,
           zone: zone,
@@ -227,6 +236,7 @@ class LocalNotificationScheduler {
     required bool exactAllowed,
     required bool presentInForeground,
     required bool authenticationRequired,
+    bool fullScreenAllowed = false,
     String? zone,
   }) {
     final l = l10n();
@@ -271,6 +281,7 @@ class LocalNotificationScheduler {
         timeoutAfter: p.sticky ? null : p.expiresAt.difference(p.fireAt),
         exact: exactAllowed,
         alarmClock: p.alarmStyle && exactAllowed,
+        fullScreen: p.alarmStyle && exactAllowed && fullScreenAllowed,
         presentInForeground: presentInForeground,
         tag: repeating ? d.key : p.dedupeKey,
         repeat: repeating ? d.repeat : null,

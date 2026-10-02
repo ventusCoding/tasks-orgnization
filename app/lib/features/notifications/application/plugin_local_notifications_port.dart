@@ -1,5 +1,6 @@
 import 'package:everslot/core/logging/log.dart';
 import 'package:everslot/design_system/theme.dart';
+import 'package:everslot/features/notifications/application/alarm_window.dart';
 import 'package:everslot/features/notifications/application/background_entry.dart';
 import 'package:everslot/features/notifications/application/local_notifications_port.dart';
 import 'package:everslot/features/notifications/domain/notification_types.dart' as nt;
@@ -149,6 +150,7 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
           enableVibration: c.vibration != 'none',
           vibrationPattern: _vibration(c.vibration),
           showBadge: c.showBadge,
+          audioAttributesUsage: c.alarm ? fln.AudioAttributesUsage.alarm : fln.AudioAttributesUsage.notification,
         ),
       );
     }
@@ -176,6 +178,8 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
         groupAlertBehavior: r.groupSummary ? fln.GroupAlertBehavior.children : fln.GroupAlertBehavior.all,
         styleInformation: r.lines.isEmpty ? null : fln.InboxStyleInformation(r.lines),
         category: r.alarmClock ? fln.AndroidNotificationCategory.alarm : fln.AndroidNotificationCategory.reminder,
+        fullScreenIntent: r.fullScreen,
+        audioAttributesUsage: r.alarmClock ? fln.AudioAttributesUsage.alarm : fln.AudioAttributesUsage.notification,
         visibility: fln.NotificationVisibility.private,
         color: AppTheme.seed,
         ongoing: r.sticky,
@@ -337,6 +341,7 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
           platform: 'android',
           notifications: enabled,
           exactAlarm: exact,
+          fullScreenIntent: await AlarmWindow.canUseFullScreenIntent(),
           timeSensitive: true,
           badge: true,
           blockedChannels: {
@@ -381,6 +386,9 @@ class PluginLocalNotificationsPort implements LocalNotificationsPort {
 
   @override
   Future<bool> requestExactAlarms() async => await _android?.requestExactAlarmsPermission() ?? true;
+
+  @override
+  Future<bool> requestFullScreenIntent() async => await _android?.requestFullScreenIntentPermission() ?? false;
 
   @override
   Future<bool> openSettings() async {

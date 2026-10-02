@@ -161,6 +161,8 @@ class PlannedNotification {
     if (snoozeOptions.isNotEmpty) 'snz': snoozeOptions,
     'uid': userId,
     if (repeatIdx > 0) 'rep': repeatIdx,
+    // The alarm screen shows them (T7.2.24).
+    if (alarmStyle) ...{'alarm': true, 't': inboxTitle, 'b': ?inboxBody},
   };
 
   PlannedNotification copyWith({

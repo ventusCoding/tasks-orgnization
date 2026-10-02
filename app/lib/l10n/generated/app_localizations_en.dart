@@ -5534,6 +5534,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifAfter => 'after';
 
   @override
+  String get notifAlarmAllowExact => 'Allow exact alarms';
+
+  @override
+  String get notifAlarmAllowFullScreen => 'Allow full-screen alarms';
+
+  @override
+  String get notifAlarmIosFallback =>
+      'On this iPhone, alarms arrive as time-sensitive notifications: they break through Focus but follow the ring/silent switch.';
+
+  @override
+  String get notifAlarmLimited =>
+      'Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.';
+
+  @override
+  String get notifAlarmRinging => 'Alarm';
+
+  @override
+  String notifAlarmSnooze(int minutes) {
+    return 'Snooze $minutes min';
+  }
+
+  @override
+  String get notifAlarmStop => 'Stop';
+
+  @override
   String get notifAllowPrecise => 'Allow precise reminders';
 
   @override

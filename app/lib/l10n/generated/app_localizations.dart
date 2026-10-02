@@ -9639,6 +9639,48 @@ abstract class AppLocalizations {
   /// **'after'**
   String get notifAfter;
 
+  /// No description provided for @notifAlarmAllowExact.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow exact alarms'**
+  String get notifAlarmAllowExact;
+
+  /// No description provided for @notifAlarmAllowFullScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow full-screen alarms'**
+  String get notifAlarmAllowFullScreen;
+
+  /// No description provided for @notifAlarmIosFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'On this iPhone, alarms arrive as time-sensitive notifications: they break through Focus but follow the ring/silent switch.'**
+  String get notifAlarmIosFallback;
+
+  /// No description provided for @notifAlarmLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.'**
+  String get notifAlarmLimited;
+
+  /// No description provided for @notifAlarmRinging.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm'**
+  String get notifAlarmRinging;
+
+  /// No description provided for @notifAlarmSnooze.
+  ///
+  /// In en, this message translates to:
+  /// **'Snooze {minutes} min'**
+  String notifAlarmSnooze(int minutes);
+
+  /// No description provided for @notifAlarmStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get notifAlarmStop;
+
   /// No description provided for @notifAllowPrecise.
   ///
   /// In en, this message translates to:

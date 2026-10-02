@@ -10,6 +10,22 @@ import 'package:meta/meta.dart';
 abstract final class NotificationLinks {
   static const settings = '/settings/notifications';
   static const diagnostics = '/settings/notifications/diagnostics';
+
+  /// Ringing alarm (T7.2.24): `?p=` carries the notification payload (base64url JSON).
+  static const alarm = '/notifications/alarm';
+
+  static String alarmFor(NotificationPayload p) =>
+      Uri(path: alarm, queryParameters: {'p': base64Url.encode(utf8.encode(p.encode()))}).toString();
+
+  static NotificationPayload? alarmPayload(Uri uri) {
+    final p = uri.queryParameters['p'];
+    if (p == null) return null;
+    try {
+      return NotificationPayload.tryDecode(utf8.decode(base64Url.decode(p)));
+    } on FormatException {
+      return null;
+    }
+  }
 }
 
 abstract final class NotificationActionIds {
@@ -95,6 +111,9 @@ class NotificationPayload {
     this.repeatIdx = 0,
     this.kind,
     this.members = const [],
+    this.title,
+    this.body,
+    this.alarm = false,
   });
 
   factory NotificationPayload.fromJson(Map<String, Object?> json) => NotificationPayload(
@@ -114,6 +133,9 @@ class NotificationPayload {
     repeatIdx: asInt(json['rep']) ?? 0,
     kind: asString(json['kind']),
     members: asStringList(json['mem']) ?? const [],
+    title: asString(json['t']),
+    body: asString(json['b']),
+    alarm: json['alarm'] == true,
   );
 
   static NotificationPayload? tryDecode(String? source) {
@@ -147,6 +169,13 @@ class NotificationPayload {
   final String? kind;
   final List<String> members;
 
+  /// Rendered title / body (local schedules carry them; pushes may not).
+  final String? title;
+  final String? body;
+
+  /// Alarm-profile delivery (T7.2.24): a tap opens the alarm screen.
+  final bool alarm;
+
   String get chainKey => baseKey ?? dedupeKey;
 
   Map<String, Object?> toJson() => {
@@ -167,6 +196,9 @@ class NotificationPayload {
     if (repeatIdx > 0) 'rep': repeatIdx,
     'kind': ?kind,
     if (members.isNotEmpty) 'mem': members,
+    't': ?title,
+    'b': ?body,
+    if (alarm) 'alarm': true,
   };
 
   String encode() => jsonEncode(toJson());

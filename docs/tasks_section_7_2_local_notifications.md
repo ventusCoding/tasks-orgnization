@@ -405,6 +405,7 @@ background-audio rule (exact-alarm permission + `USAGE_ALARM` stream).
 **Acceptance criteria:** an alarm-profile task rings on a silent phone where permitted and degrades
 gracefully (clearly labelled) where not; Play/App Store declarations handled in [9.2].
 **Tests:** manual QA matrix (OS versions × permission states).
+**Notes:** Partial (open: iOS 26 AlarmKit). Android: the alarm channel (v2) plays on `USAGE_ALARM`, alarm-profile reminders use `alarmClock` + a full-screen intent only when `canUseFullScreenIntent()` (new `app.everslot/alarm` channel in `MainActivity`), and a permission change re-issues them; a tap / full-screen launch opens `AlarmScreen` (Done · Snooze · Stop), shown over the lock screen only while it is open. iOS uses the labelled time-sensitive fallback. The advanced editor flags an alarm rule that can't ring through silent and offers the missing permissions. AlarmKit (`flutter_alarmkit`, `NSAlarmKitUsageDescription`) needs the Xcode 26 toolchain this machine lacks — to do with T7.4.14's device session. Store declarations stay in [9.2].
 
 ### T7.2.25 — Alarm dismissal missions
 **Priority:** P2 · **Size:** M · **Depends on:** T7.2.24

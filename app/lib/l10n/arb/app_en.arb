@@ -2093,6 +2093,13 @@
       }
     }
   },
+  "@notifAlarmSnooze": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "@notifBannerCollapsed": {
     "placeholders": {
       "count": {
@@ -6512,6 +6519,13 @@
   "notifAdvanced": "Advanced…",
   "notifAdvancedTitle": "Reminder rule",
   "notifAfter": "after",
+  "notifAlarmAllowExact": "Allow exact alarms",
+  "notifAlarmAllowFullScreen": "Allow full-screen alarms",
+  "notifAlarmIosFallback": "On this iPhone, alarms arrive as time-sensitive notifications: they break through Focus but follow the ring/silent switch.",
+  "notifAlarmLimited": "Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.",
+  "notifAlarmRinging": "Alarm",
+  "notifAlarmSnooze": "Snooze {minutes} min",
+  "notifAlarmStop": "Stop",
   "notifAllowPrecise": "Allow precise reminders",
   "notifAnchorDue": "due",
   "notifAnchorEnd": "end",

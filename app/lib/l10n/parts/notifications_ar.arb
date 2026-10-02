@@ -564,5 +564,12 @@
   "notifEscalation": "التصعيد",
   "notifEscalationFrom": "من التكرار",
   "notifEscalationAllDevices": "على كل الأجهزة",
-  "notifEscalationAdd": "إضافة خطوة تصعيد"
+  "notifEscalationAdd": "إضافة خطوة تصعيد",
+  "notifAlarmRinging": "منبّه",
+  "notifAlarmSnooze": "غفوة {minutes} دقيقة",
+  "notifAlarmStop": "إيقاف",
+  "notifAlarmLimited": "قد لا يرنّ المنبّه في الوضع الصامت: اسمح بالمنبّهات الدقيقة والإشعارات بملء الشاشة لـ Everslot.",
+  "notifAlarmAllowFullScreen": "السماح بالمنبّهات بملء الشاشة",
+  "notifAlarmIosFallback": "على هذا الآيفون تصل المنبّهات كإشعارات حساسة للوقت: تتجاوز وضع التركيز لكنها تتبع زر الرنين/الصامت.",
+  "notifAlarmAllowExact": "السماح بالمنبّهات الدقيقة"
 }

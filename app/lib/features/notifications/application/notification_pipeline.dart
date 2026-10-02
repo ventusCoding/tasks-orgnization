@@ -236,6 +236,7 @@ class NotificationPipeline {
       final report = await scheduler.apply(
         result.planned,
         exactAllowed: caps.exactAlarm || !caps.determined,
+        fullScreenAllowed: caps.fullScreenIntent,
         foreground: foreground,
         bannerInApp: ctx.settings.bannerInApp,
         horizonEnd: ctx.now.add(ctx.effectiveHorizon),

@@ -1327,5 +1327,19 @@
   "notifEscalation": "Escalation",
   "notifEscalationFrom": "From repeat",
   "notifEscalationAllDevices": "On every device",
-  "notifEscalationAdd": "Add escalation step"
+  "notifEscalationAdd": "Add escalation step",
+  "notifAlarmRinging": "Alarm",
+  "notifAlarmSnooze": "Snooze {minutes} min",
+  "@notifAlarmSnooze": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "notifAlarmStop": "Stop",
+  "notifAlarmLimited": "Alarms may not ring through silent mode: allow exact alarms and full-screen notifications for Everslot.",
+  "notifAlarmAllowFullScreen": "Allow full-screen alarms",
+  "notifAlarmIosFallback": "On this iPhone, alarms arrive as time-sensitive notifications: they break through Focus but follow the ring/silent switch.",
+  "notifAlarmAllowExact": "Allow exact alarms"
 }

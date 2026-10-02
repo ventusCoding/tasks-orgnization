@@ -5891,6 +5891,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notifAfter => 'بعد';
 
   @override
+  String get notifAlarmAllowExact => 'السماح بالمنبّهات الدقيقة';
+
+  @override
+  String get notifAlarmAllowFullScreen => 'السماح بالمنبّهات بملء الشاشة';
+
+  @override
+  String get notifAlarmIosFallback =>
+      'على هذا الآيفون تصل المنبّهات كإشعارات حساسة للوقت: تتجاوز وضع التركيز لكنها تتبع زر الرنين/الصامت.';
+
+  @override
+  String get notifAlarmLimited =>
+      'قد لا يرنّ المنبّه في الوضع الصامت: اسمح بالمنبّهات الدقيقة والإشعارات بملء الشاشة لـ Everslot.';
+
+  @override
+  String get notifAlarmRinging => 'منبّه';
+
+  @override
+  String notifAlarmSnooze(int minutes) {
+    return 'غفوة $minutes دقيقة';
+  }
+
+  @override
+  String get notifAlarmStop => 'إيقاف';
+
+  @override
   String get notifAllowPrecise => 'السماح بالتذكيرات الدقيقة';
 
   @override

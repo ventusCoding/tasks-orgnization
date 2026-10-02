@@ -564,5 +564,12 @@
   "notifEscalation": "Escalade",
   "notifEscalationFrom": "Dès la répétition",
   "notifEscalationAllDevices": "Sur tous les appareils",
-  "notifEscalationAdd": "Ajouter un palier"
+  "notifEscalationAdd": "Ajouter un palier",
+  "notifAlarmRinging": "Alarme",
+  "notifAlarmSnooze": "Répéter dans {minutes} min",
+  "notifAlarmStop": "Arrêter",
+  "notifAlarmLimited": "Les alarmes risquent de ne pas sonner en mode silencieux : autorisez les alarmes exactes et les notifications plein écran pour Everslot.",
+  "notifAlarmAllowFullScreen": "Autoriser les alarmes plein écran",
+  "notifAlarmIosFallback": "Sur cet iPhone, les alarmes arrivent en notifications urgentes : elles passent les modes de concentration mais suivent le bouton sonnerie/silence.",
+  "notifAlarmAllowExact": "Autoriser les alarmes exactes"
 }

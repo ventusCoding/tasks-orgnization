@@ -105,6 +105,10 @@ class NotificationActionDispatcher {
     await read(localSchedulerProvider).cancelChain(p.chainKey);
     final open = await guardOpen(p);
     _afterWrite(p, 'tap');
+    // A ringing alarm (tap or full-screen launch) opens the alarm screen (T7.2.24).
+    if (p.alarm && open && origin != ActionOrigin.inbox) {
+      return ActionDispatchResult(openLink: NotificationLinks.alarmFor(p));
+    }
     return ActionDispatchResult(openLink: p.deepLink, alreadyDone: !open);
   }
 

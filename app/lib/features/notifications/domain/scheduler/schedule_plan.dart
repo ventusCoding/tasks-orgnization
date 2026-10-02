@@ -295,6 +295,19 @@ class DesiredItem {
   /// the group (inbox `delivered_via = local`).
   final bool grouped;
 
+  DesiredItem withHash(String hash) => DesiredItem(
+    key: key,
+    fireAt: fireAt,
+    kind: kind,
+    os: os,
+    targetKey: targetKey,
+    hash: hash,
+    planned: planned,
+    members: members,
+    repeat: repeat,
+    grouped: grouped,
+  );
+
   /// Inbox content map stored in the schedule row.
   Map<String, Object?> get content {
     final p = planned;
@@ -319,6 +332,7 @@ class DesiredItem {
       if (p.repeatIdx > 0) 'rep': p.repeatIdx,
       'uid': p.userId,
       'imp': p.importance.wire,
+      if (p.alarmStyle) 'alarm': true,
       if (grouped) 'grp': true,
     };
   }
