@@ -21,21 +21,21 @@ dependencies:
     path: ../packages/everslot_recurrence
 
   # Design libraries (built-in material is frozen since 3.44 — ADR-014)
-  material_ui: ^1.4.0
+  material_ui: ^1.5.0
 
   # State, routing
   flutter_riverpod: ^3.4.3
-  go_router: ^18.0.1
+  go_router: ^18.0.2
 
   # Data
-  drift: ^2.35.0
+  drift: ^2.35.1
   drift_flutter: ^0.3.1
-  sqlite3: ^3.6.0
+  sqlite3: ^3.7.0
   path: ^1.9.1
   path_provider: ^2.1.6
 
   # Backend & push (configured via env / placeholders — see docs/guide.md)
-  supabase_flutter: ^2.17.2
+  supabase_flutter: ^2.18.0
   firebase_core: ^4.15.0
   firebase_messaging: ^16.7.0
   firebase_crashlytics: ^5.4.0
@@ -45,7 +45,7 @@ dependencies:
   http: ^1.6.0
 
   # Notifications, time, background
-  flutter_local_notifications: ^22.3.1
+  flutter_local_notifications: ^23.0.0-dev.3
   timezone: ^0.11.1
   flutter_timezone: ^5.1.0
   workmanager: ^0.10.10
@@ -53,7 +53,7 @@ dependencies:
   # UI
   dynamic_color: ^2.1.0 # Android 12+ wallpaper colors (T1.3.08, optional)
   fl_chart: ^1.2.0
-  two_dimensional_scrollables: ^0.5.4
+  two_dimensional_scrollables: ^0.5.5
   flutter_staggered_grid_view: ^0.7.0
 
   # Media & files
@@ -62,7 +62,7 @@ dependencies:
   archive: ^4.3.0
   flutter_image_compress: ^2.5.1
   pdfrx: ^2.6.5
-  share_plus: ^13.3.0
+  share_plus: ^13.3.1
   mime: ^2.1.0
   crypto: ^3.0.7
 
@@ -73,14 +73,14 @@ dependencies:
   quick_actions: ^1.1.1
   receive_sharing_intent: ^1.9.0 # share into Everslot (T8.2.07)
   live_activities: ^2.6.0 # running timer Live Activity on iOS (T8.2.10)
-  device_calendar_plus: ^0.8.1 # read-only device calendar overlay (T8.2.13)
+  device_calendar_plus: ^0.10.1 # read-only device calendar overlay (T8.2.13)
   health: ^13.3.2 # Apple Health / Health Connect auto-logging for habits (T8.2.14)
   app_links: ^7.2.1
   in_app_review: ^2.0.12
-  url_launcher: ^6.3.2
-  connectivity_plus: ^7.3.1
-  package_info_plus: ^10.2.1
-  device_info_plus: ^13.2.0
+  url_launcher: ^6.3.3
+  connectivity_plus: ^7.3.2
+  package_info_plus: ^10.2.2
+  device_info_plus: ^13.3.0
 
   # Utilities
   uuid: ^4.6.0
@@ -89,11 +89,11 @@ dependencies:
   logging: ^1.3.0
   meta: ^1.16.0
   decimal: ^3.2.6
-  video_player: ^2.14.0
+  video_player: ^2.14.1
   fc_native_video_thumbnail: ^3.0.1
   record: ^7.1.1
   cunning_document_scanner: ^3.0.3
-  wakelock_plus: ^1.8.0
+  wakelock_plus: ^1.8.1
   flutter_map: ^8.3.2
   latlong2: ^0.10.1
   geocoding: ^5.0.0
@@ -107,7 +107,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.16.1
-  drift_dev: ^2.35.0
+  drift_dev: ^2.35.1
   mocktail: ^1.0.5
   fake_async: ^1.3.3
   very_good_analysis: ^11.0.0
