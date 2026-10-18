@@ -114,7 +114,7 @@ jobs:
         with: { fetch-depth: 0 }
       - uses: dart-lang/setup-dart@v1
       - run: dart run tool/release_notes.dart "$GITHUB_REF_NAME" > release_notes.md
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with: { name: android-aab }
       - uses: softprops/action-gh-release@v2
         with:
