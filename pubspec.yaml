@@ -11,7 +11,7 @@ workspace:
   - packages/everslot_metrics
 
 dev_dependencies:
-  melos: ^8.9.0
+  melos: ^8.10.0
 
 melos:
   scripts:
